@@ -31,3 +31,6 @@ packages/
 # Temporary files
 *.tmp
 *.temp
+
+appsettings*.json
+*Migrations

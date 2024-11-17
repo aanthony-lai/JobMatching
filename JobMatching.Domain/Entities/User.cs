@@ -8,8 +8,8 @@ namespace JobMatching.Domain.Entities
 
 		public Guid UserId { get; init; }
 		public Name UserName { get; private set; } = null!;
-		public List<Competence> UserCompetences { get; private set; } = new List<Competence>();
-		public List<JobApplication> UserApplications { get; private set; } = new List<JobApplication>();
+		public List<Competence> Competences { get; private set; } = new List<Competence>();
+		public List<JobApplication> Applications { get; private set; } = new List<JobApplication>();
 
 		// public User(string firstName, string lastName, string email)
 		// {
@@ -26,7 +26,7 @@ namespace JobMatching.Domain.Entities
 
 		public void AddCompetence(Competence competence)
 		{
-			UserCompetences.Add(competence);
+			Competences.Add(competence);
 		}
 	}
 }

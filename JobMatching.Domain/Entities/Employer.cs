@@ -17,7 +17,7 @@
 			}
 		}
 
-		public List<Job> EmployerJobs { get; private set; } = new List<Job>();
+		public List<Job> Jobs { get; private set; } = new List<Job>();
 
 		// public Employer(string employerName) 
 		// {
@@ -32,7 +32,7 @@
 
 		public void CreateJob(Job job)
 		{
-			EmployerJobs.Add(job);
+			Jobs.Add(job);
 		}
 	}
 }

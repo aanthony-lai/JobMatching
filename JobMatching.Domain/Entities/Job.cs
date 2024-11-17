@@ -22,13 +22,13 @@ namespace JobMatching.Domain.Entities
 
 		public SalaryRange? JobSalaryRange { get; private set; }
 
-		public Guid JobEmployerId { get; private set; }
+		public Guid EmployerId { get; private set; }
 
-		public Employer JobEmployer { get; private set; } = null!;
+		public Employer Employer { get; private set; } = null!;
 
-		public List<Competence> JobCompetences { get; private set; } = new List<Competence>();
+		public List<Competence> Competences { get; private set; } = new List<Competence>();
 
-		public List<JobApplication> JobApplications { get; private set; } = new List<JobApplication>();
+		public List<JobApplication> Applications { get; private set; } = new List<JobApplication>();
 
 
 		// public Job(string jobTitle, Guid employerId, SalaryRange? salaryRange)
@@ -46,12 +46,12 @@ namespace JobMatching.Domain.Entities
 
 		public void AddCompetence(Competence competence)
 		{
-			JobCompetences.Add(competence);
+			Competences.Add(competence);
 		}
 
 		public void AddApplication(JobApplication jobApplication)
 		{
-			JobApplications.Add(jobApplication);
+			Applications.Add(jobApplication);
 		} 
 	}
 }
