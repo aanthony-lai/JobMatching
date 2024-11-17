@@ -1,0 +1,33 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE settings
+.vscode/
+.idea/
+*.vs/
+
+# Logs
+*.log
+Logs/
+
+# Packages
+packages/
+*.nupkg
+*.snupkg
+
+# Generated files
+*.Designer.cs
+*.g.cs
+*.g.i.cs
+
+# Temporary files
+*.tmp
+*.temp
