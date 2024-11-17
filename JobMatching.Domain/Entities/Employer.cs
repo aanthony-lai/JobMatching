@@ -19,11 +19,11 @@
 
 		public List<Job> EmployerJobs { get; private set; } = new List<Job>();
 
-		public Employer(string employerName) 
-		{
-			EmployerId = Guid.NewGuid();
-			EmployerName = employerName.Trim();
-		}
+		// public Employer(string employerName) 
+		// {
+		// 	EmployerId = Guid.NewGuid();
+		// 	EmployerName = employerName.Trim();
+		// }
 
 		public void UpdateEmployerName(string employerName)
 		{

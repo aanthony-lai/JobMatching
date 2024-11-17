@@ -9,20 +9,20 @@ namespace JobMatching.Domain.Entities
 		public Guid UserId { get; init; }
 		public Name UserName { get; private set; } = null!;
 		public List<Competence> UserCompetences { get; private set; } = new List<Competence>();
-		public List<Application> UserApplications { get; private set; } = new List<Application>();
+		public List<JobApplication> UserApplications { get; private set; } = new List<JobApplication>();
 
-		public User(string firstName, string lastName, string email)
-		{
-			
-			UserId = Guid.NewGuid();
-			UserName = new Name(firstName, lastName);
-		}
-
-		public User (Name name, string email)
-		{
-			UserId = Guid.NewGuid();
-			UserName = name;
-		}
+		// public User(string firstName, string lastName, string email)
+		// {
+		// 	
+		// 	UserId = Guid.NewGuid();
+		// 	UserName = new Name(firstName, lastName);
+		// }
+		//
+		// public User (Name name, string email)
+		// {
+		// 	UserId = Guid.NewGuid();
+		// 	UserName = name;
+		// }
 
 		public void AddCompetence(Competence competence)
 		{

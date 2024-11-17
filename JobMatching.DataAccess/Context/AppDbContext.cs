@@ -1,4 +1,5 @@
 ﻿using JobMatching.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Context
@@ -8,7 +9,7 @@ namespace JobMatching.DataAccess.Context
 		public DbSet<User> Users { get; set; }
 		public DbSet<Employer> Employers { get; set; }
 		public DbSet<Job> Jobs { get; set; }
-		public DbSet<Application> Applications { get; set; }
+		public DbSet<JobApplication> Applications { get; set; }
 		public DbSet<Competence> Competences { get; set; }
 
 		public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -20,8 +21,9 @@ namespace JobMatching.DataAccess.Context
 		{
 			base.OnModelCreating(modelBuilder);
 
-			var users = modelBuilder.Entity<User>();
-			
+			modelBuilder.Entity<User>().OwnsOne(u => u.UserName);
+			modelBuilder.Entity<Job>().OwnsOne(j => j.JobSalaryRange);
+
 
 		}
 	}

@@ -28,30 +28,30 @@ namespace JobMatching.Domain.Entities
 
 		public List<Competence> JobCompetences { get; private set; } = new List<Competence>();
 
-		public List<Application> JobApplications { get; private set; } = new List<Application>();
+		public List<JobApplication> JobApplications { get; private set; } = new List<JobApplication>();
 
 
-		public Job(string jobTitle, Guid employerId, SalaryRange? salaryRange)
-		{
-			if (employerId == Guid.Empty)
-				throw new ArgumentException("A job must contain a valid employer id.", nameof(employerId));
-
-			JobId = Guid.NewGuid();
-			JobTitle = jobTitle;
-			JobEmployerId = employerId;
-
-			if (salaryRange != null)
-				JobSalaryRange = salaryRange;
-		}
+		// public Job(string jobTitle, Guid employerId, SalaryRange? salaryRange)
+		// {
+		// 	if (employerId == Guid.Empty)
+		// 		throw new ArgumentException("A job must contain a valid employer id.", nameof(employerId));
+		//
+		// 	JobId = Guid.NewGuid();
+		// 	JobTitle = jobTitle;
+		// 	JobEmployerId = employerId;
+		//
+		// 	if (salaryRange != null)
+		// 		JobSalaryRange = salaryRange;
+		// }
 
 		public void AddCompetence(Competence competence)
 		{
 			JobCompetences.Add(competence);
 		}
 
-		public void AddApplication(Application application)
+		public void AddApplication(JobApplication jobApplication)
 		{
-			JobApplications.Add(application);
+			JobApplications.Add(jobApplication);
 		} 
 	}
 }
