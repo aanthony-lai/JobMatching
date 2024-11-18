@@ -1,4 +1,4 @@
-using JobMatching.Application.UserManagement.Interfaces;
+using JobMatching.Application.Interfaces;
 using JobMatching.DataAccess.Context;
 using JobMatching.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +14,31 @@ public class UserRepository: IUserRepository
         _appDbContext = appDbContext;
     }
     
-    public async Task<User?> GetUserByIdAsync(Guid userId)
+    public async Task<User?> GetUserByIdAsync(Guid userId, bool withTracking = true)
     {
-        return await _appDbContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+		var query = _appDbContext.Users.AsQueryable();
+
+		if (!withTracking)
+			query = query.AsNoTracking();
+
+        return await query
+            .Include(u => u.Competences)
+            .Include(u => u.Applications)
+            .ThenInclude(a => a.Job)
+            .FirstOrDefaultAsync(u => u.UserId == userId) ?? null;
     }
 
-    public async Task<IEnumerable<User>> GetUsersAsync()
+    public async Task<List<User>> GetUsersAsync(bool withTracking = true)
     {
-        return await _appDbContext.Users.ToListAsync();
+        var query = _appDbContext.Users.AsQueryable();
+
+        if (!withTracking)
+			query = query.AsNoTracking();
+
+        return await query
+			.Include(u => u.Competences)
+			.Include(u => u.Applications)
+			.ThenInclude(a => a.Job)
+			.ToListAsync();
     }
 }

@@ -4,25 +4,27 @@ namespace JobMatching.Domain.Entities
 {
 	public class User
 	{
-		private string _userEmail = null!;
-
 		public Guid UserId { get; init; }
+
 		public Name UserName { get; private set; } = null!;
+
 		public List<Competence> Competences { get; private set; } = new List<Competence>();
+
 		public List<JobApplication> Applications { get; private set; } = new List<JobApplication>();
 
-		// public User(string firstName, string lastName, string email)
-		// {
-		// 	
-		// 	UserId = Guid.NewGuid();
-		// 	UserName = new Name(firstName, lastName);
-		// }
-		//
-		// public User (Name name, string email)
-		// {
-		// 	UserId = Guid.NewGuid();
-		// 	UserName = name;
-		// }
+		protected User() { }
+
+		public User(string firstName, string lastName)
+		{
+			UserId = Guid.NewGuid();
+			UserName = new Name(firstName, lastName);
+		}
+
+		public User(Name name)
+		{
+			UserId = Guid.NewGuid();
+			UserName = name;
+		}
 
 		public void AddCompetence(Competence competence)
 		{

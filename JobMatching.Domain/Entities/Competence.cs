@@ -2,9 +2,9 @@
 {
 	public class Competence
 	{
-		private string _competenceName;
+		private string? _competenceName;
 		
-		public Guid CompetenceId { get; private set; }
+		public Guid CompetenceId { get; init; }
 
 		public string CompetenceName
 		{
@@ -19,10 +19,12 @@
 		public List<Job> Jobs { get; private set; } = new List<Job>();
 		public List<User> Users { get; private set; } = new List<User>();
 
-		// public Competence(string competenceName)
-		// {
-		// 	CompetenceId = Guid.NewGuid();
-		// 	CompetenceName = competenceName;
-		// }
+		protected Competence() { }
+
+		public Competence(string competenceName)
+		{
+			CompetenceId = Guid.NewGuid();
+			CompetenceName = competenceName;
+		}
 	}
 }

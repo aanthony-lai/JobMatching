@@ -4,7 +4,7 @@
 	{
 		private string _employerName = null!;
 		
-		public Guid EmployerId { get; private set; }
+		public Guid EmployerId { get; init; }
 
 		public string EmployerName
 		{
@@ -19,11 +19,13 @@
 
 		public List<Job> Jobs { get; private set; } = new List<Job>();
 
-		// public Employer(string employerName) 
-		// {
-		// 	EmployerId = Guid.NewGuid();
-		// 	EmployerName = employerName.Trim();
-		// }
+		protected Employer() { }
+
+		public Employer(string employerName)
+		{
+			EmployerId = Guid.NewGuid();
+			EmployerName = employerName.Trim();
+		}
 
 		public void UpdateEmployerName(string employerName)
 		{

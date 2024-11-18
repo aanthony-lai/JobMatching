@@ -5,9 +5,10 @@ namespace JobMatching.Domain.Entities
 	public class JobApplication
 	{
 		private Guid _userId;
+
 		private Guid _jobId;
-		
-		public Guid ApplicationId { get; private set; }
+
+		public Guid ApplicationId { get; init; }
 
 		public Guid UserId
 		{
@@ -30,20 +31,26 @@ namespace JobMatching.Domain.Entities
 			{
 				if (value == Guid.Empty)
 					throw new ArgumentException(
-						"An application must contain a valid Job ID.", 
+						"An application must contain a valid Job ID.",
 						nameof(JobId));
 				_jobId = value;
 			}
 		}
-		public Job Job { get; private set; }
+		public Job? Job { get; private set; }
+
 		public DateTime ApplicationDate { get; private set; }
+
 		public ApplicationStatus ApplicationStatus { get; private set; }
 
-		// public Application(Guid userId, Guid jobId)
-		// {
-		// 	ApplicationId = Guid.NewGuid();
-		// 	ApplicationDate = DateTime.UtcNow;
-		// 	ApplicationStatus = ApplicationStatus.Pending;
-		// }
+		protected JobApplication() { }
+
+		public JobApplication(Guid userId, Guid jobId)
+		{
+			UserId = userId;
+			JobId = jobId;
+			ApplicationId = Guid.NewGuid();
+			ApplicationDate = DateTime.UtcNow;
+			ApplicationStatus = ApplicationStatus.Pending;
+		}
 	}
 }
