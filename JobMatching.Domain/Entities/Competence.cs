@@ -2,7 +2,7 @@
 {
 	public class Competence
 	{
-		private string? _competenceName;
+		private string _competenceName = string.Empty;
 		
 		public Guid CompetenceId { get; init; }
 
@@ -13,6 +13,7 @@
 			{
 				if (string.IsNullOrWhiteSpace(value))
 					throw new ArgumentException("Competence name can't empty.", nameof(CompetenceName));
+
 				_competenceName = value;
 			}
 		}

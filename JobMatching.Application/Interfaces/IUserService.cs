@@ -1,5 +1,4 @@
 ﻿using JobMatching.Application.DTO;
-using JobMatching.Domain.Entities;
 
 namespace JobMatching.Application.Interfaces
 {
@@ -7,5 +6,6 @@ namespace JobMatching.Application.Interfaces
 	{
 		Task<UserDTO?> GetUserByIdAsync(Guid userId);
 		Task<List<UserDTO>> GetUsersAsync();
+		Task AddUserCompetence(AddUserCompetenceDTO addUserCompetenceDto);
 	}
 }

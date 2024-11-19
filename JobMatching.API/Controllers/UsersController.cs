@@ -1,4 +1,5 @@
 using JobMatching.Application.DTO;
+using JobMatching.Application.Exceptions;
 using JobMatching.Application.Interfaces;
 using JobMatching.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -32,5 +33,22 @@ namespace JobMatching.API.Controllers
 
             return Ok(user);
         }
-    }
+
+		[HttpPost]
+		public async Task<ActionResult> AddUserCompetence([FromBody] AddUserCompetenceDTO addUserCompetenceDto)
+		{
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+			try
+			{
+                await _userService.AddUserCompetence(addUserCompetenceDto);
+                return NoContent();
+			}
+			catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+		}
+	}
 }

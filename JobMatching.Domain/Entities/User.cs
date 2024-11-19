@@ -1,4 +1,5 @@
-﻿using JobMatching.Domain.ValueObjects;
+﻿using JobMatching.Domain.Exceptions;
+using JobMatching.Domain.ValueObjects;
 
 namespace JobMatching.Domain.Entities
 {
@@ -6,7 +7,7 @@ namespace JobMatching.Domain.Entities
 	{
 		public Guid UserId { get; init; }
 
-		public Name UserName { get; private set; } = null!;
+		public Name UserName { get; private set; }
 
 		public List<Competence> Competences { get; private set; } = new List<Competence>();
 
@@ -28,6 +29,16 @@ namespace JobMatching.Domain.Entities
 
 		public void AddCompetence(Competence competence)
 		{
+			if (competence is null)
+				throw new ArgumentNullException(
+					nameof(competence),
+					"The competence that you're trying to add is null");
+
+			if (Competences.Contains(competence))
+				throw new DuplicateCompetenceException(
+					nameof(competence),
+					"The user already has this competence.");
+
 			Competences.Add(competence);
 		}
 	}

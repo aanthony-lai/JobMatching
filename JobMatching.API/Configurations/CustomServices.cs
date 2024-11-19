@@ -10,8 +10,12 @@ namespace JobMatching.API.Configurations
 		{
 			service.AddScoped<IUserRepository, UserRepository>();
 			service.AddScoped<IEmployerRepository, EmployerRepository>();
+
 			service.AddScoped<IEmployerService, EmployerService>();
 			service.AddScoped<IUserService, UserService>();
+
+			service.AddScoped<ICompetenceRepository, CompetenceRepository>();
+			service.AddScoped<ICompetenceService, CompetenceService>();
 
 			return service;
 		}

@@ -1,5 +1,6 @@
 ﻿using JobMatching.Application.Interfaces;
 using JobMatching.DataAccess.Context;
+using JobMatching.DataAccess.QueryExtensions;
 using JobMatching.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,26 +17,16 @@ namespace JobMatching.DataAccess.Repositories
 
 		public async Task<Employer?> GetEmployerByIdAsync(Guid employerId, bool withTracking = true)
 		{
-			var query = _appDbContext.Employers.AsQueryable();
-
-			if (!withTracking)
-				query = query.AsNoTracking();
-
-			return await query
+			return await _appDbContext.Employers
+				.AddTracking(withTracking)
 				.Include(emp => emp.Jobs)
-				.ThenInclude(job => job.Competences)
-				.FirstOrDefaultAsync(emp => emp.EmployerId == employerId) 
-				?? null;
+					.ThenInclude(job => job.Competences)
+				.FirstOrDefaultAsync(emp => emp.EmployerId == employerId); 
 		}
 
 		public async Task<List<Employer>> GetEmployersAsync(bool withTracking = true)
 		{
-			var query = _appDbContext.Employers.AsQueryable();
-
-			if (!withTracking)
-				query = query.AsNoTracking();
-
-			return await query
+			return await _appDbContext.Employers
 				.Include(emp => emp.Jobs)
 				.ThenInclude(job => job.Competences)
 				.ToListAsync();
