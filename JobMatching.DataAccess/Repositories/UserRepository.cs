@@ -1,5 +1,6 @@
 using JobMatching.Application.Interfaces;
 using JobMatching.DataAccess.Context;
+using JobMatching.DataAccess.QueryExtensions;
 using JobMatching.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public class UserRepository: IUserRepository
     public async Task<User?> GetUserByIdAsync(Guid userId, bool withTracking = true)
     {
         return await _appDbContext.Users
+            .AddTracking(withTracking)
             .Include(u => u.Competences)
             .Include(u => u.Applications)
                 .ThenInclude(a => a.Job)
@@ -26,6 +28,7 @@ public class UserRepository: IUserRepository
     public async Task<List<User>> GetUsersAsync(bool withTracking = true)
     {
         return await _appDbContext.Users
+            .AddTracking(withTracking)
 			.Include(u => u.Competences)
 			.Include(u => u.Applications)
 			    .ThenInclude(a => a.Job)

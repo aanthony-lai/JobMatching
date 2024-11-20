@@ -27,6 +27,7 @@ namespace JobMatching.DataAccess.Repositories
 		public async Task<List<Employer>> GetEmployersAsync(bool withTracking = true)
 		{
 			return await _appDbContext.Employers
+				.AddTracking(withTracking)
 				.Include(emp => emp.Jobs)
 				.ThenInclude(job => job.Competences)
 				.ToListAsync();

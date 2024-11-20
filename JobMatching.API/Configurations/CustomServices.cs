@@ -17,6 +17,9 @@ namespace JobMatching.API.Configurations
 			service.AddScoped<ICompetenceRepository, CompetenceRepository>();
 			service.AddScoped<ICompetenceService, CompetenceService>();
 
+			service.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+			service.AddScoped<IJobApplicationService, JobApplicationService>();
+
 			return service;
 		}
 	}

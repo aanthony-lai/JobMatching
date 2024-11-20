@@ -11,9 +11,9 @@ namespace JobMatching.DataAccess.Configurations
 			var application = applicationBuilder;
 
 			application.ToTable("app_applications")
-				.HasKey(a => a.ApplicationId);
+				.HasKey(a => a.JobApplicationId);
 
-			application.Property(a => a.ApplicationId)
+			application.Property(a => a.JobApplicationId)
 				.HasColumnName("app_id");
 
 			application.HasOne(a => a.User)
@@ -22,7 +22,7 @@ namespace JobMatching.DataAccess.Configurations
 
 			application.HasOne(a => a.Job)
 				.WithMany(j => j.Applications)
-				.HasForeignKey(a => a.ApplicationId);
+				.HasForeignKey(a => a.JobApplicationId);
 
 			application.Property(a => a.ApplicationDate)
 				.HasColumnName("app_applicationDate");

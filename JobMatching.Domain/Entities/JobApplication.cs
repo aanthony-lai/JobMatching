@@ -8,7 +8,7 @@ namespace JobMatching.Domain.Entities
 
 		private Guid _jobId;
 
-		public Guid ApplicationId { get; init; }
+		public Guid JobApplicationId { get; init; }
 
 		public Guid UserId
 		{
@@ -33,10 +33,11 @@ namespace JobMatching.Domain.Entities
 					throw new ArgumentException(
 						"An application must contain a valid Job ID.",
 						nameof(JobId));
+
 				_jobId = value;
 			}
 		}
-		public Job? Job { get; private set; }
+		public Job Job { get; private set; }
 
 		public DateTime ApplicationDate { get; private set; }
 
@@ -48,7 +49,7 @@ namespace JobMatching.Domain.Entities
 		{
 			UserId = userId;
 			JobId = jobId;
-			ApplicationId = Guid.NewGuid();
+			JobApplicationId = Guid.NewGuid();
 			ApplicationDate = DateTime.UtcNow;
 			ApplicationStatus = ApplicationStatus.Pending;
 		}

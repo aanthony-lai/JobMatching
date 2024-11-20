@@ -22,6 +22,9 @@ namespace JobMatching.Application.Services
 		{
 			var user = await _userRepository.GetUserByIdAsync(userId, withTracking: false);
 
+			if (user == null) 
+				return null;
+
 			return UserMapper.Map(user);
 		}
 

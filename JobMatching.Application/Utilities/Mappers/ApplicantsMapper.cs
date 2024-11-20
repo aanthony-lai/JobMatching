@@ -8,7 +8,7 @@ namespace JobMatching.Application.Utilities.Mappers
         public static List<ApplicantDTO> Map(List<JobApplication> applications)
         {
             return applications.Select(application => new ApplicantDTO(
-                applicationId: application.ApplicationId,
+                applicationId: application.JobApplicationId,
                 userId: application.UserId,
                 firstName: application.User.UserName.FirstName,
                 lastName: application.User.UserName.LastName,
