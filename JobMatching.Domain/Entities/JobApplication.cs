@@ -5,7 +5,6 @@ namespace JobMatching.Domain.Entities
 	public class JobApplication
 	{
 		private Guid _userId;
-
 		private Guid _jobId;
 
 		public Guid JobApplicationId { get; init; }

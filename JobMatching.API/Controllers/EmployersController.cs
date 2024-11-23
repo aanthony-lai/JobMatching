@@ -25,12 +25,14 @@ namespace JobMatching.API.Controllers
 		[HttpGet("{employerId}")]
 		public async Task<ActionResult<EmployerDTO>> GetEmployerByIdAsync(Guid employerId)
 		{
-			var employer = await _employerService.GetEmployerByIdAsync(employerId);
+			if (employerId == Guid.Empty)
+				return BadRequest("Invalid employer ID.");
 
-			if (employer is null)
-				return NotFound($"User with the specified {employerId} could not be found.");
+			var employerDto = await _employerService.GetEmployerByIdAsync(employerId);
 
-			return employer;
+			return employerDto == null
+				? NotFound($"User with the specified {employerId} could not be found.")
+				: Ok(employerDto);
 		}
 	}
 }

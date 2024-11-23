@@ -10,7 +10,7 @@ namespace JobMatching.Application.Utilities.Mappers
             if (user is null)
                 throw new ArgumentNullException("Cannot map null to UserDTO.", nameof(user));
 
-            return new UserDTO(
+			return new UserDTO(
                 userId: user.UserId,
                 firstName: user.UserName.FirstName,
                 lastName: user.UserName.LastName,

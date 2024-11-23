@@ -22,14 +22,16 @@ namespace JobMatching.API.Controllers
 		}
 
 		[HttpGet("{competenceId}")]
-		public async Task<ActionResult<CompetenceDTO>> GetCompetenceByIdAsync([FromBody]Guid competenceId)
+		public async Task<ActionResult<CompetenceDTO>> GetCompetenceByIdAsync(Guid competenceId)
 		{
-			var competence = _competenceService.GetCompetenceByIdAsync(competenceId);
+			if (competenceId == Guid.Empty)
+				return BadRequest("Invalid competence ID.");
 
-			if (competence is null)
-				return NotFound($"User with the specified {competenceId} could not be found.");
+			var competenceDto = _competenceService.GetCompetenceByIdAsync(competenceId);
 
-			return Ok(competence);
+			return competenceDto == null
+				? NotFound($"User with the specified {competenceId} could not be found.")
+				: Ok(competenceDto);
 		}
 	}
 }

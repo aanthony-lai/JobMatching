@@ -7,7 +7,7 @@ namespace JobMatching.Application.Utilities.Mappers
     {
         public static List<CompetenceDTO> Map(List<Competence> competences)
         {
-            return competences.Select(competence => new CompetenceDTO(
+			return competences.Select(competence => new CompetenceDTO(
                 competenceId: competence.CompetenceId,
                 competenceName: competence.CompetenceName))
                 .ToList();

@@ -1,7 +1,6 @@
 ﻿using JobMatching.Application.DTO;
 using JobMatching.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace JobMatching.API.Controllers
 {
@@ -22,18 +21,17 @@ namespace JobMatching.API.Controllers
 			return Ok(await _jobApplicationService.GetJobApplicationsAsync());
 		}
 
-		[HttpGet]
+		[HttpGet("{jobApplicationId}")]
 		public async Task<ActionResult<JobApplicationDTO>> GetJobApplicationById(Guid jobApplicationId)
 		{
 			if (jobApplicationId == Guid.Empty)
 				return BadRequest("Invalid job application ID.");
 
 			var jobApplicationDto = await _jobApplicationService.GetJobApplicationByIdAsync(jobApplicationId);
-			
-			if (jobApplicationDto is null)
-				return NotFound($"Job application with ID: {jobApplicationId} was not found.");
 
-			return Ok(jobApplicationDto);
+			return jobApplicationDto == null
+				? NotFound($"Job application with ID: {jobApplicationId} was not found.")
+				: Ok(jobApplicationDto);
 		}
 	}
 }

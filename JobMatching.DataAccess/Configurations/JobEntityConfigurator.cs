@@ -34,7 +34,7 @@ namespace JobMatching.DataAccess.Configurations
 
 			job.HasMany(j => j.Competences)
 				.WithMany(c => c.Jobs)
-				.UsingEntity(jc => jc.ToTable("jc_jobCompetences"));
+				.UsingEntity(jc => jc.ToTable("JOBCOMP_JOBCOMPETENCES"));
 
 			job.HasMany(j => j.Applications)
 				.WithOne(a => a.Job)

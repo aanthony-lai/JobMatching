@@ -1,16 +1,21 @@
 ﻿using JobMatching.Application.DTO;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities.Mappers;
+using JobMatching.Domain.Interfaces;
 
 namespace JobMatching.Application.Services
 {
 	public class JobApplicationService : IJobApplicationService
 	{
 		private readonly IJobApplicationRepository _jobApplicationRepository;
+		private readonly IJobMatchService _jobMatchService;
 
-		public JobApplicationService(IJobApplicationRepository jobApplicationRepository)
+		public JobApplicationService(
+			IJobApplicationRepository jobApplicationRepository,
+			IJobMatchService jobMatchService)
 		{
 			_jobApplicationRepository = jobApplicationRepository;
+			_jobMatchService = jobMatchService;
 		}
 
 		public async Task<JobApplicationDTO?> GetJobApplicationByIdAsync(Guid jobApplicationId)
@@ -27,7 +32,11 @@ namespace JobMatching.Application.Services
 		{
 			var jobApplications = await _jobApplicationRepository.GetJobApplicationsAsync(withTracking: false);
 
+			var test = jobApplications;
+
 			return JobApplicationsMapper.Map(jobApplications);
 		}
+
+
 	}
 }

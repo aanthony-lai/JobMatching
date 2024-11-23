@@ -26,12 +26,14 @@ namespace JobMatching.API.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult<UserDTO?>> GetUserById(Guid userId)
         {
+            if (userId == Guid.Empty)
+                return BadRequest($"Invalid user ID.");
+
             var user = await _userService.GetUserByIdAsync(userId);
 
-            if (user is null)
-                return NotFound($"User with the specified {userId} could not be found.");
-
-            return Ok(user);
+            return user == null 
+                ? NotFound($"User with the specified {userId} could not be found.")
+                : Ok(user);
         }
 
 		[HttpPost]

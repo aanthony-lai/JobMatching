@@ -1,9 +1,10 @@
 ﻿namespace JobMatching.Application.DTO
 {
-	public record UserJobDTO(
+	public record JobDTO(
 		Guid jobId,
 		string jobTitle,
 		int? salaryTop,
 		int? salaryBottom,
-		string employerName);
+		string employerName,
+		List<CompetenceDTO> competencesDto);
 }

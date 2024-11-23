@@ -7,7 +7,7 @@ namespace JobMatching.Application.Utilities.Mappers
     {
         public static List<UserDTO?> Map(List<User> users)
         {
-            return users.Select(UserMapper.Map).ToList();
+			return users.Select(UserMapper.Map).ToList();
         }
     }
 }
