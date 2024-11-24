@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JobMatching.Application\JobMatching.Application.csproj" />
+    <ProjectReference Include="..\JobMatching.Common\JobMatching.Common.csproj" />
     <ProjectReference Include="..\JobMatching.Domain\JobMatching.Domain.csproj" />
   </ItemGroup>
 
