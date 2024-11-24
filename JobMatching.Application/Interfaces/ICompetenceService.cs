@@ -1,10 +1,10 @@
-﻿using JobMatching.Application.DTO;
+﻿using JobMatching.Application.DTO.Shared;
 
 namespace JobMatching.Application.Interfaces
 {
-	public interface ICompetenceService
+    public interface ICompetenceService
 	{
-		Task<CompetenceDTO?> GetCompetenceByIdAsync(Guid competenceId);
-		Task<List<CompetenceDTO>> GetCompetencesAsync();
+		//Task<CompetenceDTO?> GetCompetenceByIdAsync(Guid competenceId);
+		//Task<List<CompetenceDTO>> GetCompetencesAsync();
 	}
 }

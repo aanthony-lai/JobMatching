@@ -7,7 +7,7 @@ namespace JobMatching.DataAccess.Context
 {
 	public class AppDbContext: DbContext
 	{
-		public DbSet<User> Users { get; set; }
+		public DbSet<Candidate> Candidates { get; set; }
 		public DbSet<Employer> Employers { get; set; }
 		public DbSet<Job> Jobs { get; set; }
 		public DbSet<JobApplication> Applications { get; set; }
@@ -22,7 +22,7 @@ namespace JobMatching.DataAccess.Context
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.Entity<User>().AddUserConfiguration();
+			modelBuilder.Entity<Candidate>().AddUserConfiguration();
 			modelBuilder.Entity<Employer>().AddEmployerConfiguration();
 			modelBuilder.Entity<Job>().AddJobConfiguration();
 			modelBuilder.Entity<JobApplication>().AddApplicationConfiguration();

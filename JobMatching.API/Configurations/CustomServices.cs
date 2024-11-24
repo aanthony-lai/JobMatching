@@ -10,11 +10,11 @@ namespace JobMatching.API.Configurations
 	{
 		public static IServiceCollection AddApplicationLayerServices(this IServiceCollection services)
 		{
-			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<ICandidateRepository, CandidateRepository>();
 			services.AddScoped<IEmployerRepository, EmployerRepository>();
 
 			services.AddScoped<IEmployerService, EmployerService>();
-			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<ICandidateService, CandidateService>();
 
 			services.AddScoped<ICompetenceRepository, CompetenceRepository>();
 			services.AddScoped<ICompetenceService, CompetenceService>();

@@ -1,5 +1,4 @@
-﻿using JobMatching.Application.DTO;
-using JobMatching.Domain.Entities;
+﻿using JobMatching.Application.DTO.Employer;
 
 namespace JobMatching.Application.Interfaces
 {

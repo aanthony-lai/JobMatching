@@ -1,42 +1,32 @@
-﻿using JobMatching.Application.DTO;
+﻿using JobMatching.Application.DTO.JobApplication;
 using JobMatching.Application.Interfaces;
-using JobMatching.Application.Utilities.Mappers;
-using JobMatching.Domain.Interfaces;
+using JobMatching.Application.Utilities;
 
 namespace JobMatching.Application.Services
 {
 	public class JobApplicationService : IJobApplicationService
 	{
 		private readonly IJobApplicationRepository _jobApplicationRepository;
-		private readonly IJobMatchService _jobMatchService;
 
 		public JobApplicationService(
-			IJobApplicationRepository jobApplicationRepository,
-			IJobMatchService jobMatchService)
+			IJobApplicationRepository jobApplicationRepository)
 		{
 			_jobApplicationRepository = jobApplicationRepository;
-			_jobMatchService = jobMatchService;
 		}
 
-		public async Task<JobApplicationDTO?> GetJobApplicationByIdAsync(Guid jobApplicationId)
+		public async Task<List<JobApplicationDTO>> GetJobApplicationsByCandidateIdAsync(Guid candidateId)
 		{
-			var jobApplication = await _jobApplicationRepository.GetJobApplicationByIdAsync(jobApplicationId, withTracking: false);
+			var jobApplication = await _jobApplicationRepository.GetJobApplicationsByCandidateIdAsync(candidateId, withTracking: false);
 
-			if (jobApplication is null)
-				return null;
-
-			return JobApplicationMapper.Map(jobApplication);
+			return JobApplicationMapper.MapJobApplications(jobApplication);
 		}
 
+		//Only in prototype
 		public async Task<List<JobApplicationDTO>> GetJobApplicationsAsync()
 		{
 			var jobApplications = await _jobApplicationRepository.GetJobApplicationsAsync(withTracking: false);
 
-			var test = jobApplications;
-
-			return JobApplicationsMapper.Map(jobApplications);
+			return JobApplicationMapper.MapJobApplications(jobApplications);
 		}
-
-
 	}
 }

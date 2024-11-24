@@ -7,11 +7,11 @@ namespace JobMatching.Domain.DomainServices
 	{
 		public decimal CalculateMatchGrade(JobApplication jobApplication)
 		{
-			if (!jobApplication.User.Competences.Any() ||
+			if (!jobApplication.Candidate.Competences.Any() ||
 				!jobApplication.Job.Competences.Any())
 				return 0;
 
-			List<Competence> userCompetences = jobApplication.User.Competences;
+			List<Competence> userCompetences = jobApplication.Candidate.Competences;
 			List<Competence> jobRequiredCompetences = jobApplication.Job.Competences;
 
 			int totalRequiredCompetences = jobRequiredCompetences.Count;

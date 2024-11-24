@@ -18,11 +18,10 @@ namespace JobMatching.Domain.Entities
 				_jobTitle = value;
 			} 
 		}
-		public SalaryRange? JobSalaryRange { get; private set; }
+		public SalaryRange? SalaryRange { get; private set; }
 		public Guid EmployerId { get; private set; }
 		public Employer Employer { get; private set; } = null!;
 		public List<Competence> Competences { get; private set; } = new List<Competence>();
-		public List<JobApplication> Applications { get; private set; } = new List<JobApplication>();
 		
 		protected Job() { }
 
@@ -36,7 +35,7 @@ namespace JobMatching.Domain.Entities
 			EmployerId = employerId;
 
 			if (salaryRange != null)
-				JobSalaryRange = salaryRange;
+				SalaryRange = salaryRange;
 		}
 
 		public void AddCompetence(Competence competence)
@@ -48,15 +47,5 @@ namespace JobMatching.Domain.Entities
 
 			Competences.Add(competence);
 		}
-
-		public void AddApplication(JobApplication jobApplication)
-		{
-			if (jobApplication is null)
-				throw new ArgumentNullException(
-					"The job application that you're trying to add is null",
-					nameof(jobApplication));
-
-			Applications.Add(jobApplication);
-		} 
 	}
 }

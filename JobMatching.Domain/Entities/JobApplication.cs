@@ -4,24 +4,24 @@ namespace JobMatching.Domain.Entities
 {
 	public class JobApplication
 	{
-		private Guid _userId;
+		private Guid _candidateId;
 		private Guid _jobId;
 
 		public Guid JobApplicationId { get; init; }
 
-		public Guid UserId
+		public Guid CandidateId
 		{
-			get => _userId;
+			get => _candidateId;
 			private set
 			{
 				if (value == Guid.Empty)
 					throw new ArgumentException(
-						"An application must contain a valid User Id.",
-						nameof(UserId));
-				_userId = value;
+						"An application must contain a valid Candidate Id.",
+						nameof(CandidateId));
+				_candidateId = value;
 			}
 		}
-		public User User { get; private set; }
+		public Candidate Candidate { get; private set; }
 
 		public Guid JobId
 		{
@@ -44,9 +44,9 @@ namespace JobMatching.Domain.Entities
 
 		protected JobApplication() { }
 
-		public JobApplication(Guid userId, Guid jobId)
+		public JobApplication(Guid candidateId, Guid jobId)
 		{
-			UserId = userId;
+			CandidateId = candidateId;
 			JobId = jobId;
 			JobApplicationId = Guid.NewGuid();
 			ApplicationDate = DateTime.UtcNow;

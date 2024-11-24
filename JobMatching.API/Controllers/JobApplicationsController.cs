@@ -1,10 +1,10 @@
-﻿using JobMatching.Application.DTO;
+﻿using JobMatching.Application.DTO.JobApplication;
 using JobMatching.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
 {
-	[Route("api/job-applications")]
+	[Route("api/jobapplications/thisShouldBeRemovedLater")]
 	[ApiController]
 	public class JobApplicationsController : ControllerBase
 	{
@@ -15,23 +15,11 @@ namespace JobMatching.API.Controllers
 			_jobApplicationService = jobApplicationService;
 		}
 
+		//Should this endpoint be available?
 		[HttpGet]
-		public async Task<ActionResult<List<JobApplicationDTO>>> GetJobApplicationsAsync()
+		public async Task<ActionResult<List<JobApplicationDTO>>> GetJobApplications()
 		{
 			return Ok(await _jobApplicationService.GetJobApplicationsAsync());
-		}
-
-		[HttpGet("{jobApplicationId}")]
-		public async Task<ActionResult<JobApplicationDTO>> GetJobApplicationById(Guid jobApplicationId)
-		{
-			if (jobApplicationId == Guid.Empty)
-				return BadRequest("Invalid job application ID.");
-
-			var jobApplicationDto = await _jobApplicationService.GetJobApplicationByIdAsync(jobApplicationId);
-
-			return jobApplicationDto == null
-				? NotFound($"Job application with ID: {jobApplicationId} was not found.")
-				: Ok(jobApplicationDto);
 		}
 	}
 }

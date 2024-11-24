@@ -10,25 +10,25 @@ namespace JobMatching.DataAccess.Configurations
 		{
 			var jobApplication = jobApplicationBuilder;
 
-			jobApplication.ToTable("japp_jobApplications")
+			jobApplication.ToTable("ja_jobApplications")
 				.HasKey(a => a.JobApplicationId);
 
 			jobApplication.Property(a => a.JobApplicationId)
-				.HasColumnName("japp_id");
+				.HasColumnName("ja_id");
 
-			jobApplication.HasOne(a => a.User)
-				.WithMany(u => u.Applications)
-				.HasForeignKey(a => a.UserId);
+			jobApplication.HasOne(a => a.Candidate)
+				.WithMany()
+				.HasForeignKey(a => a.CandidateId);
 
 			jobApplication.HasOne(a => a.Job)
-				.WithMany(j => j.Applications)
+				.WithMany()
 				.HasForeignKey(a => a.JobId);
 
 			jobApplication.Property(a => a.ApplicationDate)
-				.HasColumnName("japp_applicationDate");
+				.HasColumnName("ja_applicationDate");
 
 			jobApplication.Property(a => a.ApplicationStatus)
-				.HasColumnName("japp_Status");
+				.HasColumnName("ja_status");
 
 			return jobApplication;
 		}

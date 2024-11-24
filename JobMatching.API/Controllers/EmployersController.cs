@@ -1,6 +1,5 @@
-﻿using JobMatching.Application.DTO;
+﻿using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Interfaces;
-using JobMatching.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -11,7 +10,7 @@ namespace JobMatching.API.Controllers
 	{
 		private readonly IEmployerService _employerService;
 
-		public EmployersController(IEmployerService employerService) 
+		public EmployersController(IEmployerService employerService)
 		{
 			_employerService = employerService;
 		}
@@ -31,7 +30,7 @@ namespace JobMatching.API.Controllers
 			var employerDto = await _employerService.GetEmployerByIdAsync(employerId);
 
 			return employerDto == null
-				? NotFound($"User with the specified {employerId} could not be found.")
+				? NotFound($"Employer with the specified {employerId} could not be found.")
 				: Ok(employerDto);
 		}
 	}

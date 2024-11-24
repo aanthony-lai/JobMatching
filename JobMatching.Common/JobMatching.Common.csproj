@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\JobMatching.Common\JobMatching.Common.csproj" />
-    <ProjectReference Include="..\JobMatching.Domain\JobMatching.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

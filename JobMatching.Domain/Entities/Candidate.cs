@@ -1,30 +1,27 @@
 ﻿using JobMatching.Domain.Exceptions;
 using JobMatching.Domain.ValueObjects;
+using System.Runtime.CompilerServices;
 
 namespace JobMatching.Domain.Entities
 {
-	public class User
+	public class Candidate
 	{
-		public Guid UserId { get; init; }
-
-		public Name UserName { get; private set; }
-
+		public Guid CandidateId { get; init; }
+		public Name Name { get; private set; }
 		public List<Competence> Competences { get; private set; } = new List<Competence>();
 
-		public List<JobApplication> Applications { get; private set; } = new List<JobApplication>();
+		protected Candidate() { }
 
-		protected User() { }
-
-		public User(string firstName, string lastName)
+		public Candidate(string firstName, string lastName)
 		{
-			UserId = Guid.NewGuid();
-			UserName = new Name(firstName, lastName);
+			CandidateId = Guid.NewGuid();
+			Name = new Name(firstName, lastName);
 		}
 
-		public User(Name name)
+		public Candidate(Name name)
 		{
-			UserId = Guid.NewGuid();
-			UserName = name;
+			CandidateId = Guid.NewGuid();
+			Name = name;
 		}
 
 		public void AddCompetence(Competence competence)
@@ -37,7 +34,7 @@ namespace JobMatching.Domain.Entities
 			if (Competences.Contains(competence))
 				throw new DuplicateCompetenceException(
 					nameof(competence),
-					"The user already has this competence.");
+					"The candidate already has this competence.");
 
 			Competences.Add(competence);
 		}

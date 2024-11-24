@@ -1,14 +1,14 @@
-﻿using JobMatching.Application.DTO;
+﻿using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Interfaces;
-using JobMatching.Application.Utilities.Mappers;
+using JobMatching.Application.Utilities;
 
 namespace JobMatching.Application.Services
 {
-    public class EmployerService : IEmployerService
+	public class EmployerService : IEmployerService
 	{
 		private readonly IEmployerRepository _employerRepository;
 
-		public EmployerService(IEmployerRepository employerRepository) 
+		public EmployerService(IEmployerRepository employerRepository)
 		{
 			_employerRepository = employerRepository;
 		}
@@ -20,14 +20,14 @@ namespace JobMatching.Application.Services
 			if (employer is null)
 				return null;
 
-			return EmployerMapper.Map(employer);
+			return EmployerMapper.MapEmployer(employer);
 		}
 
 		public async Task<List<EmployerDTO>> GetEmployersAsync()
 		{
 			var employers = await _employerRepository.GetEmployersAsync(withTracking: false);
 
-			return EmployersMapper.Map(employers)!;
+			return EmployerMapper.MapEmployers(employers)!;
 		}
 	}
 }

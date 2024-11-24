@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JobMatching.Application\JobMatching.Application.csproj" />
+    <ProjectReference Include="..\JobMatching.Common\JobMatching.Common.csproj" />
     <ProjectReference Include="..\JobMatching.DataAccess\JobMatching.DataAccess.csproj" />
   </ItemGroup>
 

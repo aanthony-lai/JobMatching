@@ -5,7 +5,6 @@
 		private string _competenceName = string.Empty;
 		
 		public Guid CompetenceId { get; init; }
-
 		public string CompetenceName
 		{
 			get => _competenceName;
@@ -18,7 +17,7 @@
 			}
 		}
 		public List<Job> Jobs { get; private set; } = new List<Job>();
-		public List<User> Users { get; private set; } = new List<User>();
+		public List<Candidate> Users { get; private set; } = new List<Candidate>();
 
 		protected Competence() { }
 
