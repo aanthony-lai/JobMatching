@@ -7,7 +7,7 @@ namespace JobMatching.Application.DTO.JobApplication
 	public record JobApplicationWithMatchGradeDTO(
 		Guid jobApplicationId,
 		CandidateDTO candidate,
-		JobDTO job,
+		EmployerJobDTO job,
 		DateTime applicationDate,
 		ApplicationStatus status,
 		decimal matchGrade);

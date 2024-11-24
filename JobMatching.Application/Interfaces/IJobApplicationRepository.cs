@@ -6,5 +6,6 @@ namespace JobMatching.Application.Interfaces
 	{
 		Task<List<JobApplication>> GetJobApplicationsAsync(bool withTracking = true);
 		Task<List<JobApplication>> GetJobApplicationsByCandidateIdAsync(Guid jobApplicationId, bool withTracking = true);
+		Task<List<JobApplication>> GetApplicantsByJobIdAsync(Guid jobId, bool withTracking = true);
 	}
 }

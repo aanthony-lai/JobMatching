@@ -19,13 +19,28 @@ namespace JobMatching.DataAccess.Repositories
 		{
 			return await _appDbContext.Applications
 				.AddTracking(withTracking)
+				.Where(a => a.CandidateId == candidateId)
 				.Include(a => a.Candidate)
 					.ThenInclude(c => c.Competences)
 				.Include(a => a.Job)
 					.ThenInclude(j => j.Competences)
-				.Where(a => a.CandidateId == candidateId).ToListAsync();
+				.ToListAsync();
 		}
 
+		//Should maybe be moved to an individual class?
+		public async Task<List<JobApplication>> GetApplicantsByJobIdAsync(Guid jobId, bool withTracking = true)
+		{
+			return await _appDbContext.Applications
+				.AddTracking(withTracking)
+				.Where(a => a.JobId == jobId)
+				.Include(a => a.Candidate)
+					.ThenInclude(c => c.Competences)
+				.Include(a => a.Job)
+					.ThenInclude(j => j.Competences)
+				.ToListAsync();
+		}
+
+		//Should be removed
 		public async Task<List<JobApplication>> GetJobApplicationsAsync(bool withTracking = true)
 		{
 			return await _appDbContext.Applications

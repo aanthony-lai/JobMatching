@@ -13,7 +13,6 @@ namespace JobMatching.DataAccess.Utilities
 				.AddJsonFile("appsettings.json")
 				.Build();
 
-
 			return configuration[key] ??
 				throw new KeyNotFoundException(
 					"The value with the specified key could not be found.");

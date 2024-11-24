@@ -1,5 +1,6 @@
-﻿using JobMatching.Application.DTO.Employer;
+﻿using JobMatching.Application.DTO.Job;
 using JobMatching.Domain.Entities;
+using System.Threading.Tasks.Dataflow;
 
 namespace JobMatching.Application.Utilities
 {
@@ -8,13 +9,14 @@ namespace JobMatching.Application.Utilities
 		public static JobDTO MapJob(Job job)
 		{
 			if (job is null)
-				throw new ArgumentNullException("Cannot map null to JobDTO.", nameof(job));
+				throw new ArgumentNullException("Cannot map null to JobDTO", nameof(job));
 
 			return new JobDTO(
 				jobId: job.JobId,
 				jobTitle: job.JobTitle,
 				salaryRangeTop: job.SalaryRange.SalaryRangeTop,
 				salaryRangeBottom: job.SalaryRange.SalaryRangeBottom,
+				employerName: job.Employer.EmployerName,
 				competences: CompetenceMapper.MapCompetences(job.Competences));
 		}
 

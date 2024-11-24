@@ -13,7 +13,7 @@ namespace JobMatching.Application.Utilities
 			return new JobApplicationDTO(
 				jobApplicationId: jobApplication.JobApplicationId,
 				candidate: CandidateMapper.MapCandidate(jobApplication.Candidate),
-				job: JobMapper.MapJob(jobApplication.Job),
+				job: EmployerJobMapper.MapEmployerJob(jobApplication.Job),
 				applicationDate: jobApplication.ApplicationDate,
 				status: jobApplication.ApplicationStatus);
 		}

@@ -2,6 +2,8 @@
 using JobMatching.Application.Exceptions;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
+using JobMatching.Common.SystemMessages.CandidateMessages;
+using JobMatching.Common.SystemMessages.CompetenceMessages;
 using JobMatching.Domain.Entities;
 
 namespace JobMatching.Application.Services
@@ -37,10 +39,10 @@ namespace JobMatching.Application.Services
 		public async Task AddCandidateCompetence(AddCandidateCompetenceDTO addCandidateCompetenceDto)
 		{
 			Candidate candidate = await _candidateRepository.GetCandidateByIdAsync(addCandidateCompetenceDto.candidateId)
-				?? throw new CandidateNotFoundException($"Candidate with ID {addCandidateCompetenceDto.candidateId} was not found.");
+				?? throw new CandidateNotFoundException(CandidateMessages.CandidateNotFound(addCandidateCompetenceDto.candidateId));
 
 			Competence competence = await _competenceRepository.GetCompetenceByIdAsync(addCandidateCompetenceDto.competenceId)
-				?? throw new CompetenceNotFoundException($"Competence with ID {addCandidateCompetenceDto.competenceId} was not found.");
+				?? throw new CompetenceNotFoundException(CompetenceMessages.CompetenceDoesNotExist(addCandidateCompetenceDto.competenceId));
 
 			candidate.AddCompetence(competence);
 			await _candidateRepository.UpdateCandidateAsync(candidate);

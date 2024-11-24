@@ -4,7 +4,6 @@ namespace JobMatching.Application.Interfaces
 {
     public interface ICompetenceService
 	{
-		//Task<CompetenceDTO?> GetCompetenceByIdAsync(Guid competenceId);
-		//Task<List<CompetenceDTO>> GetCompetencesAsync();
+		Task<List<CompetenceDTO>> GetCompetencesAsync();
 	}
 }

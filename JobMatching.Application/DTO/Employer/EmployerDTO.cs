@@ -3,5 +3,5 @@
 	public record EmployerDTO(
 		Guid employerId,
 		string employerName,
-		List<JobDTO> jobs);
+		List<EmployerJobDTO> jobs);
 }

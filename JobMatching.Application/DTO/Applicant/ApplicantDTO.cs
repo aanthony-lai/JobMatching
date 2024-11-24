@@ -2,12 +2,13 @@
 using JobMatching.Application.DTO.Employer;
 using JobMatching.Domain.Enums;
 
-namespace JobMatching.Application.DTO.JobApplication
+namespace JobMatching.Application.DTO.Applicant
 {
-	public record JobApplicationDTO(
+	public record ApplicantDTO(
 		Guid jobApplicationId,
 		CandidateDTO candidate,
 		EmployerJobDTO job,
 		DateTime applicationDate,
-		ApplicationStatus status);
+		ApplicationStatus status,
+		decimal matchGrade);
 }

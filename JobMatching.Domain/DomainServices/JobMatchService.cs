@@ -15,7 +15,8 @@ namespace JobMatching.Domain.DomainServices
 			List<Competence> jobRequiredCompetences = jobApplication.Job.Competences;
 
 			int totalRequiredCompetences = jobRequiredCompetences.Count;
-			int matchingCompetences = jobRequiredCompetences.Count(userCompetences.Contains);
+			int matchingCompetences = jobRequiredCompetences
+				.Count(jobCompetence => userCompetences.Any(userCompetence => userCompetence.CompetenceId == jobCompetence.CompetenceId));
 
 			return ((decimal)matchingCompetences / totalRequiredCompetences) * 100;
 		}

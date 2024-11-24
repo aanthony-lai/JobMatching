@@ -1,5 +1,6 @@
 ﻿using JobMatching.Application.DTO.Shared;
 using JobMatching.Application.Interfaces;
+using JobMatching.Application.Utilities;
 
 namespace JobMatching.Application.Services
 {
@@ -11,18 +12,11 @@ namespace JobMatching.Application.Services
 		{
 			_competenceRepository = competenceRepository;
 		}
-		//public async Task<List<CompetenceDTO>> GetCompetencesAsync()
-		//{
-		//	var competences = await _competenceRepository.GetCompetencesAsync(withTracking: false);
+		public async Task<List<CompetenceDTO>> GetCompetencesAsync()
+		{
+			var competences = await _competenceRepository.GetCompetencesAsync(withTracking: false);
 
-		//	return CompetencesMapper.Map(competences);
-		//}
-
-		//public async Task<CompetenceDTO?> GetCompetenceByIdAsync(Guid competenceId)
-		//{
-		//	var competence = await _competenceRepository.GetCompetenceByIdAsync(competenceId, withTracking: false);
-
-		//	return CompetenceMapper.Map(competence);
-		//}
+			return CompetenceMapper.MapCompetences(competences);
+		}
 	}
 }

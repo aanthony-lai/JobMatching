@@ -13,6 +13,7 @@
 			{
 				if (string.IsNullOrWhiteSpace(value))
 					throw new ArgumentException("Employer name can't be empty.", nameof(EmployerName));
+				
 				_employerName = value;
 			}
 		}

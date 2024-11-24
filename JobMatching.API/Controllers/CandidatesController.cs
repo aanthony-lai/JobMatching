@@ -1,10 +1,8 @@
 using JobMatching.Application.DTO.Candidate;
 using JobMatching.Application.DTO.JobApplication;
-using JobMatching.Application.Exceptions;
 using JobMatching.Application.Interfaces;
 using JobMatching.Common.SystemMessages.CandidateMessages;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace JobMatching.API.Controllers
 {
@@ -34,12 +32,12 @@ namespace JobMatching.API.Controllers
 		public async Task<ActionResult<CandidateDTO?>> GetCandidateById(Guid candidateId)
 		{
 			if (candidateId == Guid.Empty)
-				return BadRequest(CandidatesMessages.InvalidCandidateId(candidateId));
+				return BadRequest(CandidateMessages.InvalidCandidateId(candidateId));
 
 			var candidate = await _candidateService.GetCandidateByIdAsync(candidateId);
 
 			return candidate is null
-				? NotFound(CandidatesMessages.CandidateNotFound(candidateId))
+				? NotFound(CandidateMessages.CandidateNotFound(candidateId))
 				: Ok(candidate);
 		}
 
@@ -47,10 +45,10 @@ namespace JobMatching.API.Controllers
 		public async Task<ActionResult<List<JobApplicationDTO>>> GetJobApplicationsByCandidateId(Guid candidateId)
 		{
 			if (candidateId == Guid.Empty)
-				return BadRequest(CandidatesMessages.InvalidCandidateId(candidateId));
-			
+				return BadRequest(CandidateMessages.InvalidCandidateId(candidateId));
+
 			if (!await _candidateService.CandidateExistsAsync(candidateId))
-				return NotFound(CandidatesMessages.CandidateNotFound(candidateId));
+				return NotFound(CandidateMessages.CandidateNotFound(candidateId));
 
 			return Ok(await _jobApplicationService.GetJobApplicationsByCandidateIdAsync(candidateId));
 		}

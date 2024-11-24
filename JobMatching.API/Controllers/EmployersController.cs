@@ -1,4 +1,5 @@
-﻿using JobMatching.Application.DTO.Employer;
+﻿using JobMatching.Application.DTO.Applicant;
+using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,13 @@ namespace JobMatching.API.Controllers
 	public class EmployersController : ControllerBase
 	{
 		private readonly IEmployerService _employerService;
+		private readonly IApplicantService _applicantService;
 
-		public EmployersController(IEmployerService employerService)
+		public EmployersController(IEmployerService employerService,
+			IApplicantService applicantService)
 		{
 			_employerService = employerService;
+			_applicantService = applicantService;
 		}
 
 		[HttpGet]
@@ -32,6 +36,13 @@ namespace JobMatching.API.Controllers
 			return employerDto == null
 				? NotFound($"Employer with the specified {employerId} could not be found.")
 				: Ok(employerDto);
+		}
+
+		//Endpoint should be changed later on.
+		[HttpGet("{jobId}/applicants")]
+		public async Task<ActionResult<List<ApplicantDTO>>> GetEmployersAsync(Guid jobId)
+		{
+			return await _applicantService.GetApplicantsByJobIdAsync(jobId);
 		}
 	}
 }
