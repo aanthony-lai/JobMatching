@@ -21,20 +21,7 @@ namespace JobMatching.Application.Services
 		{
 			var applicants = await _jobApplicationRepository.GetApplicantsByJobIdAsync(jobId, withTracking: false);
 
-			List<ApplicantDTO> applicantsDto = new List<ApplicantDTO>();
-
-			foreach (var applicant in applicants)
-			{
-				applicantsDto.Add(new ApplicantDTO(
-					jobApplicationId: applicant.JobApplicationId,
-					candidate: CandidateMapper.MapCandidate(applicant.Candidate),
-					job: EmployerJobMapper.MapEmployerJob(applicant.Job),
-					applicationDate: applicant.ApplicationDate,
-					status: applicant.ApplicationStatus,
-					matchGrade: _jobMatchService.CalculateMatchGrade(applicant)));
-			}
-
-			return applicantsDto;
+			return ApplicantMapper.MapApplicants(applicants, _jobMatchService.CalculateMatchGrade);
 		}
 	}
 }

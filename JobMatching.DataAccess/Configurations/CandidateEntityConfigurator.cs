@@ -6,30 +6,30 @@ namespace JobMatching.DataAccess.Configurations
 {
 	public static class CandidateEntityConfigurator
 	{
-		public static EntityTypeBuilder<Candidate> AddUserConfiguration(this EntityTypeBuilder<Candidate> candidateBuilder)
+		public static EntityTypeBuilder<Candidate> AddCandidateConfiguration(this EntityTypeBuilder<Candidate> candidateBuilder)
 		{
 			var candidate = candidateBuilder;
 
-			candidate.ToTable("cand_candidates")
-				.HasKey(u => u.CandidateId);
+			candidate.ToTable("Candidates");
+				//.HasBaseType<User>();
+			candidate.HasKey(c => c.CandidateId);
 
-			candidate.Property(u => u.CandidateId)
-				.HasColumnName("cand_id");
+			candidate.Property(c => c.CandidateId)
+				.HasColumnName("Id");
 
-			candidate.OwnsOne(u => u.Name, nameBuilder =>
+			candidate.OwnsOne(c => c.FullName, nameBuilder =>
 			{
 				nameBuilder.Property(fn => fn.FirstName)
-					.HasColumnName("cand_firstName")
+					.HasColumnName("FirstName")
 					.IsRequired();
 				nameBuilder.Property(ln => ln.LastName)
-					.HasColumnName("cand_lastName")
+					.HasColumnName("LastName")
 					.IsRequired();
 			});
 
-			candidate.HasMany(u => u.Competences)
-				.WithMany(c => c.Users)
-				.UsingEntity(uc => uc.ToTable("candcom_candidateCompetences"));
-			
+			candidate.HasMany(c => c.Competences)
+				.WithMany(comp => comp.Candidates);
+
 			return candidate;
 		}
 	}

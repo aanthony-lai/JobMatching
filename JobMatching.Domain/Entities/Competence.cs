@@ -17,7 +17,7 @@
 			}
 		}
 		public List<Job> Jobs { get; private set; } = new List<Job>();
-		public List<Candidate> Users { get; private set; } = new List<Candidate>();
+		public List<Candidate> Candidates { get; private set; } = new List<Candidate>();
 
 		protected Competence() { }
 

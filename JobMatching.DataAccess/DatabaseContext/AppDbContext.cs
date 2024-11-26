@@ -1,6 +1,7 @@
 ﻿using JobMatching.DataAccess.Configurations;
+using JobMatching.DataAccess.Configurations.JunctionTables;
 using JobMatching.Domain.Entities;
-
+using JobMatching.Domain.Entities.JunctionTables;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Context
@@ -22,11 +23,13 @@ namespace JobMatching.DataAccess.Context
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.Entity<Candidate>().AddUserConfiguration();
+			modelBuilder.Ignore<User>();
+			modelBuilder.Entity<Candidate>().AddCandidateConfiguration();
 			modelBuilder.Entity<Employer>().AddEmployerConfiguration();
 			modelBuilder.Entity<Job>().AddJobConfiguration();
 			modelBuilder.Entity<JobApplication>().AddApplicationConfiguration();
 			modelBuilder.Entity<Competence>().AddCompetenceConfiguration();
+			modelBuilder.AddJunctionTablesConfiguration();
 		}
 	}
 }

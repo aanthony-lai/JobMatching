@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
 {
-	[Route("api/candidates")]
+    [Route("api/candidates")]
 	[ApiController]
 	public class CandidatesController : ControllerBase
 	{

@@ -4,7 +4,7 @@ using JobMatching.Application.Utilities;
 
 namespace JobMatching.Application.Services
 {
-	public class EmployerService : IEmployerService
+    public class EmployerService : IEmployerService
 	{
 		private readonly IEmployerRepository _employerRepository;
 

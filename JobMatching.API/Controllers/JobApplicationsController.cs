@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
 {
-	[Route("api/jobapplications/thisShouldBeRemovedLater")]
+    [Route("api/jobapplications/thisShouldBeRemovedLater")]
 	[ApiController]
 	public class JobApplicationsController : ControllerBase
 	{

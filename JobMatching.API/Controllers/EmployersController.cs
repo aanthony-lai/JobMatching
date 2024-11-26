@@ -1,6 +1,7 @@
 ﻿using JobMatching.Application.DTO.Applicant;
 using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Interfaces;
+using JobMatching.Common.SystemMessages.JobMessages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -42,6 +43,11 @@ namespace JobMatching.API.Controllers
 		[HttpGet("{jobId}/applicants")]
 		public async Task<ActionResult<List<ApplicantDTO>>> GetEmployersAsync(Guid jobId)
 		{
+			if (jobId == Guid.Empty)
+				return BadRequest(JobMessages.InvalidJobId(jobId));
+
+
+
 			return await _applicantService.GetApplicantsByJobIdAsync(jobId);
 		}
 	}

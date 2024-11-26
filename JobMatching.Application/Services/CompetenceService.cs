@@ -4,7 +4,7 @@ using JobMatching.Application.Utilities;
 
 namespace JobMatching.Application.Services
 {
-	public class CompetenceService : ICompetenceService
+    public class CompetenceService : ICompetenceService
 	{
 		private readonly ICompetenceRepository _competenceRepository;
 

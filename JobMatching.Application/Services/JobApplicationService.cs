@@ -8,17 +8,16 @@ namespace JobMatching.Application.Services
 	{
 		private readonly IJobApplicationRepository _jobApplicationRepository;
 
-		public JobApplicationService(
-			IJobApplicationRepository jobApplicationRepository)
+		public JobApplicationService(IJobApplicationRepository jobApplicationRepository)
 		{
 			_jobApplicationRepository = jobApplicationRepository;
 		}
 
 		public async Task<List<JobApplicationDTO>> GetJobApplicationsByCandidateIdAsync(Guid candidateId)
 		{
-			var jobApplication = await _jobApplicationRepository.GetJobApplicationsByCandidateIdAsync(candidateId, withTracking: false);
+			var jobApplications = await _jobApplicationRepository.GetJobApplicationsByCandidateIdAsync(candidateId, withTracking: false);
 
-			return JobApplicationMapper.MapJobApplications(jobApplication);
+			return JobApplicationMapper.MapJobApplications(jobApplications);
 		}
 
 		//Only in prototype

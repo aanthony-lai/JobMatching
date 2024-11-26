@@ -10,22 +10,22 @@ namespace JobMatching.DataAccess.Configurations
 		{
 			var job = jobBuilder;
 
-			job.ToTable("job_Jobs")
+			job.ToTable("Jobs")
 				.HasKey(j => j.JobId);
 
 			job.Property(j => j.JobId)
-				.HasColumnName("job_Id");
+				.HasColumnName("Id");
 
 			job.Property(j => j.JobTitle)
-				.HasColumnName("job_Title")
+				.HasColumnName("Title")
 				.IsRequired();
 
 			job.OwnsOne(j => j.SalaryRange, salaryBuilder =>
 			{
-				salaryBuilder.Property(s => s.SalaryRangeTop)
-					.HasColumnName("job_SalaryTop");
-				salaryBuilder.Property(s => s.SalaryRangeBottom)
-					.HasColumnName("job_SalaryBottom");
+				salaryBuilder.Property(st => st.SalaryRangeTop)
+					.HasColumnName("SalaryRange_Top");
+				salaryBuilder.Property(sb => sb.SalaryRangeBottom)
+					.HasColumnName("SalaryRange_Bottom");
 			});
 
 			job.HasOne(j => j.Employer)
@@ -33,8 +33,7 @@ namespace JobMatching.DataAccess.Configurations
 				.HasForeignKey(j => j.EmployerId);
 
 			job.HasMany(j => j.Competences)
-				.WithMany(c => c.Jobs)
-				.UsingEntity(jc => jc.ToTable("jcom_JobCompetences"));
+				.WithMany(comp => comp.Jobs);
 
 			return job;
 		}

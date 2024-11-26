@@ -1,10 +1,9 @@
 ﻿using JobMatching.Application.DTO.Job;
 
-namespace JobMatching.Application.Interfaces
+namespace JobMatching.Application.Interfaces;
+
+public interface IJobService
 {
-	public interface IJobService
-	{
-		Task<JobDTO?> GetJobByIdAsync(Guid jobId);
-		Task<List<JobDTO>> GetJobsAsync();
-	}
+	Task<JobDTO?> GetJobByIdAsync(Guid jobId);
+	Task<List<JobDTO>> GetJobsAsync();
 }

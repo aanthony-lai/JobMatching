@@ -1,9 +1,8 @@
 ﻿using JobMatching.Application.DTO.Shared;
 
-namespace JobMatching.Application.Interfaces
-{
+namespace JobMatching.Application.Interfaces;
+
     public interface ICompetenceService
-	{
-		Task<List<CompetenceDTO>> GetCompetencesAsync();
-	}
+{
+	Task<List<CompetenceDTO>> GetCompetencesAsync();
 }

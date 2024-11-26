@@ -1,9 +1,8 @@
 ﻿using JobMatching.Application.DTO.Applicant;
 
-namespace JobMatching.Application.Interfaces
+namespace JobMatching.Application.Interfaces;
+
+public interface IApplicantService
 {
-	public interface IApplicantService
-	{
-		Task<List<ApplicantDTO>> GetApplicantsByJobIdAsync(Guid jobId);
-	}
+	Task<List<ApplicantDTO>> GetApplicantsByJobIdAsync(Guid jobId);
 }

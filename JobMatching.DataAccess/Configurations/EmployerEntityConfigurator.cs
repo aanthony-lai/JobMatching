@@ -10,19 +10,21 @@ namespace JobMatching.DataAccess.Configurations
 		{
 			var employer = employerBuilder;
 
-			employer.ToTable("emp_employers")
-				.HasKey(emp => emp.EmployerId);
+			employer.ToTable("Employers");
+				//.HasBaseType<User>();
+			employer.HasKey(emp => emp.EmployerId);
 
 			employer.Property(emp => emp.EmployerId)
-				.HasColumnName("emp_id");
+				.HasColumnName("Id");
 
 			employer.Property(emp => emp.EmployerName)
-				.HasColumnName("emp_employerName")
+				.HasColumnName("Name")
 				.IsRequired();
 
+			employer.Ignore(emp => emp.Name);
+
 			employer.HasMany(emp => emp.Jobs)
-				.WithOne(j => j.Employer)
-				.HasForeignKey(j => j.EmployerId);
+				.WithOne(j => j.Employer);
 
 			return employer;
 		}

@@ -1,10 +1,9 @@
 ﻿using JobMatching.Domain.Entities;
 
-namespace JobMatching.Application.Interfaces
+namespace JobMatching.Application.Interfaces;
+
+public interface IEmployerRepository
 {
-	public interface IEmployerRepository
-	{
-		Task<Employer?> GetEmployerByIdAsync(Guid employerId, bool withTracking = true);
-		Task<List<Employer>> GetEmployersAsync(bool withTracking = true);
-	}
+	Task<Employer?> GetEmployerByIdAsync(Guid employerId, bool withTracking = true);
+	Task<List<Employer>> GetEmployersAsync(bool withTracking = true);
 }

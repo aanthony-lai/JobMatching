@@ -8,7 +8,7 @@ using JobMatching.Domain.Entities;
 
 namespace JobMatching.Application.Services
 {
-	public class CandidateService : ICandidateService
+    public class CandidateService : ICandidateService
 	{
 		private readonly ICandidateRepository _candidateRepository;
 		private readonly ICompetenceRepository _competenceRepository;

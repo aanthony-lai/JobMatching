@@ -8,7 +8,8 @@ namespace JobMatching.Application.Services
 	{
 		private readonly IJobRepository _jobRepository;
 
-		public JobService(IJobRepository jobRepository)
+		public JobService(
+			IJobRepository jobRepository)
 		{
 			_jobRepository = jobRepository;
 		}

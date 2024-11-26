@@ -1,10 +1,10 @@
 ﻿using JobMatching.Application.DTO.Shared;
-using JobMatching.Application.Interfaces;
+using JobMatching.Application.Interfaces;	
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
 {
-	[Route("api/competences")]
+    [Route("api/competences")]
 	[ApiController]
 	public class CompetencesController : ControllerBase
 	{

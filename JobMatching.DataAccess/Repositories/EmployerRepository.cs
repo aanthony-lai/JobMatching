@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Repositories
 {
-	public class EmployerRepository : IEmployerRepository
+    public class EmployerRepository : IEmployerRepository
 	{
 		private readonly AppDbContext _appDbContext;
 

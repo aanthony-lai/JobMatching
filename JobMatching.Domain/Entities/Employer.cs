@@ -1,11 +1,12 @@
-﻿namespace JobMatching.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace JobMatching.Domain.Entities
 {
-	public class Employer
+	public class Employer: User
 	{
 		private string _employerName = null!;
-		
-		public Guid EmployerId { get; init; }
 
+		public Guid EmployerId { get; init; }
 		public string EmployerName
 		{
 			get => _employerName;
@@ -13,16 +14,16 @@
 			{
 				if (string.IsNullOrWhiteSpace(value))
 					throw new ArgumentException("Employer name can't be empty.", nameof(EmployerName));
-				
+
 				_employerName = value;
 			}
 		}
-
 		public List<Job> Jobs { get; private set; } = new List<Job>();
-
+		
 		protected Employer() { }
-
-		public Employer(string employerName)
+		
+		public Employer(string employerName, string email): 
+			base(employerName, email)
 		{
 			EmployerId = Guid.NewGuid();
 			EmployerName = employerName.Trim();
