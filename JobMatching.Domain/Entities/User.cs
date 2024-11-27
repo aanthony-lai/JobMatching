@@ -2,44 +2,35 @@
 {
 	public class User
 	{
-		public string Name { get; private set; } = null!;
-		public string Email { get; private set; } = null!;
+		private string _email;
+
+		public Guid Id { get; init; }
+		public string Email
+		{
+			get => _email;
+			private set
+			{
+				if (string.IsNullOrEmpty(value))
+					throw new ArgumentNullException(nameof(value),
+						"Email can't be empty.");
+				if (!value.Contains("@"))
+					throw new ArgumentException(nameof(value),
+						"You have provided an invalid email.");
+			}
+		}
 		public bool IsEmployer { get; init; }
 
-		//protected User() { }
 		protected User() { }
 
 		public User(
-			string firstName,
-			string lastName,
 			string email,
-			bool isEmployer = false)
+			bool isEmployer)
 		{
-			if (string.IsNullOrWhiteSpace(email) ||
-				!email.Contains("@"))
-			{
-				throw new ArgumentException(nameof(email), "You have provided an invalid email.");
-
-			}
-			Name = $"{firstName} {lastName}";
+			Id = Guid.NewGuid();
 			Email = email;
 			IsEmployer = isEmployer;
 		}
 
-		public User(
-			string employerName,
-			string email,
-			bool isEmployer = true)
-		{
-			if (string.IsNullOrWhiteSpace(email) ||
-				!email.Contains("@"))
-			{
-				throw new ArgumentException(nameof(email), "You have provided an invalid email.");
-
-			}
-			Name = employerName;
-			Email = email;
-			IsEmployer = isEmployer;
-		}
+		protected void SetEmail(string email) => Email = email;
 	}
 }

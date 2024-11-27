@@ -6,27 +6,28 @@ namespace JobMatching.DataAccess.Configurations
 {
 	public static class CompetenceEntityConfigurator
 	{
-		public static EntityTypeBuilder<Competence> AddCompetenceConfiguration(this EntityTypeBuilder<Competence> competenceBuilder)
+		public static ModelBuilder AddCompetenceConfiguration(this ModelBuilder modelBuilder)
 		{
-			var competence = competenceBuilder;
-
-			competence.ToTable("Competences")
+			modelBuilder.Entity<Competence>(competence =>
+			{
+				competence.ToTable("Competences")
 				.HasKey(c => c.CompetenceId);
 
-			competence.Property(c => c.CompetenceId)
-				.HasColumnName("Id");
+				competence.Property(c => c.CompetenceId)
+					.HasColumnName("Id");
 
-			competence.Property(c => c.CompetenceName)
-				.HasColumnName("Name")
-				.IsRequired();
+				competence.Property(c => c.CompetenceName)
+					.HasColumnName("Name")
+					.IsRequired();
 
-			competence.HasMany(c => c.Jobs)
-				.WithMany(j => j.Competences);
+				competence.HasMany(c => c.Jobs)
+					.WithMany(j => j.Competences);
 
-			competence.HasMany(c => c.Candidates)
-				.WithMany(u => u.Competences);
+				competence.HasMany(c => c.Candidates)
+					.WithMany(u => u.Competences);
+			});
 
-			return competence;
+			return modelBuilder;
 		}
 	}
 }

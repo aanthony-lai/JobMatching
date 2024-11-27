@@ -25,7 +25,7 @@ namespace JobMatching.Domain.Entities
 		
 		protected Job() { }
 
-		public Job(string jobTitle, Guid employerId, SalaryRange? salaryRange)
+		public Job(string jobTitle, Guid employerId, SalaryRange? salaryRange = null)
 		{
 			if (employerId == Guid.Empty)
 				throw new ArgumentException("A job must contain a valid employer id.", nameof(employerId));

@@ -16,7 +16,7 @@ namespace JobMatching.Application.Utilities
 				jobTitle: job.JobTitle,
 				salaryRangeTop: job.SalaryRange.SalaryRangeTop,
 				salaryRangeBottom: job.SalaryRange.SalaryRangeBottom,
-				employerName: job.Employer.EmployerName,
+				employerName: job.Employer.Name,
 				competences: CompetenceMapper.MapCompetences(job.Competences));
 		}
 

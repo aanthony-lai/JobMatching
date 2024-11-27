@@ -5,16 +5,14 @@ namespace JobMatching.Domain.Entities
 {
 	public class Candidate : User
 	{
-		public Guid CandidateId { get; init; }
 		public FullName FullName { get; private set; } = null!;
 		public List<Competence> Competences { get; private set; } = new List<Competence>();
 
 		protected Candidate() { }
 
 		public Candidate(string firstName, string lastName, string email) :
-			base(firstName, lastName, email)
+			base(email, isEmployer: false)
 		{
-			CandidateId = Guid.NewGuid();
 			FullName = new FullName(firstName, lastName);
 		}
 

@@ -8,7 +8,6 @@ namespace JobMatching.Domain.Entities
 		private Guid _jobId;
 
 		public Guid JobApplicationId { get; init; }
-
 		public Guid CandidateId
 		{
 			get => _candidateId;
@@ -22,7 +21,6 @@ namespace JobMatching.Domain.Entities
 			}
 		}
 		public Candidate Candidate { get; private set; }
-
 		public Guid JobId
 		{
 			get => _jobId;
@@ -36,10 +34,8 @@ namespace JobMatching.Domain.Entities
 				_jobId = value;
 			}
 		}
-		public Job Job { get; private set; }
-
+		public Job Job { get; private set; } = null!;
 		public DateTime ApplicationDate { get; private set; }
-
 		public ApplicationStatus ApplicationStatus { get; private set; }
 
 		protected JobApplication() { }

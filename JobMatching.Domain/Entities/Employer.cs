@@ -1,42 +1,40 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace JobMatching.Domain.Entities
+﻿namespace JobMatching.Domain.Entities
 {
-	public class Employer: User
+	public class Employer : User
 	{
-		private string _employerName = null!;
+		private string _name;
 
-		public Guid EmployerId { get; init; }
-		public string EmployerName
+		public string Name
 		{
-			get => _employerName;
+			get => _name;
 			private set
 			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentException("Employer name can't be empty.", nameof(EmployerName));
+				if (value is null || string.IsNullOrEmpty(value))
+					throw new ArgumentException(nameof(Name),
+						"Employer name cannot be null or empty.");
 
-				_employerName = value;
+				_name = value;
 			}
 		}
 		public List<Job> Jobs { get; private set; } = new List<Job>();
-		
+
 		protected Employer() { }
-		
-		public Employer(string employerName, string email): 
-			base(employerName, email)
+
+		public Employer(string employerName, string email) :
+			base(email, isEmployer: true)
 		{
-			EmployerId = Guid.NewGuid();
-			EmployerName = employerName.Trim();
+			Name = employerName;
 		}
 
-		public void UpdateEmployerName(string employerName)
+		public void UpdateEmployerName(string updatedEmployerName)
 		{
-			EmployerName = employerName;
+			if (string.IsNullOrEmpty(updatedEmployerName))
+				throw new ArgumentException(nameof(updatedEmployerName),
+					"Employer name can't be empty.");
+
+			_name = updatedEmployerName;
 		}
 
-		public void CreateJob(Job job)
-		{
-			Jobs.Add(job);
-		}
+		public void CreateJob(Job job) => Jobs.Add(job);
 	}
 }

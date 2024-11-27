@@ -21,7 +21,7 @@ namespace JobMatching.DataAccess.Repositories
 				.AddTracking(withTracking)
 				.Include(emp => emp.Jobs)
 					.ThenInclude(job => job.Competences)
-				.FirstOrDefaultAsync(emp => emp.EmployerId == employerId); 
+				.FirstOrDefaultAsync(emp => emp.Id == employerId); 
 		}
 
 		public async Task<List<Employer>> GetEmployersAsync(bool withTracking = true)

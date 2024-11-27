@@ -11,8 +11,8 @@ namespace JobMatching.Application.Utilities
 				throw new ArgumentNullException("Cannot map null to EmployerDTO", nameof(employer));
 
 			return new EmployerDTO(
-				employerId: employer.EmployerId,
-				employerName: employer.EmployerName,
+				employerId: employer.Id,
+				employerName: employer.Name,
 				jobs: EmployerJobMapper.MapJobs(employer.Jobs));
 		}
 

@@ -1,32 +1,29 @@
 ﻿using JobMatching.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobMatching.DataAccess.Configurations
 {
 	public static class EmployerEntityConfigurator
 	{
-		public static EntityTypeBuilder<Employer> AddEmployerConfiguration(this EntityTypeBuilder<Employer> employerBuilder)
+		public static ModelBuilder AddEmployerConfiguration(this ModelBuilder modelBuilder)
 		{
-			var employer = employerBuilder;
+			modelBuilder.Entity<Employer>(employer =>
+			{
+				employer.ToTable("Employers")
+					.HasBaseType<User>();
 
-			employer.ToTable("Employers");
-				//.HasBaseType<User>();
-			employer.HasKey(emp => emp.EmployerId);
+				employer.Property(emp => emp.Id)
+					.HasColumnName("Id");
 
-			employer.Property(emp => emp.EmployerId)
-				.HasColumnName("Id");
+				employer.Property(emp => emp.Name)
+					.HasColumnName("Name")
+					.IsRequired();
 
-			employer.Property(emp => emp.EmployerName)
-				.HasColumnName("Name")
-				.IsRequired();
+				employer.HasMany(emp => emp.Jobs)
+					.WithOne(j => j.Employer);
+			});
 
-			employer.Ignore(emp => emp.Name);
-
-			employer.HasMany(emp => emp.Jobs)
-				.WithOne(j => j.Employer);
-
-			return employer;
+			return modelBuilder;
 		}
 	}
 }

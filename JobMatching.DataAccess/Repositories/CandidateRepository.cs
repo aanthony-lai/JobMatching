@@ -20,7 +20,7 @@ public class CandidateRepository: ICandidateRepository
         return await _appDbContext.Candidates
             .AddTracking(withTracking)
             .Include(c => c.Competences)
-            .FirstOrDefaultAsync(u => u.CandidateId == candidateId);
+            .FirstOrDefaultAsync(u => u.Id == candidateId);
     }
 
     public async Task<List<Candidate>> GetCandidatesAsync(bool withTracking = true)
@@ -46,6 +46,6 @@ public class CandidateRepository: ICandidateRepository
 
     public async Task<bool> CandidateExistsAsync(Guid candidateId)
     {
-        return await _appDbContext.Candidates.AnyAsync(c => c.CandidateId == candidateId);
+        return await _appDbContext.Candidates.AnyAsync(c => c.Id == candidateId);
     }
 }

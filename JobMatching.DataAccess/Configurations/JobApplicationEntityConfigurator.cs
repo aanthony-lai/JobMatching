@@ -6,35 +6,36 @@ namespace JobMatching.DataAccess.Configurations
 {
 	public static class JobApplicationEntityConfigurator
 	{
-		public static EntityTypeBuilder<JobApplication> AddApplicationConfiguration(this EntityTypeBuilder<JobApplication> jobApplicationBuilder)
+		public static ModelBuilder AddJobApplicationConfiguration(this ModelBuilder modelBuilder)
 		{
-			var jobApplication = jobApplicationBuilder;
-
-			jobApplication.ToTable("JobApplications")
+			modelBuilder.Entity<JobApplication>(jobApplication =>
+			{
+				jobApplication.ToTable("JobApplications")
 				.HasKey(a => a.JobApplicationId);
 
-			jobApplication.Property(a => a.JobApplicationId)
-				.HasColumnName("Id");
+				jobApplication.Property(a => a.JobApplicationId)
+					.HasColumnName("Id");
 
-			jobApplication.HasOne(a => a.Candidate)
-				.WithMany()
-				.HasForeignKey(a => a.CandidateId)
-				.OnDelete(DeleteBehavior.Cascade);
+				jobApplication.HasOne(a => a.Candidate)
+					.WithMany()
+					.HasForeignKey(a => a.CandidateId)
+					.OnDelete(DeleteBehavior.Cascade);
 
-			jobApplication.HasOne(a => a.Job)
-				.WithMany()
-				.HasForeignKey(a => a.JobId)
-				.OnDelete(DeleteBehavior.NoAction);
+				jobApplication.HasOne(a => a.Job)
+					.WithMany()
+					.HasForeignKey(a => a.JobId)
+					.OnDelete(DeleteBehavior.NoAction);
 
-			jobApplication.Property(a => a.ApplicationDate)
-				.HasColumnName("ApplicationDate")
-				.IsRequired();
+				jobApplication.Property(a => a.ApplicationDate)
+					.HasColumnName("ApplicationDate")
+					.IsRequired();
 
-			jobApplication.Property(a => a.ApplicationStatus)
-				.HasColumnName("Status")
-				.IsRequired();
+				jobApplication.Property(a => a.ApplicationStatus)
+					.HasColumnName("Status")
+					.IsRequired();
+			});
 
-			return jobApplication;
+			return modelBuilder;
 		}
 	}
 }
