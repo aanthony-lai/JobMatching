@@ -25,7 +25,6 @@ namespace JobMatching.Domain.Entities
 
 			if (Competences.Contains(competence))
 				throw new DuplicateCompetenceException(
-					nameof(competence),
 					"The candidate already has this competence.");
 
 			Competences.Add(competence);

@@ -9,7 +9,7 @@ namespace JobMatching.DataAccess.Configurations.JunctionTables
 	{
 		public static ModelBuilder AddJunctionTablesConfiguration(this ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<JobCompetences>(jobCompetences =>
+			modelBuilder.Entity<JobCompetence>(jobCompetences =>
 			{
 				jobCompetences.ToTable("Job_Competences")
 					.HasKey(jc => new { jc.JobId, jc.CompetenceId });
@@ -21,7 +21,7 @@ namespace JobMatching.DataAccess.Configurations.JunctionTables
 					.HasColumnName("CompetenceId");
 			});
 
-			modelBuilder.Entity<CandidateCompetences>(candidateCompetences =>
+			modelBuilder.Entity<CandidateCompetence>(candidateCompetences =>
 			{
 				candidateCompetences.ToTable("Canidate_Competences")
 					.HasKey(cc => new { cc.CandidateId, cc.CompetenceId });

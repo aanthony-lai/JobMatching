@@ -2,6 +2,8 @@
 {
 	public class DuplicateCompetenceException: Exception
 	{
-		public DuplicateCompetenceException(string paramName, string message): base(message) { }
+		public DuplicateCompetenceException(): base() { }
+		public DuplicateCompetenceException(string message): base(message) { }
+		public DuplicateCompetenceException(string message, Exception inner): base(message, inner) { }
 	}
 }
