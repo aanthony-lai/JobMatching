@@ -1,12 +1,11 @@
 ﻿using JobMatching.DataAccess.Configurations;
 using JobMatching.DataAccess.Configurations.JunctionTables;
 using JobMatching.Domain.Entities;
-using JobMatching.Domain.Entities.JunctionTables;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Context
 {
-	public class AppDbContext: DbContext
+	public class AppDbContext : DbContext
 	{
 		public DbSet<User> Users { get; set; }
 		public DbSet<Candidate> Candidates { get; set; }

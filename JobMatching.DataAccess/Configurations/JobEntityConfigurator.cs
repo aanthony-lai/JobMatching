@@ -31,8 +31,8 @@ namespace JobMatching.DataAccess.Configurations
 					.WithMany(emp => emp.Jobs)
 					.HasForeignKey(j => j.EmployerId);
 
-				job.HasMany(j => j.Competences)
-					.WithMany(comp => comp.Jobs);
+				job.HasMany(j => j.JobCompetences)
+					.WithOne(comp => comp.Job);
 			});
 
 			return modelBuilder;

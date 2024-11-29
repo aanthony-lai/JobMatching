@@ -1,5 +1,6 @@
 ﻿using JobMatching.Application.DTO.Shared;
 using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 
 namespace JobMatching.Application.Utilities
 {
@@ -15,7 +16,19 @@ namespace JobMatching.Application.Utilities
 				competenceName: competence.CompetenceName);
 		}
 
+		public static CompetenceDTO MapJobCompetence(JobCompetence jobCompetence)
+		{
+			if (jobCompetence is null)
+				throw new ArgumentNullException("Cannot map null to CompetenceDTO", nameof(jobCompetence));
+
+			return new CompetenceDTO(
+				competenceId: jobCompetence.Competence.CompetenceId,
+				competenceName: jobCompetence.Competence.CompetenceName);
+		}
+
 		public static List<CompetenceDTO> MapCompetences(List<Competence> competences) => 
 			competences.Select(MapCompetence).ToList();
+		public static List<CompetenceDTO> MapJobCompetences(List<JobCompetence> jobCompetences) =>
+			jobCompetences.Select(MapJobCompetence).ToList();
 	}
 }

@@ -20,7 +20,8 @@ namespace JobMatching.DataAccess.Repositories
 			return await _appDbContext.Jobs
 				.AddTracking(withTracking)
 					.Include(j => j.Employer)
-					.Include(j => j.Competences)
+					.Include(j => j.JobCompetences)
+						.ThenInclude(jc => jc.Competence)
 				.FirstOrDefaultAsync(j => j.JobId == jobId);
 		}
 
@@ -29,7 +30,8 @@ namespace JobMatching.DataAccess.Repositories
 			return await _appDbContext.Jobs
 				.AddTracking(withTracking)
 					.Include(j => j.Employer)
-					.Include(j => j.Competences)
+					.Include(j => j.JobCompetences)
+						.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
 		}
 	}

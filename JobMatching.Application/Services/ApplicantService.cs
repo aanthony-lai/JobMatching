@@ -19,9 +19,24 @@ namespace JobMatching.Application.Services
 
 		public async Task<List<ApplicantDTO>> GetApplicantsByJobIdAsync(Guid jobId)
 		{
-			var applicants = await _jobApplicationRepository.GetApplicantsByJobIdAsync(jobId, withTracking: false);
+			var jobApplications = await _jobApplicationRepository.GetJobApplicationsByJobIdAsync(jobId, withTracking: false);
 
-			return ApplicantMapper.MapApplicants(applicants, _jobMatchService.CalculateMatchGrade);
+			List<ApplicantDTO> applicantsDto = new();
+
+			foreach (var jobApplication in jobApplications)
+			{
+				decimal criticalCompetencesMatchGrade = _jobMatchService
+					.CalculateMatchGrade(jobApplication, calculateForCriticalCompetences: true);
+
+				decimal nonCriticalCompetencesMatchGrade = _jobMatchService
+					.CalculateMatchGrade(jobApplication, calculateForCriticalCompetences: false);
+
+				applicantsDto.Add(ApplicantMapper.MapApplicant(
+					jobApplication, 
+					criticalCompetencesMatchGrade, 
+					nonCriticalCompetencesMatchGrade));
+			}
+			return applicantsDto;
 		}
 	}
 }

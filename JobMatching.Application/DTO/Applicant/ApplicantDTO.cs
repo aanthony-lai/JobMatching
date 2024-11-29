@@ -10,5 +10,6 @@ namespace JobMatching.Application.DTO.Applicant
 		EmployerJobDTO job,
 		DateTime applicationDate,
 		ApplicationStatus status,
-		decimal matchGrade);
+		decimal criticalCompetences,
+		decimal nonCricitalCompetences);
 }

@@ -23,12 +23,13 @@ namespace JobMatching.DataAccess.Repositories
 				.Include(a => a.Candidate)
 					.ThenInclude(c => c.Competences)
 				.Include(a => a.Job)
-					.ThenInclude(j => j.Competences)
+					.ThenInclude(j => j.JobCompetences)
+					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
 		}
 
 		//Should maybe be moved to an individual class?
-		public async Task<List<JobApplication>> GetApplicantsByJobIdAsync(Guid jobId, bool withTracking = true)
+		public async Task<List<JobApplication>> GetJobApplicationsByJobIdAsync(Guid jobId, bool withTracking = true)
 		{
 			return await _appDbContext.Applications
 				.AddTracking(withTracking)
@@ -36,11 +37,12 @@ namespace JobMatching.DataAccess.Repositories
 				.Include(a => a.Candidate)
 					.ThenInclude(c => c.Competences)
 				.Include(a => a.Job)
-					.ThenInclude(j => j.Competences)
+					.ThenInclude(j => j.JobCompetences)
+					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
 		}
 
-		//Should be removed
+		//Should be removed later
 		public async Task<List<JobApplication>> GetJobApplicationsAsync(bool withTracking = true)
 		{
 			return await _appDbContext.Applications
@@ -48,7 +50,8 @@ namespace JobMatching.DataAccess.Repositories
 				.Include(a => a.Candidate)
 					.ThenInclude(c => c.Competences)
 				.Include(a => a.Job)
-					.ThenInclude(j => j.Competences)
+					.ThenInclude(j => j.JobCompetences)
+					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
 		}
 	}

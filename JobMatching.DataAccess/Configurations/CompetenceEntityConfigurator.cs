@@ -1,6 +1,5 @@
 ﻿using JobMatching.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobMatching.DataAccess.Configurations
 {
@@ -20,8 +19,8 @@ namespace JobMatching.DataAccess.Configurations
 					.HasColumnName("Name")
 					.IsRequired();
 
-				competence.HasMany(c => c.Jobs)
-					.WithMany(j => j.Competences);
+				//competence.HasMany(c => c.Jobs)
+				//	.WithMany(j => j.Competences);
 
 				competence.HasMany(c => c.Candidates)
 					.WithMany(u => u.Competences);

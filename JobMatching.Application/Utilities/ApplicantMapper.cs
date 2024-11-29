@@ -5,10 +5,13 @@ namespace JobMatching.Application.Utilities
 {
 	public static class ApplicantMapper
 	{
-		public static ApplicantDTO MapApplicant(JobApplication jobApplication, decimal matchGrade)
+		public static ApplicantDTO MapApplicant(
+			JobApplication jobApplication, 
+			decimal criticalCompetences, 
+			decimal nonCricitalCompetences)
 		{
 			if (jobApplication is null)
-				throw new ArgumentNullException(nameof(jobApplication), "Job application cabbit be null when mapping to ApplicantDTO.");
+				throw new ArgumentNullException(nameof(jobApplication), "Cannot map null to ApplicantDTO.");
 
 			return new ApplicantDTO(
 				jobApplicationId: jobApplication.JobApplicationId,
@@ -16,14 +19,8 @@ namespace JobMatching.Application.Utilities
 				job: EmployerJobMapper.MapEmployerJob(jobApplication.Job),
 				applicationDate: jobApplication.ApplicationDate,
 				status: jobApplication.ApplicationStatus,
-				matchGrade: matchGrade);
-		}
-
-		public static List<ApplicantDTO> MapApplicants(List<JobApplication> jobApplications, Func<JobApplication, decimal> calculateMatchGrade)
-		{
-			return jobApplications
-				.Select(jobApplication => MapApplicant(jobApplication, calculateMatchGrade(jobApplication)))
-				.ToList();
+				criticalCompetences: criticalCompetences,
+				nonCricitalCompetences: nonCricitalCompetences);
 		}
 	}
 }

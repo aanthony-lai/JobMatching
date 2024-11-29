@@ -41,12 +41,10 @@ namespace JobMatching.API.Controllers
 
 		//Endpoint should be changed later on.
 		[HttpGet("{jobId}/applicants")]
-		public async Task<ActionResult<List<ApplicantDTO>>> GetEmployersAsync(Guid jobId)
+		public async Task<ActionResult<List<ApplicantDTO>>> GetApplicantsByJobIdAsync(Guid jobId)
 		{
 			if (jobId == Guid.Empty)
 				return BadRequest(JobMessages.InvalidJobId(jobId));
-
-
 
 			return await _applicantService.GetApplicantsByJobIdAsync(jobId);
 		}

@@ -15,7 +15,7 @@ namespace JobMatching.Application.Utilities
 				jobTitle: job.JobTitle,
 				salaryRangeTop: job.SalaryRange.SalaryRangeTop,
 				salaryRangeBottom: job.SalaryRange.SalaryRangeBottom,
-				competences: CompetenceMapper.MapCompetences(job.Competences));
+				competences: CompetenceMapper.MapJobCompetences(job.JobCompetences));
 		}
 
 		public static List<EmployerJobDTO> MapJobs(List<Job> jobs) => 
