@@ -54,7 +54,24 @@ namespace JobMatching.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> AddUserCompetence([FromBody] AddCandidateCompetenceDTO addCandidateCompetenceDto)
+		public async Task<ActionResult> CreateCandidate([FromBody] CreateCandidateDTO createCandidateDto)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			try
+			{
+				await _candidateService.CreateCandidateAsync(createCandidateDto);
+				return NoContent();
+			}
+			catch (Exception ex) 
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpPost("competences")]
+		public async Task<ActionResult> AddCandidateCompetence([FromBody] AddCandidateCompetenceDTO addCandidateCompetenceDto)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);

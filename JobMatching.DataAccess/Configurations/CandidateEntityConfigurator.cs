@@ -16,7 +16,7 @@ namespace JobMatching.DataAccess.Configurations
 				candidate.Property(c => c.Id)
 					.HasColumnName("Id");
 
-				candidate.OwnsOne(c => c.FullName, nameBuilder =>
+				candidate.OwnsOne(c => c.Name, nameBuilder =>
 				{
 					nameBuilder.Property(fn => fn.FirstName)
 						.HasColumnName("FirstName")

@@ -6,33 +6,46 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Repositories;
 
-public class CandidateRepository: ICandidateRepository
+public class CandidateRepository : ICandidateRepository
 {
-    private readonly AppDbContext _appDbContext;
+	private readonly AppDbContext _appDbContext;
 
-    public CandidateRepository(AppDbContext appDbContext)
-    {
-        _appDbContext = appDbContext;
-    }
-    
-    public async Task<Candidate?> GetCandidateByIdAsync(Guid candidateId, bool withTracking = true)
-    {
-        return await _appDbContext.Candidates
-            .AddTracking(withTracking)
-            .Include(c => c.Competences)
-            .FirstOrDefaultAsync(u => u.Id == candidateId);
-    }
+	public CandidateRepository(AppDbContext appDbContext)
+	{
+		_appDbContext = appDbContext;
+	}
 
-    public async Task<List<Candidate>> GetCandidatesAsync(bool withTracking = true)
-    {
-        return await _appDbContext.Candidates
-            .AddTracking(withTracking)
+	public async Task<Candidate?> GetCandidateByIdAsync(Guid candidateId, bool withTracking = true)
+	{
+		return await _appDbContext.Candidates
+			.AddTracking(withTracking)
+			.Include(c => c.Competences)
+			.FirstOrDefaultAsync(u => u.Id == candidateId);
+	}
+
+	public async Task<List<Candidate>> GetCandidatesAsync(bool withTracking = true)
+	{
+		return await _appDbContext.Candidates
+			.AddTracking(withTracking)
 			.Include(u => u.Competences)
 			.ToListAsync();
-    }
+	}
 
-    public async Task UpdateCandidateAsync(Candidate candidate)
-    {
+	public async Task SaveCandidateAsync(Candidate candidate)
+	{
+		try
+		{
+			await _appDbContext.Candidates.AddAsync(candidate);
+			await _appDbContext.SaveChangesAsync();
+		}
+		catch (Exception)
+		{
+			throw new InvalidOperationException("An error occured while trying to save the changes.");
+		}
+	}
+
+	public async Task UpdateCandidateAsync(Candidate candidate)
+	{
 		try
 		{
 			_appDbContext.Candidates.Update(candidate);
@@ -44,8 +57,8 @@ public class CandidateRepository: ICandidateRepository
 		}
 	}
 
-    public async Task<bool> CandidateExistsAsync(Guid candidateId)
-    {
-        return await _appDbContext.Candidates.AnyAsync(c => c.Id == candidateId);
-    }
+	public async Task<bool> CandidateExistsAsync(Guid candidateId)
+	{
+		return await _appDbContext.Candidates.AnyAsync(c => c.Id == candidateId);
+	}
 }

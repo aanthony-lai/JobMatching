@@ -1,11 +1,11 @@
 ﻿namespace JobMatching.Domain.ValueObjects.Name
 {
-    public class FullName
+    public class Name
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public FullName(string firstName, string lastName)
+        public Name(string firstName, string lastName)
         {
             if (string.IsNullOrWhiteSpace(firstName))
                 throw new ArgumentNullException(nameof(firstName), "First name can't be empty.");

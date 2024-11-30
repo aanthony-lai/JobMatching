@@ -5,7 +5,7 @@ namespace JobMatching.Domain.Entities
 {
 	public class Candidate : User
 	{
-		public FullName FullName { get; private set; } = null!;
+		public Name Name { get; private set; } = null!;
 		public List<Competence> Competences { get; private set; } = new List<Competence>();
 
 		protected Candidate() { }
@@ -13,7 +13,7 @@ namespace JobMatching.Domain.Entities
 		public Candidate(string firstName, string lastName, string email) :
 			base(email, isEmployer: false)
 		{
-			FullName = new FullName(firstName, lastName);
+			Name = new Name(firstName, lastName);
 		}
 
 		public void AddCompetence(Competence competence)

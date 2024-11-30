@@ -12,8 +12,8 @@ namespace JobMatching.Application.Utilities
 
 			return new CandidateDTO(
 				candidateId: candidate.Id,
-				firstName: candidate.FullName.FirstName,
-				lastName: candidate.FullName.LastName,
+				firstName: candidate.Name.FirstName,
+				lastName: candidate.Name.LastName,
 				competences: CompetenceMapper.MapCompetences(candidate.Competences));
 		}
 
