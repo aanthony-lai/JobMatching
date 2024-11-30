@@ -19,10 +19,6 @@ namespace JobMatching.Application.Services
 
 		public async Task<List<ApplicantDTO>> GetApplicantsByJobIdAsync(Guid jobId)
 		{
-			//var jobApplications = await _jobApplicationRepository.GetJobApplicationsByJobIdAsync(jobId, withTracking: false);
-
-			//List<ApplicantDTO> applicantsDto = new();
-
 			var jobApplications = await _jobApplicationRepository.GetJobApplicationsByJobIdAsync(jobId, withTracking: false);
 
 			var applicantsDto = jobApplications.Select(jobApplication =>
@@ -37,30 +33,6 @@ namespace JobMatching.Application.Services
 			}).ToList();
 
 			return applicantsDto;
-
-
-			//return jobApplications.Select(jobApplication =>
-			//{
-			//	ApplicantDTO applicantDto = ApplicantMapper.MapApplicant(jobApplication);
-
-			//	applicantDto.MeetsCriticalCompetences = _jobMatchService.DoesCandidateHaveAllCriticalCompetences(jobApplication);
-			//	applicantDto.CriticalCompetencesMatchSummary = _jobMatchService.GetCricitcalCompetencesMatchSummary(jobApplication);
-			//	applicantDto.OverallMatchGrade = _jobMatchService.CalculateOverallMatchGrade(jobApplication);
-
-			//	applicantsDto.Add(applicantDto);
-			//});
-			//return applicantsDto;
-			//foreach (var jobApplication in jobApplications)
-			//{
-			//	ApplicantDTO applicantDto = ApplicantMapper.MapApplicant(jobApplication); 
-
-			//	applicantDto.MeetsCriticalCompetences = _jobMatchService.DoesCandidateHaveAllCriticalCompetences(jobApplication);
-			//	applicantDto.CriticalCompetencesMatchSummary = _jobMatchService.GetCricitcalCompetencesMatchSummary(jobApplication);
-			//	applicantDto.OverallMatchGrade = _jobMatchService.CalculateOverallMatchGrade(jobApplication);
-
-			//	applicantsDto.Add(applicantDto);
-			//}
-
 		}
 	}
 }
