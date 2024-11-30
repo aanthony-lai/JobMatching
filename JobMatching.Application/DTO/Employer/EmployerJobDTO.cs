@@ -7,5 +7,6 @@ namespace JobMatching.Application.DTO.Employer
 		string jobTitle,
 		int? salaryRangeTop,
 		int? salaryRangeBottom,
-		List<CompetenceDTO> competences);
+		List<CompetenceDTO> criticalCompetences,
+		List<CompetenceDTO> nonCriticalCompetences);
 }

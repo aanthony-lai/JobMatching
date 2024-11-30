@@ -15,7 +15,8 @@ namespace JobMatching.Application.Utilities
 				jobTitle: job.JobTitle,
 				salaryRangeTop: job.SalaryRange.SalaryRangeTop,
 				salaryRangeBottom: job.SalaryRange.SalaryRangeBottom,
-				competences: CompetenceMapper.MapJobCompetences(job.JobCompetences));
+				criticalCompetences: CompetenceMapper.MapJobCompetences(job.JobCompetences.Where(comp => comp.IsCritical).ToList()),
+				nonCriticalCompetences: CompetenceMapper.MapJobCompetences(job.JobCompetences.Where(comp => !comp.IsCritical).ToList()));
 		}
 
 		public static List<EmployerJobDTO> MapJobs(List<Job> jobs) => 

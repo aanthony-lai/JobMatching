@@ -5,10 +5,7 @@ namespace JobMatching.Application.Utilities
 {
 	public static class ApplicantMapper
 	{
-		public static ApplicantDTO MapApplicant(
-			JobApplication jobApplication, 
-			decimal criticalCompetences, 
-			decimal nonCricitalCompetences)
+		public static ApplicantDTO MapApplicant(JobApplication jobApplication)
 		{
 			if (jobApplication is null)
 				throw new ArgumentNullException(nameof(jobApplication), "Cannot map null to ApplicantDTO.");
@@ -18,9 +15,7 @@ namespace JobMatching.Application.Utilities
 				candidate: CandidateMapper.MapCandidate(jobApplication.Candidate),
 				job: EmployerJobMapper.MapEmployerJob(jobApplication.Job),
 				applicationDate: jobApplication.ApplicationDate,
-				status: jobApplication.ApplicationStatus,
-				criticalCompetences: criticalCompetences,
-				nonCricitalCompetences: nonCricitalCompetences);
+				status: jobApplication.ApplicationStatus);
 		}
 	}
 }

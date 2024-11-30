@@ -9,7 +9,10 @@ namespace JobMatching.Application.DTO.Applicant
 		CandidateDTO candidate,
 		EmployerJobDTO job,
 		DateTime applicationDate,
-		ApplicationStatus status,
-		decimal criticalCompetences,
-		decimal nonCricitalCompetences);
+		ApplicationStatus status)
+	{
+		public bool MeetsCriticalCompetences { get; set; } = false;
+		public string CriticalCompetencesMatchSummary { get; set; } = string.Empty;
+		public decimal OverallMatchGrade { get; set; } = 0m;
+	}
 }
