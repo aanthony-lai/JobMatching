@@ -6,4 +6,5 @@ public interface IJobApplicationService
 {
 	Task<List<JobApplicationDTO>> GetJobApplicationsByCandidateIdAsync(Guid jobApplicationId);
 	Task<List<JobApplicationDTO>> GetJobApplicationsAsync();
+	Task CreateJobApplicationAsync(CreateJobApplicationDTO createJobApplicationDto);
 }

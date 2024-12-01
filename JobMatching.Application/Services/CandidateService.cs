@@ -8,17 +8,20 @@ using JobMatching.Domain.Entities;
 
 namespace JobMatching.Application.Services
 {
-    public class CandidateService : ICandidateService
+	public class CandidateService : ICandidateService
 	{
 		private readonly ICandidateRepository _candidateRepository;
 		private readonly ICompetenceRepository _competenceRepository;
+		private readonly IJobRepository _jobRepository;
 
 		public CandidateService(
 			ICandidateRepository candidateRepository,
-			ICompetenceRepository competenceRepository)
+			ICompetenceRepository competenceRepository,
+			IJobRepository jobRepository)
 		{
 			_candidateRepository = candidateRepository;
 			_competenceRepository = competenceRepository;
+			_jobRepository = jobRepository;
 		}
 
 		public async Task<CandidateDTO?> GetCandidateByIdAsync(Guid candidateId)
@@ -40,9 +43,9 @@ namespace JobMatching.Application.Services
 		{
 			await _candidateRepository.SaveCandidateAsync(
 				new Candidate(
-					candidateDto.firstName, 
-					candidateDto.lastName, 
-					candidateDto.email));
+					candidateDto.FirstName,
+					candidateDto.LastName,
+					candidateDto.Email));
 		}
 
 		public async Task AddCandidateCompetence(AddCandidateCompetenceDTO addCandidateCompetenceDto)

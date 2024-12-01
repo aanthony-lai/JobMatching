@@ -1,7 +1,6 @@
 ﻿using JobMatching.Domain.Entities.JunctionEntities;
 using JobMatching.Domain.Exceptions;
 using JobMatching.Domain.ValueObjects;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobMatching.Domain.Entities
 {
@@ -13,7 +12,7 @@ namespace JobMatching.Domain.Entities
 		public Guid EmployerId { get; private set; }
 		public Employer Employer { get; private set; } = null!;
 		public List<JobCompetence> JobCompetences { get; private set; } = new();
-		
+		public List<JobApplication> Applicants { get; private set; } = new();
 		protected Job() { }
 
 		public Job(string jobTitle, Guid employerId, SalaryRange? salaryRange = null)
@@ -34,11 +33,11 @@ namespace JobMatching.Domain.Entities
 		{
 			if (competence is null)
 				throw new ArgumentNullException(
-					"The competence that you're trying to add is null", 
+					"The competence that you're trying to add is null",
 					nameof(competence));
 			if (JobCompetences.Any(comp => comp.CompetenceId == competence.CompetenceId))
 				throw new DuplicateCompetenceException("The competence has already been added.");
-			
+
 			JobCompetences.Add(new JobCompetence(competence, this, isCritical));
 		}
 	}

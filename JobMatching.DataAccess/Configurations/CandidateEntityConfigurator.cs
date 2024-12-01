@@ -28,6 +28,10 @@ namespace JobMatching.DataAccess.Configurations
 
 				candidate.HasMany(c => c.Competences)
 					.WithMany(comp => comp.Candidates);
+
+				candidate.HasMany(c => c.JobApplications)
+					.WithOne(ja => ja.Candidate)
+					.HasForeignKey(ja => ja.CandidateId);
 			});
 
 			return modelBuilder;

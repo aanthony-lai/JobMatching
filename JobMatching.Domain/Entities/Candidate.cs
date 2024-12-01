@@ -7,6 +7,7 @@ namespace JobMatching.Domain.Entities
 	{
 		public Name Name { get; private set; } = null!;
 		public List<Competence> Competences { get; private set; } = new List<Competence>();
+		public List<JobApplication> JobApplications { get; private set; } = new();
 
 		protected Candidate() { }
 

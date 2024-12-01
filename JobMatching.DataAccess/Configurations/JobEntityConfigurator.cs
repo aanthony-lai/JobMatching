@@ -32,7 +32,12 @@ namespace JobMatching.DataAccess.Configurations
 					.HasForeignKey(j => j.EmployerId);
 
 				job.HasMany(j => j.JobCompetences)
-					.WithOne(comp => comp.Job);
+					.WithOne(comp => comp.Job)
+					.HasForeignKey(comp => comp.JobId);
+
+				job.HasMany(j => j.Applicants)
+					.WithOne(a => a.Job)
+					.HasForeignKey(a => a.JobId);
 			});
 
 			return modelBuilder;

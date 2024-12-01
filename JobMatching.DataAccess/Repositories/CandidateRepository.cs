@@ -20,6 +20,7 @@ public class CandidateRepository : ICandidateRepository
 		return await _appDbContext.Candidates
 			.AddTracking(withTracking)
 			.Include(c => c.Competences)
+			.Include(c => c.JobApplications)
 			.FirstOrDefaultAsync(u => u.Id == candidateId);
 	}
 
@@ -28,6 +29,7 @@ public class CandidateRepository : ICandidateRepository
 		return await _appDbContext.Candidates
 			.AddTracking(withTracking)
 			.Include(u => u.Competences)
+			.Include(u => u.JobApplications)
 			.ToListAsync();
 	}
 
@@ -48,6 +50,7 @@ public class CandidateRepository : ICandidateRepository
 	{
 		try
 		{
+			var test = _appDbContext.Entry(candidate).State;
 			_appDbContext.Candidates.Update(candidate);
 			await _appDbContext.SaveChangesAsync();
 		}

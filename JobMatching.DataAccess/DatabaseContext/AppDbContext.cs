@@ -11,7 +11,7 @@ namespace JobMatching.DataAccess.Context
 		public DbSet<Candidate> Candidates { get; set; }
 		public DbSet<Employer> Employers { get; set; }
 		public DbSet<Job> Jobs { get; set; }
-		public DbSet<JobApplication> Applications { get; set; }
+		public DbSet<JobApplication> JobApplications { get; set; }
 		public DbSet<Competence> Competences { get; set; }
 
 		public AppDbContext(DbContextOptions<AppDbContext> options)

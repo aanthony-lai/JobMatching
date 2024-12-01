@@ -10,19 +10,23 @@ namespace JobMatching.DataAccess.Configurations
 		{
 			modelBuilder.Entity<JobApplication>(jobApplication =>
 			{
-				jobApplication.ToTable("JobApplications")
-				.HasKey(a => a.JobApplicationId);
+				jobApplication
+					.ToTable("JobApplications")
+					.HasKey(a => a.JobApplicationId);
 
-				jobApplication.Property(a => a.JobApplicationId)
+				jobApplication
+					.Property(a => a.JobApplicationId)
 					.HasColumnName("Id");
 
-				jobApplication.HasOne(a => a.Candidate)
-					.WithMany()
+				jobApplication
+					.HasOne(a => a.Candidate)
+					.WithMany(c => c.JobApplications)
 					.HasForeignKey(a => a.CandidateId)
 					.OnDelete(DeleteBehavior.Cascade);
 
-				jobApplication.HasOne(a => a.Job)
-					.WithMany()
+				jobApplication
+					.HasOne(a => a.Job)
+					.WithMany(j => j.Applicants)
 					.HasForeignKey(a => a.JobId)
 					.OnDelete(DeleteBehavior.NoAction);
 

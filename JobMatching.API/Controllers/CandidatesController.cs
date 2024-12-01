@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
 {
-    [Route("api/candidates")]
+	[Route("api/candidates")]
 	[ApiController]
 	public class CandidatesController : ControllerBase
 	{
@@ -53,6 +53,23 @@ namespace JobMatching.API.Controllers
 			return Ok(await _jobApplicationService.GetJobApplicationsByCandidateIdAsync(candidateId));
 		}
 
+		[HttpPost("jobapplications")]
+		public async Task<ActionResult> CreateJobApplicationAsync([FromBody] CreateJobApplicationDTO createJobApplicationDTO)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			try
+			{
+				await _jobApplicationService.CreateJobApplicationAsync(createJobApplicationDTO);
+				return NoContent();
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
 		[HttpPost]
 		public async Task<ActionResult> CreateCandidate([FromBody] CreateCandidateDTO createCandidateDto)
 		{
@@ -64,7 +81,7 @@ namespace JobMatching.API.Controllers
 				await _candidateService.CreateCandidateAsync(createCandidateDto);
 				return NoContent();
 			}
-			catch (Exception ex) 
+			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}

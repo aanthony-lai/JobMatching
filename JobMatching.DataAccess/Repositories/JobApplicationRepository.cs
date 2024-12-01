@@ -17,7 +17,7 @@ namespace JobMatching.DataAccess.Repositories
 
 		public async Task<List<JobApplication>> GetJobApplicationsByCandidateIdAsync(Guid candidateId, bool withTracking = true)
 		{
-			return await _appDbContext.Applications
+			return await _appDbContext.JobApplications
 				.AddTracking(withTracking)
 				.Where(a => a.CandidateId == candidateId)
 				.Include(a => a.Candidate)
@@ -31,7 +31,7 @@ namespace JobMatching.DataAccess.Repositories
 		//Should maybe be moved to an individual class?
 		public async Task<List<JobApplication>> GetJobApplicationsByJobIdAsync(Guid jobId, bool withTracking = true)
 		{
-			return await _appDbContext.Applications
+			return await _appDbContext.JobApplications
 				.AddTracking(withTracking)
 				.Where(a => a.JobId == jobId)
 				.Include(a => a.Candidate)
@@ -45,7 +45,7 @@ namespace JobMatching.DataAccess.Repositories
 		//Should be removed later
 		public async Task<List<JobApplication>> GetJobApplicationsAsync(bool withTracking = true)
 		{
-			return await _appDbContext.Applications
+			return await _appDbContext.JobApplications
 				.AddTracking(withTracking)
 				.Include(a => a.Candidate)
 					.ThenInclude(c => c.Competences)
@@ -53,6 +53,13 @@ namespace JobMatching.DataAccess.Repositories
 					.ThenInclude(j => j.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
+		}
+
+		public async Task CreateJobApplicationAsync(JobApplication jobApplication)
+		{
+			_appDbContext.Attach(jobApplication);
+			await _appDbContext.JobApplications.AddAsync(jobApplication);
+			await _appDbContext.SaveChangesAsync();
 		}
 	}
 }
