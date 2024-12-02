@@ -1,6 +1,7 @@
 ﻿using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
+using JobMatching.Domain.Entities;
 
 namespace JobMatching.Application.Services
 {
@@ -28,6 +29,14 @@ namespace JobMatching.Application.Services
 			var employers = await _employerRepository.GetEmployersAsync(withTracking: false);
 
 			return EmployerMapper.MapEmployers(employers)!;
+		}
+
+		public async Task CreateEmployerAsync(CreateEmployerDTO createEmployerDto)
+		{
+			await _employerRepository.SaveEmployerAsync(
+				new Employer(
+					employerName: createEmployerDto.employerName,
+					email: createEmployerDto.email));
 		}
 	}
 }

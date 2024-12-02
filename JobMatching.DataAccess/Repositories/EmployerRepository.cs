@@ -34,5 +34,11 @@ namespace JobMatching.DataAccess.Repositories
 					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
 		}
+
+		public async Task SaveEmployerAsync(Employer employer)
+		{
+			await _appDbContext.Employers.AddAsync(employer);
+			await _appDbContext.SaveChangesAsync();
+		}
 	}
 }

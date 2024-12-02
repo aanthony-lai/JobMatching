@@ -34,6 +34,18 @@ namespace JobMatching.API.Controllers
 				: Ok(employerDto);
 		}
 
-		
+		[HttpPost]
+		public async Task<ActionResult> CreateEmployerAsync([FromBody] CreateEmployerDTO createEmployerDto)
+		{
+			try
+			{
+				await _employerService.CreateEmployerAsync(createEmployerDto);
+				return NoContent();
+			}
+			catch (Exception ex) 
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }

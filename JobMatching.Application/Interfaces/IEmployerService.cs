@@ -6,4 +6,5 @@ public interface IEmployerService
 {
 	Task<EmployerDTO?> GetEmployerByIdAsync(Guid employerId);
 	Task<List<EmployerDTO>> GetEmployersAsync();
+	Task CreateEmployerAsync(CreateEmployerDTO createEmployerDto);
 }
