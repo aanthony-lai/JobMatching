@@ -1,6 +1,8 @@
 ﻿using JobMatching.Application.DTO.Job;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
+using JobMatching.Domain.Entities;
+using JobMatching.Domain.ValueObjects;
 
 namespace JobMatching.Application.Services
 {
@@ -24,6 +26,14 @@ namespace JobMatching.Application.Services
 		{
 			var jobs = await _jobRepository.GetJobsAsync(withTracking: false);
 			return JobMapper.MapJobs(jobs);
+		}
+
+		public async Task PostJobAsync(CreateJobDTO createJobDto)
+		{
+			await _jobRepository.SaveJobAsync(new Job(
+				jobTitle: createJobDto.jobTitle,
+				employerId: createJobDto.EmployerId,
+				salaryRange: createJobDto.salaryRange ?? null));
 		}
 	}
 }

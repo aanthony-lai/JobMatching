@@ -14,7 +14,17 @@ namespace JobMatching.DataAccess.Repositories
 		{
 			_appDbContext = appDbContext;
 		}
-	
+
+		public async Task<Job?> GetJobByIdAsync(Guid jobId, bool withTracking = true)
+		{
+			return await _appDbContext.Jobs
+				.AddTracking(withTracking)
+					.Include(j => j.Employer)
+					.Include(j => j.JobCompetences)
+					.ThenInclude(jc => jc.Competence)
+				.FirstOrDefaultAsync(j => j.Id == jobId);
+		}
+
 		public async Task<List<Job>> GetJobsByEmployerIdAsync(Guid employerId, bool withTracking = true)
 		{
 			return await _appDbContext.Jobs
@@ -34,6 +44,12 @@ namespace JobMatching.DataAccess.Repositories
 					.Include(j => j.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
+		}
+
+		public async Task SaveJobAsync(Job job)
+		{
+			await _appDbContext.Jobs.AddAsync(job);
+			await _appDbContext.SaveChangesAsync();
 		}
 
 		public async Task<bool> JobExistsAsync(Guid jobId)

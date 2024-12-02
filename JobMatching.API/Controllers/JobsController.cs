@@ -31,5 +31,22 @@ namespace JobMatching.API.Controllers
 		{
 			return Ok(await _jobService.GetJobsAsync());
 		}
+
+		[HttpPost]
+		public async Task<ActionResult> PostJobAsync([FromBody] CreateJobDTO createJobDto)
+		{
+			if (createJobDto.EmployerId == Guid.Empty)
+				return BadRequest("Invalid employer ID.");
+
+			try
+			{
+				await _jobService.PostJobAsync(createJobDto);
+				return NoContent();
+			}
+			catch (Exception ex) 
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }
