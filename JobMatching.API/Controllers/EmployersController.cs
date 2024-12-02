@@ -38,15 +38,5 @@ namespace JobMatching.API.Controllers
 				? NotFound($"Employer with the specified {employerId} could not be found.")
 				: Ok(employerDto);
 		}
-
-		//Endpoint should be changed later on.
-		[HttpGet("{jobId}/applicants")]
-		public async Task<ActionResult<List<ApplicantDTO>>> GetApplicantsByJobIdAsync(Guid jobId)
-		{
-			if (jobId == Guid.Empty)
-				return BadRequest(JobMessages.InvalidJobId(jobId));
-
-			return await _applicantService.GetApplicantsByJobIdAsync(jobId);
-		}
 	}
 }

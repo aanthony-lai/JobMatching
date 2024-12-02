@@ -57,6 +57,7 @@ namespace JobMatching.DataAccess.Repositories
 
 		public async Task CreateJobApplicationAsync(JobApplication jobApplication)
 		{
+			jobApplication.MetaData.SetUpdatedAt();
 			_appDbContext.Attach(jobApplication);
 			await _appDbContext.JobApplications.AddAsync(jobApplication);
 			await _appDbContext.SaveChangesAsync();

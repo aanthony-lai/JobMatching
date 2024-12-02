@@ -11,14 +11,11 @@ namespace JobMatching.API.Controllers
 	public class CandidatesController : ControllerBase
 	{
 		private readonly ICandidateService _candidateService;
-		private readonly IJobApplicationService _jobApplicationService;
 
 		public CandidatesController(
-			ICandidateService candidateService,
-			IJobApplicationService jobApplicationService)
+			ICandidateService candidateService)
 		{
 			_candidateService = candidateService;
-			_jobApplicationService = jobApplicationService;
 		}
 
 		//This one should probably be removed later.
@@ -39,35 +36,6 @@ namespace JobMatching.API.Controllers
 			return candidate is null
 				? NotFound(CandidateMessages.CandidateNotFound(candidateId))
 				: Ok(candidate);
-		}
-
-		[HttpGet("{candidateId}/jobapplications")]
-		public async Task<ActionResult<List<JobApplicationDTO>>> GetJobApplicationsByCandidateId(Guid candidateId)
-		{
-			if (candidateId == Guid.Empty)
-				return BadRequest(CandidateMessages.InvalidCandidateId(candidateId));
-
-			if (!await _candidateService.CandidateExistsAsync(candidateId))
-				return NotFound(CandidateMessages.CandidateNotFound(candidateId));
-
-			return Ok(await _jobApplicationService.GetJobApplicationsByCandidateIdAsync(candidateId));
-		}
-
-		[HttpPost("jobapplications")]
-		public async Task<ActionResult> CreateJobApplicationAsync([FromBody] CreateJobApplicationDTO createJobApplicationDTO)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
-
-			try
-			{
-				await _jobApplicationService.CreateJobApplicationAsync(createJobApplicationDTO);
-				return NoContent();
-			}
-			catch (Exception e)
-			{
-				return BadRequest(e.Message);
-			}
 		}
 
 		[HttpPost]

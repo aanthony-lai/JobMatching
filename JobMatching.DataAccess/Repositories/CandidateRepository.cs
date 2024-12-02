@@ -50,7 +50,7 @@ public class CandidateRepository : ICandidateRepository
 	{
 		try
 		{
-			var test = _appDbContext.Entry(candidate).State;
+			candidate.MetaData.SetUpdatedAt();
 			_appDbContext.Candidates.Update(candidate);
 			await _appDbContext.SaveChangesAsync();
 		}
