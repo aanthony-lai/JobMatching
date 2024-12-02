@@ -1,4 +1,6 @@
-﻿namespace JobMatching.Domain.ValueObjects
+﻿using JobMatching.Domain.Exceptions;
+
+namespace JobMatching.Domain.ValueObjects
 {
 	public class SalaryRange
 	{
@@ -8,7 +10,7 @@
 		public SalaryRange(int salaryRangeTop, int salaryRangeBottom)
 		{
 			if (salaryRangeTop < salaryRangeBottom)
-				throw new ArgumentException("Invalid salary range.");
+				throw new InvalidSalaryRangeException("Invalid salary range.");
 
 			SalaryRangeTop = salaryRangeTop;
 			SalaryRangeBottom = salaryRangeBottom;

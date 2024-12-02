@@ -30,10 +30,7 @@ namespace JobMatching.Application.Services
 
 		public async Task PostJobAsync(CreateJobDTO createJobDto)
 		{
-			await _jobRepository.SaveJobAsync(new Job(
-				jobTitle: createJobDto.jobTitle,
-				employerId: createJobDto.EmployerId,
-				salaryRange: createJobDto.salaryRange ?? null));
+			await _jobRepository.SaveJobAsync(CreateJobDTOMapper.MapCreateJobDTO(createJobDto));
 		}
 	}
 }
