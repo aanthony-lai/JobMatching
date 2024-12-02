@@ -9,11 +9,12 @@ namespace JobMatching.Domain.Entities
 	{
 		public Guid Id { get; init; }
 		public Name Name { get; private set; } = null!;
-		public List<Competence> Competences { get; private set; } = new List<Competence>();
+		public List<Competence> Competences { get; private set; } = new();
 		public List<JobApplication> JobApplications { get; private set; } = new();
+		public List<Language> LanguageSkills { get; private set; } = new();
 		public User User { get; init; }
 		public Guid UserId { get; init; }
-		public MetaData MetaData { get; private set; }
+		public MetaData MetaData { get; }
 
 		protected Candidate() { }
 		public Candidate(string firstName, string lastName, string email)
