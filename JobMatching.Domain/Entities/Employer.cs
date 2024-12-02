@@ -1,39 +1,32 @@
-﻿namespace JobMatching.Domain.Entities
+﻿using JobMatching.Domain.Interfaces;
+using JobMatching.Domain.ValueObjects;
+using JobMatching.Domain.ValueObjects.Name;
+
+namespace JobMatching.Domain.Entities
 {
-	public class Employer : User
+	public class Employer: IEntity
 	{
-		private string _name;
-
-		public string Name
-		{
-			get => _name;
-			private set
-			{
-				if (value is null || string.IsNullOrEmpty(value))
-					throw new ArgumentException(nameof(Name),
-						"Employer name cannot be null or empty.");
-
-				_name = value;
-			}
-		}
+		public Guid Id { get; init; }
+		public Name Name { get; private set; }
 		public List<Job> Jobs { get; private set; } = new List<Job>();
+		public User User { get; init; }
+		public Guid UserId { get; init; }
+		public MetaData MetaData { get; private set; }
 
 		protected Employer() { }
-
-		public Employer(string employerName, string email) :
-			base(email, isEmployer: true)
+		public Employer(string employerName, string email)
 		{
-			Name = employerName;
+			Id = Guid.NewGuid();
+			Name = Name.SetEmployerName(employerName);
+			User = User.CreateUserAsEmployer(email, name: employerName);
+			UserId = User.Id;
+			MetaData = new MetaData();
 		}
 
-		public void UpdateEmployerName(string updatedEmployerName)
-		{
-			if (string.IsNullOrEmpty(updatedEmployerName))
-				throw new ArgumentException(nameof(updatedEmployerName),
-					"Employer name can't be empty.");
+		public string GetName() => Name.EmployerName!;
 
-			_name = updatedEmployerName;
-		}
+		public void SetEmployerName(string employerName) => 
+			Name.SetEmployerName(employerName);
 
 		public void CreateJob(Job job) => Jobs.Add(job);
 	}

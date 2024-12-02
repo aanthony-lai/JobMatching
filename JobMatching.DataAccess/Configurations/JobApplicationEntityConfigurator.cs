@@ -12,10 +12,10 @@ namespace JobMatching.DataAccess.Configurations
 			{
 				jobApplication
 					.ToTable("JobApplications")
-					.HasKey(a => a.JobApplicationId);
+					.HasKey(a => a.Id);
 
 				jobApplication
-					.Property(a => a.JobApplicationId)
+					.Property(a => a.Id)
 					.HasColumnName("Id");
 
 				jobApplication
@@ -37,6 +37,19 @@ namespace JobMatching.DataAccess.Configurations
 				jobApplication.Property(a => a.ApplicationStatus)
 					.HasColumnName("Status")
 					.IsRequired();
+
+				jobApplication.OwnsOne(a => a.MetaData, metaDataBuilder =>
+				{
+					metaDataBuilder.Property(md => md.CreatedAt)
+						.HasColumnName("CreatedAt")
+						.IsRequired();
+					metaDataBuilder.Property(md => md.UpdatedAt)
+						.HasColumnName("UpdatedAt")
+						.IsRequired();
+					metaDataBuilder.Property(md => md.IsDeleted)
+						.HasColumnName("IsDeleted")
+						.IsRequired();
+				});
 			});
 
 			return modelBuilder;

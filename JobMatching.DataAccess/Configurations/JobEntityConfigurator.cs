@@ -10,9 +10,9 @@ namespace JobMatching.DataAccess.Configurations
 			modelBuilder.Entity<Job>(job =>
 			{
 				job.ToTable("Jobs")
-				.HasKey(j => j.JobId);
+				.HasKey(j => j.Id);
 
-				job.Property(j => j.JobId)
+				job.Property(j => j.Id)
 					.HasColumnName("Id");
 
 				job.Property(j => j.JobTitle)
@@ -38,6 +38,19 @@ namespace JobMatching.DataAccess.Configurations
 				job.HasMany(j => j.Applicants)
 					.WithOne(a => a.Job)
 					.HasForeignKey(a => a.JobId);
+
+				job.OwnsOne(j => j.MetaData, metaDataBuilder =>
+				{
+					metaDataBuilder.Property(md => md.CreatedAt)
+						.HasColumnName("CreatedAt")
+						.IsRequired();
+					metaDataBuilder.Property(md => md.UpdatedAt)
+						.HasColumnName("UpdatedAt")
+						.IsRequired();
+					metaDataBuilder.Property(md => md.IsDeleted)
+						.HasColumnName("IsDeleted")
+						.IsRequired();
+				});
 			});
 
 			return modelBuilder;

@@ -22,7 +22,7 @@ namespace JobMatching.DataAccess.Repositories
 					.Include(j => j.Employer)
 					.Include(j => j.JobCompetences)
 						.ThenInclude(jc => jc.Competence)
-				.FirstOrDefaultAsync(j => j.JobId == jobId);
+				.FirstOrDefaultAsync(j => j.Id == jobId);
 		}
 
 		public async Task<List<Job>> GetJobsAsync(bool withTracking = false)
@@ -37,7 +37,7 @@ namespace JobMatching.DataAccess.Repositories
 
 		public async Task<bool> JobExistsAsync(Guid jobId)
 		{
-			return await _appDbContext.Jobs.AnyAsync(j => j.JobId == jobId);
+			return await _appDbContext.Jobs.AnyAsync(j => j.Id == jobId);
 		}
 	}
 }

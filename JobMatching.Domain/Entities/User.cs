@@ -1,30 +1,36 @@
-﻿namespace JobMatching.Domain.Entities
-{
-	public class User
-	{
-		private string _email;
+﻿using JobMatching.Domain.Interfaces;
+using JobMatching.Domain.Types;
+using JobMatching.Domain.ValueObjects;
+using JobMatching.Domain.ValueObjects.Name;
 
+namespace JobMatching.Domain.Entities
+{
+	public class User : IEntity
+	{
 		public Guid Id { get; init; }
-		public string Email { get; private set; }
-		public bool IsEmployer { get; init; }
+		public Name Name { get; private set; }
+		public Email Email { get; private set; }
+		public UserType UserType { get; init; }
+		public MetaData MetaData { get; private set; } = null!;
 
 		protected User() { }
-		public User(
-			string email,
-			bool isEmployer)
+		private User(string emailAddress, string name, UserType userType)
 		{
-			if (string.IsNullOrEmpty(email))
-				throw new ArgumentNullException(nameof(email),
-					"Email can't be empty.");
-			if (!email.Contains("@"))
-				throw new ArgumentException(nameof(email),
-					"You have provided an invalid email.");
-
 			Id = Guid.NewGuid();
-			Email = email;
-			IsEmployer = isEmployer;
+			Email = new Email(emailAddress);
+			Name = new Name() { UserName = name };
+			UserType = userType;
+			MetaData = new MetaData();
 		}
 
-		protected void SetEmail(string email) => Email = email;
+		public static User CreateUserAsEmployer(string emailAddress, string name) =>
+			new User(emailAddress, name, userType: UserType.Employer);
+		public static User CreateUserCandidate(string emailAddress, string name) =>
+			new User(emailAddress, name, userType: UserType.Candidate);
+
+		public void SetEmail(string email)
+		{
+			Email = new Email(email);
+		}
 	}
 }

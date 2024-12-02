@@ -11,7 +11,7 @@ namespace JobMatching.DataAccess.Configurations
 			modelBuilder.Entity<Candidate>(candidate =>
 			{
 				candidate.ToTable("Candidates")
-					.HasBaseType<User>();
+					.HasKey(c => c.Id);
 
 				candidate.Property(c => c.Id)
 					.HasColumnName("Id");
@@ -24,6 +24,7 @@ namespace JobMatching.DataAccess.Configurations
 					nameBuilder.Property(ln => ln.LastName)
 						.HasColumnName("LastName")
 						.IsRequired();
+					nameBuilder.Ignore(n => n.UserName);
 				});
 
 				candidate.HasMany(c => c.Competences)
@@ -32,6 +33,23 @@ namespace JobMatching.DataAccess.Configurations
 				candidate.HasMany(c => c.JobApplications)
 					.WithOne(ja => ja.Candidate)
 					.HasForeignKey(ja => ja.CandidateId);
+
+				candidate.HasOne(c => c.User)
+					.WithOne()
+					.HasForeignKey<Candidate>(c => c.UserId);
+
+				candidate.OwnsOne(c => c.MetaData, metaDataBuilder =>
+				{
+					metaDataBuilder.Property(md => md.CreatedAt)
+						.HasColumnName("CreatedAt")
+						.IsRequired();
+					metaDataBuilder.Property(md => md.UpdatedAt)
+						.HasColumnName("UpdatedAt")
+						.IsRequired();
+					metaDataBuilder.Property(md => md.IsDeleted)
+						.HasColumnName("IsDeleted")
+						.IsRequired();
+				});
 			});
 
 			return modelBuilder;

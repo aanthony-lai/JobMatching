@@ -24,17 +24,17 @@ namespace JobMatching.Application.Services
 			_candidateRepository = candidateRepository;
 		}
 
-		public async Task<List<JobApplicationDTO>> GetJobApplicationsByCandidateIdAsync(Guid candidateId)
-		{
-			var jobApplications = await _jobApplicationRepository.GetJobApplicationsByCandidateIdAsync(candidateId, withTracking: false);
-
-			return JobApplicationMapper.MapJobApplications(jobApplications);
-		}
-
 		//Only in prototype
 		public async Task<List<JobApplicationDTO>> GetJobApplicationsAsync()
 		{
 			var jobApplications = await _jobApplicationRepository.GetJobApplicationsAsync(withTracking: false);
+
+			return JobApplicationMapper.MapJobApplications(jobApplications);
+		}
+
+		public async Task<List<JobApplicationDTO>> GetJobApplicationsByCandidateIdAsync(Guid candidateId)
+		{
+			var jobApplications = await _jobApplicationRepository.GetJobApplicationsByCandidateIdAsync(candidateId, withTracking: false);
 
 			return JobApplicationMapper.MapJobApplications(jobApplications);
 		}

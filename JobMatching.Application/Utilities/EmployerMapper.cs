@@ -12,7 +12,7 @@ namespace JobMatching.Application.Utilities
 
 			return new EmployerDTO(
 				employerId: employer.Id,
-				employerName: employer.Name,
+				employerName: employer.Name.EmployerName,
 				jobs: EmployerJobMapper.MapJobs(employer.Jobs));
 		}
 

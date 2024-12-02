@@ -56,7 +56,7 @@ namespace JobMatching.Domain.DomainServices
 
 		private int CalculateMatchingCompetences(List<Competence> candidateCompetences, List<Competence> jobCompetences) =>
 			jobCompetences.Count(jobCompetence => candidateCompetences
-				.Any(userCompetence => userCompetence.CompetenceId == jobCompetence.CompetenceId));
+				.Any(userCompetence => userCompetence.Id == jobCompetence.Id));
 
 		private bool ValidateCompetencesAreNotEmpty(JobApplication jobApplication, bool checkForCriticalCompetences)
 		{

@@ -1,10 +1,14 @@
-﻿namespace JobMatching.Domain.Entities
+﻿using JobMatching.Domain.Interfaces;
+using JobMatching.Domain.ValueObjects;
+
+namespace JobMatching.Domain.Entities
 {
-	public class Competence
+    public class Competence: IEntity
 	{
-		public Guid CompetenceId { get; init; }
+		public Guid Id { get; init; }
 		public string CompetenceName { get; private set; }
 		public List<Candidate> Candidates { get; private set; } = new List<Candidate>();
+		public MetaData MetaData { get; private set; } = null!;
 
 		protected Competence() { }
 
@@ -12,9 +16,10 @@
 		{
 			if (string.IsNullOrWhiteSpace(competenceName))
 				throw new ArgumentException(nameof(competenceName), "Competence name can't empty.");
-
-			CompetenceId = Guid.NewGuid();
+			
+			Id = Guid.NewGuid();
 			CompetenceName = competenceName;
+			MetaData = new MetaData();
 		}
 	}
 }

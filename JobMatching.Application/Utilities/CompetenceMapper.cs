@@ -12,7 +12,7 @@ namespace JobMatching.Application.Utilities
 				throw new ArgumentNullException("Cannot map null to CompetenceDTO", nameof(competence));
 
 			return new CompetenceDTO(
-				competenceId: competence.CompetenceId,
+				competenceId: competence.Id,
 				competenceName: competence.CompetenceName);
 		}
 
@@ -22,7 +22,7 @@ namespace JobMatching.Application.Utilities
 				throw new ArgumentNullException("Cannot map null to CompetenceDTO", nameof(jobCompetence));
 
 			return new CompetenceDTO(
-				competenceId: jobCompetence.Competence.CompetenceId,
+				competenceId: jobCompetence.Competence.Id,
 				competenceName: jobCompetence.Competence.CompetenceName);
 		}
 
