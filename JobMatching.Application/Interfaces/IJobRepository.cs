@@ -4,7 +4,7 @@ namespace JobMatching.Application.Interfaces;
 
 public interface IJobRepository
 {
-	Task<Job?> GetJobByIdAsync(Guid jobId, bool withTracking = false);
-	Task<List<Job>> GetJobsAsync(bool withTracking = false);
+	Task<List<Job>> GetJobsByEmployerIdAsync(Guid employerId, bool withTracking = true);
+	Task<List<Job>> GetJobsAsync(bool withTracking = true);
 	Task<bool> JobExistsAsync(Guid jobId);
 }

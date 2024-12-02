@@ -14,13 +14,10 @@ namespace JobMatching.Application.Services
 			_jobRepository = jobRepository;
 		}
 
-		public async Task<JobDTO?> GetJobByIdAsync(Guid jobId)
+		public async Task<List<JobDTO>> GetJobsByEmployerIdAsync(Guid employerId)
 		{
-			var job = await _jobRepository.GetJobByIdAsync(jobId, withTracking: false);
-			if (job == null)
-				return null;
-
-			return JobMapper.MapJob(job);
+			var jobs = await _jobRepository.GetJobsByEmployerIdAsync(employerId, withTracking: false);
+			return JobMapper.MapJobs(jobs);
 		}
 
 		public async Task<List<JobDTO>> GetJobsAsync()

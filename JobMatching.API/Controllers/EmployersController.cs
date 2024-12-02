@@ -1,7 +1,5 @@
-﻿using JobMatching.Application.DTO.Applicant;
-using JobMatching.Application.DTO.Employer;
+﻿using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Interfaces;
-using JobMatching.Common.SystemMessages.JobMessages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -11,13 +9,10 @@ namespace JobMatching.API.Controllers
 	public class EmployersController : ControllerBase
 	{
 		private readonly IEmployerService _employerService;
-		private readonly IApplicantService _applicantService;
 
-		public EmployersController(IEmployerService employerService,
-			IApplicantService applicantService)
+		public EmployersController(IEmployerService employerService)
 		{
 			_employerService = employerService;
-			_applicantService = applicantService;
 		}
 
 		[HttpGet]

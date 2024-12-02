@@ -16,17 +16,14 @@ namespace JobMatching.API.Controllers
 			_jobService = jobService;
 		}
 
-		[HttpGet("{jobId}")]
-		public async Task<ActionResult<JobDTO>> GetJobByIdAsync(Guid jobId)
+		[HttpGet("{employerId}")]
+		public async Task<ActionResult<List<JobDTO>>> GetJobsByEmployerIdAsync(Guid employerId)
 		{
-			if (jobId == Guid.Empty)
-				return BadRequest(JobMessages.InvalidJobId(jobId));
+			if (employerId == Guid.Empty)
+				return BadRequest(JobMessages.InvalidJobId(employerId));
 
-			var job = await _jobService.GetJobByIdAsync(jobId);
-
-			return job is null
-				? NotFound(JobMessages.JobNotFound(jobId))
-				: Ok(job);
+			var jobsDto = await _jobService.GetJobsByEmployerIdAsync(employerId);
+			return Ok(jobsDto);
 		}
 
 		[HttpGet]

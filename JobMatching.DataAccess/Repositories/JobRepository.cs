@@ -15,23 +15,24 @@ namespace JobMatching.DataAccess.Repositories
 			_appDbContext = appDbContext;
 		}
 	
-		public async Task<Job?> GetJobByIdAsync(Guid jobId, bool withTracking = false)
+		public async Task<List<Job>> GetJobsByEmployerIdAsync(Guid employerId, bool withTracking = true)
 		{
 			return await _appDbContext.Jobs
 				.AddTracking(withTracking)
+				.Where(j => j.EmployerId == employerId)
 					.Include(j => j.Employer)
 					.Include(j => j.JobCompetences)
-						.ThenInclude(jc => jc.Competence)
-				.FirstOrDefaultAsync(j => j.Id == jobId);
+					.ThenInclude(jc => jc.Competence)
+				.ToListAsync();
 		}
 
-		public async Task<List<Job>> GetJobsAsync(bool withTracking = false)
+		public async Task<List<Job>> GetJobsAsync(bool withTracking = true)
 		{
 			return await _appDbContext.Jobs
 				.AddTracking(withTracking)
 					.Include(j => j.Employer)
 					.Include(j => j.JobCompetences)
-						.ThenInclude(jc => jc.Competence)
+					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
 		}
 

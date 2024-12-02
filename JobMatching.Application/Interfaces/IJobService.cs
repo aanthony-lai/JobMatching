@@ -4,6 +4,6 @@ namespace JobMatching.Application.Interfaces;
 
 public interface IJobService
 {
-	Task<JobDTO?> GetJobByIdAsync(Guid jobId);
+	Task<List<JobDTO>> GetJobsByEmployerIdAsync(Guid employerId);
 	Task<List<JobDTO>> GetJobsAsync();
 }
