@@ -26,17 +26,23 @@ namespace JobMatching.DataAccess.Configurations.JunctionTables
 				jobCompetences.HasOne(jc => jc.Competence);
 			});
 
-			//modelBuilder.Entity<CandidateCompetence>(candidateCompetences =>
-			//{
-			//	candidateCompetences.ToTable("Canidate_Competences")
-			//		.HasKey(cc => new { cc.CandidateId, cc.CompetenceId });
+			modelBuilder.Entity<CandidateLanguage>(candidateLanguages =>
+			{
+				candidateLanguages.ToTable("Candidate_Languages")
+					.HasKey(cl => new { cl.CandidateId, cl.LanguageId });
 
-			//	candidateCompetences.Property(cc => cc.CandidateId)
-			//		.HasColumnName("CandidateId");
+				candidateLanguages.Property(cl => cl.CandidateId)
+					.HasColumnName("CandidateId");
 
-			//	candidateCompetences.Property(cc => cc.CompetenceId)
-			//		.HasColumnName("CompetenceId");
-			//});
+				candidateLanguages.Property(cl => cl.LanguageId)
+					.HasColumnName("LanguageId");
+
+				candidateLanguages.HasOne(cl => cl.Language);
+
+				candidateLanguages.Property(cl => cl.ProficiencyLevel)
+					.HasColumnName("ProficiencyLevel")
+					.HasConversion<int>();
+			});
 
 			return modelBuilder;
 		}

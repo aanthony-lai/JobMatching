@@ -1,4 +1,5 @@
-﻿using JobMatching.Domain.Exceptions;
+﻿using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Domain.Exceptions;
 using JobMatching.Domain.Interfaces;
 using JobMatching.Domain.ValueObjects;
 using JobMatching.Domain.ValueObjects.Name;
@@ -11,7 +12,7 @@ namespace JobMatching.Domain.Entities
 		public Name Name { get; private set; } = null!;
 		public List<Competence> Competences { get; private set; } = new();
 		public List<JobApplication> JobApplications { get; private set; } = new();
-		public List<Language> LanguageSkills { get; private set; } = new();
+		public List<CandidateLanguage> Languages { get; private set; } = new();
 		public User User { get; init; }
 		public Guid UserId { get; init; }
 		public MetaData MetaData { get; }
@@ -37,6 +38,14 @@ namespace JobMatching.Domain.Entities
 					"The candidate already has this competence.");
 
 			Competences.Add(competence);
+		}
+
+		public void AddLanguageAndProficiency(CandidateLanguage candidateLanguage)
+		{
+			if (Languages.Any(l => l.LanguageId == candidateLanguage.LanguageId))
+				throw new DuplicateLanguageException("Language has already been added.");
+
+			Languages.Add(candidateLanguage);
 		}
 	}
 }

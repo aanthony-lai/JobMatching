@@ -13,6 +13,7 @@ namespace JobMatching.DataAccess.Context
 		public DbSet<Job> Jobs { get; set; }
 		public DbSet<JobApplication> JobApplications { get; set; }
 		public DbSet<Competence> Competences { get; set; }
+		public DbSet<Language> Languages { get; set; }
 
 		public AppDbContext(DbContextOptions<AppDbContext> options)
 			: base(options)
@@ -29,6 +30,7 @@ namespace JobMatching.DataAccess.Context
 			modelBuilder.AddJobConfiguration();
 			modelBuilder.AddJobApplicationConfiguration();
 			modelBuilder.AddCompetenceConfiguration();
+			modelBuilder.AddLanguageConfiguration();
 			modelBuilder.AddJunctionTablesConfiguration();
 		}
 	}

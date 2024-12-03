@@ -21,6 +21,8 @@ public class CandidateRepository : ICandidateRepository
 			.AddTracking(withTracking)
 			.Include(c => c.Competences)
 			.Include(c => c.JobApplications)
+			.Include(c => c.Languages)
+				.ThenInclude(lan => lan.Language)
 			.FirstOrDefaultAsync(u => u.Id == candidateId);
 	}
 
@@ -28,36 +30,24 @@ public class CandidateRepository : ICandidateRepository
 	{
 		return await _appDbContext.Candidates
 			.AddTracking(withTracking)
-			.Include(u => u.Competences)
-			.Include(u => u.JobApplications)
+			.Include(c => c.Competences)
+			.Include(c => c.JobApplications)
+			.Include(c => c.Languages)
+				.ThenInclude(lan => lan.Language)
 			.ToListAsync();
 	}
 
 	public async Task SaveCandidateAsync(Candidate candidate)
 	{
-		try
-		{
-			await _appDbContext.Candidates.AddAsync(candidate);
-			await _appDbContext.SaveChangesAsync();
-		}
-		catch (Exception)
-		{
-			throw new InvalidOperationException("An error occured while trying to save the changes.");
-		}
+		await _appDbContext.Candidates.AddAsync(candidate);
+		await _appDbContext.SaveChangesAsync();
 	}
 
 	public async Task UpdateCandidateAsync(Candidate candidate)
 	{
-		try
-		{
-			candidate.MetaData.SetUpdatedAt();
-			_appDbContext.Candidates.Update(candidate);
-			await _appDbContext.SaveChangesAsync();
-		}
-		catch (Exception)
-		{
-			throw new InvalidOperationException("An error occured while trying to save the changes.");
-		}
+		candidate.MetaData.SetUpdatedAt();
+		_appDbContext.Candidates.Update(candidate);
+		await _appDbContext.SaveChangesAsync();
 	}
 
 	public async Task<bool> CandidateExistsAsync(Guid candidateId)

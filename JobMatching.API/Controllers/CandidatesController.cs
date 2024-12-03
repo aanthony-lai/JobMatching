@@ -1,8 +1,8 @@
 using JobMatching.Application.DTO.Candidate;
-using JobMatching.Application.DTO.JobApplication;
 using JobMatching.Application.Interfaces;
 using JobMatching.Common.SystemMessages.CandidateMessages;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.API.Controllers
 {
@@ -70,6 +70,27 @@ namespace JobMatching.API.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
+		}
+
+		[HttpPost("Languages")]
+		public async Task<ActionResult> AddCandidateLanguageAsync([FromBody] AddCandidateLanguageDTO addCandidateLanguageDTO)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			try
+			{
+				await _candidateService.AddCandidateLanguageAsync(addCandidateLanguageDTO);
+				return NoContent();
+			}
+			catch (DbUpdateException ex)
+			{
+				return StatusCode(500, "An error occurred while trying to save the changes.");
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			} 
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using JobMatching.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobMatching.DataAccess.Configurations
 {
@@ -28,11 +27,19 @@ namespace JobMatching.DataAccess.Configurations
 				});
 
 				candidate.HasMany(c => c.Competences)
-					.WithMany(comp => comp.Candidates);
+					.WithMany(comp => comp.Candidates)
+					.UsingEntity<Dictionary<string, object>>(
+						"Candidate_Competences",
+						cc => cc.HasOne<Competence>().WithMany().HasForeignKey("CompetenceId"),
+						cc => cc.HasOne<Candidate>().WithMany().HasForeignKey("CandidateId"));
 
 				candidate.HasMany(c => c.JobApplications)
 					.WithOne(ja => ja.Candidate)
 					.HasForeignKey(ja => ja.CandidateId);
+
+				candidate.HasMany(c => c.Languages)
+					.WithOne(l => l.Candidate)
+					.HasForeignKey(l => l.CandidateId);
 
 				candidate.HasOne(c => c.User)
 					.WithOne()

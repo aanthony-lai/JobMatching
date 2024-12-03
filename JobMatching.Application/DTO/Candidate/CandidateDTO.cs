@@ -3,8 +3,9 @@
 namespace JobMatching.Application.DTO.Candidate
 {
     public record CandidateDTO(
-        Guid candidateId,
-        string firstName,
-        string lastName,
-        List<CompetenceDTO> competences);
+        Guid CandidateId,
+        string FirstName,
+        string LastName,
+        List<CompetenceDTO> Competences,
+        List<CandidateLanguageDTO> Languages);
 }

@@ -11,10 +11,14 @@ namespace JobMatching.Application.Utilities
 				throw new ArgumentNullException("Cannot map null to CandidateDTO.", nameof(candidate));
 
 			return new CandidateDTO(
-				candidateId: candidate.Id,
-				firstName: candidate.Name.FirstName,
-				lastName: candidate.Name.LastName,
-				competences: CompetenceMapper.MapCompetences(candidate.Competences));
+				CandidateId: candidate.Id,
+				FirstName: candidate.Name.FirstName,
+				LastName: candidate.Name.LastName,
+				Competences: CompetenceMapper.MapCompetences(candidate.Competences),
+				Languages: candidate.Languages.Select(
+					language => new CandidateLanguageDTO(
+						language.Language.Name, 
+						language.ProficiencyLevel.ToString())).ToList());
 		}
 
 		public static List<CandidateDTO> MapCandidates(List<Candidate> candidates) => 

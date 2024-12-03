@@ -7,6 +7,7 @@ public class Language: IEntity
 {
     public Guid Id { get; init; }
     public string Name { get; }
-    public LanguageProficiencyLevel LanguageProficiencyLevel { get; private set; }
     public MetaData MetaData { get; }
+
+    protected Language() { }
 }
