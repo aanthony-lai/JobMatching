@@ -18,7 +18,8 @@ namespace JobMatching.Application.Utilities
 				Languages: candidate.Languages.Select(
 					language => new CandidateLanguageDTO(
 						language.Language.Name, 
-						language.ProficiencyLevel.ToString())).ToList());
+						language.ProficiencyLevel.ToString())).ToList(),
+				HasDriversLicense: candidate.HasDriversLicence);
 		}
 
 		public static List<CandidateDTO> MapCandidates(List<Candidate> candidates) => 

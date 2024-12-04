@@ -5,7 +5,8 @@ namespace JobMatching.Application.DTO.Candidate
 	public record CreateCandidateDTO(
 		string FirstName,
 		string LastName,
-		string Email) : IValidatableObject
+		string Email,
+		bool? HasDriversLicense) : IValidatableObject
 	{
 		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 		{

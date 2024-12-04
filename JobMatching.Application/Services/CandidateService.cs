@@ -38,13 +38,14 @@ namespace JobMatching.Application.Services
 			return CandidateMapper.MapCandidates(candidates);
 		}
 
-		public async Task CreateCandidateAsync(CreateCandidateDTO candidateDto)
+		public async Task CreateCandidateAsync(CreateCandidateDTO createCandidateDto)
 		{
 			await _candidateRepository.SaveCandidateAsync(
 				new Candidate(
-					candidateDto.FirstName,
-					candidateDto.LastName,
-					candidateDto.Email));
+					createCandidateDto.FirstName,
+					createCandidateDto.LastName,
+					createCandidateDto.Email,
+					createCandidateDto.HasDriversLicense));
 		}
 
 		public async Task AddCandidateCompetence(AddCandidateCompetenceDTO addCandidateCompetenceDto)

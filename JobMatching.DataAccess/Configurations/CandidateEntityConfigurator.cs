@@ -41,6 +41,10 @@ namespace JobMatching.DataAccess.Configurations
 					.WithOne(l => l.Candidate)
 					.HasForeignKey(l => l.CandidateId);
 
+				candidate.Property(c => c.HasDriversLicence)
+					.HasColumnName("HasDriversLicense")
+					.IsRequired(false);
+
 				candidate.HasOne(c => c.User)
 					.WithOne()
 					.HasForeignKey<Candidate>(c => c.UserId);

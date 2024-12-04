@@ -7,5 +7,6 @@ namespace JobMatching.Application.DTO.Candidate
         string FirstName,
         string LastName,
         List<CompetenceDTO> Competences,
-        List<CandidateLanguageDTO> Languages);
+        List<CandidateLanguageDTO> Languages,
+        bool? HasDriversLicense);
 }

@@ -10,20 +10,22 @@ namespace JobMatching.Domain.Entities
 	{
 		public Guid Id { get; init; }
 		public Name Name { get; private set; } = null!;
-		public List<Competence> Competences { get; private set; } = new();
+		public List<Competence> Competences { get; } = new();
 		public List<JobApplication> JobApplications { get; private set; } = new();
-		public List<CandidateLanguage> Languages { get; private set; } = new();
+		public List<CandidateLanguage> Languages { get; } = new();
+		public bool? HasDriversLicence { get; }
 		public User User { get; init; }
 		public Guid UserId { get; init; }
 		public MetaData MetaData { get; }
 
 		protected Candidate() { }
-		public Candidate(string firstName, string lastName, string email)
+		public Candidate(string firstName, string lastName, string email, bool? hasDriversLicense)
 		{
 			Id = Guid.NewGuid();
 			Name = Name.SetCandidateName(firstName, lastName);
 			User = User.CreateUserCandidate(email, name: $"{firstName} {lastName}");
 			UserId = User.Id;
+			HasDriversLicence = hasDriversLicense;
 			MetaData = new MetaData();
 		}
 
