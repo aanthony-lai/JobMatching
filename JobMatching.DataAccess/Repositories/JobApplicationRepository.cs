@@ -1,4 +1,5 @@
 ﻿using JobMatching.Application.Interfaces;
+using JobMatching.Common.Exceptions;
 using JobMatching.DataAccess.Context;
 using JobMatching.DataAccess.QueryExtensions;
 using JobMatching.Domain.Entities;
@@ -20,12 +21,12 @@ namespace JobMatching.DataAccess.Repositories
 			return await _appDbContext.JobApplications
 				.AddTracking(withTracking)
 				.Where(a => a.CandidateId == candidateId)
-				.Include(a => a.Candidate)
-					.ThenInclude(c => c.Competences)
-				.Include(a => a.Job)
-					.ThenInclude(j => j.JobCompetences)
+				.Include(a => a.Candidate.Competences)
+				.Include(a => a.Candidate.Languages)
+				.Include(a => a.Job.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
-				.ToListAsync();
+                .AsSplitQuery()
+                .ToListAsync();
 		}
 
 		//Should maybe be moved to an individual class?
@@ -34,11 +35,11 @@ namespace JobMatching.DataAccess.Repositories
 			return await _appDbContext.JobApplications
 				.AddTracking(withTracking)
 				.Where(a => a.JobId == jobId)
-				.Include(a => a.Candidate)
-					.ThenInclude(c => c.Competences)
-				.Include(a => a.Job)
-					.ThenInclude(j => j.JobCompetences)
+				.Include(a => a.Candidate.Competences)
+				.Include(a => a.Candidate.Languages)
+				.Include(a => a.Job.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
+				.AsSplitQuery()
 				.ToListAsync();
 		}
 
@@ -47,19 +48,26 @@ namespace JobMatching.DataAccess.Repositories
 		{
 			return await _appDbContext.JobApplications
 				.AddTracking(withTracking)
-				.Include(a => a.Candidate)
-					.ThenInclude(c => c.Competences)
-				.Include(a => a.Job)
-					.ThenInclude(j => j.JobCompetences)
+				.Include(a => a.Candidate.Competences)
+				.Include(a => a.Candidate.Languages)
+				.Include(a => a.Job.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
-				.ToListAsync();
+                .AsSplitQuery()
+                .ToListAsync();
 		}
 
-		public async Task CreateJobApplicationAsync(JobApplication jobApplication)
+		public async Task AddJobApplicationAsync(JobApplication jobApplication)
 		{
 			jobApplication.MetaData.SetUpdatedAt();
-			_appDbContext.Attach(jobApplication);
-			await _appDbContext.JobApplications.AddAsync(jobApplication);
+
+			if (_appDbContext.JobApplications.Any(
+				ja => ja.CandidateId == jobApplication.CandidateId
+				&& ja.JobId == jobApplication.JobId))
+			{
+                throw new EntityAlreadyExistException("Candidate has already applied for this job.");
+            }
+
+            await _appDbContext.JobApplications.AddAsync(jobApplication);
 			await _appDbContext.SaveChangesAsync();
 		}
 	}

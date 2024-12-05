@@ -1,4 +1,5 @@
-﻿using JobMatching.Domain.Entities.JunctionEntities;
+﻿using JobMatching.Common.Exceptions;
+using JobMatching.Domain.Entities.JunctionEntities;
 using JobMatching.Domain.Exceptions;
 using JobMatching.Domain.Interfaces;
 using JobMatching.Domain.ValueObjects;
@@ -40,7 +41,7 @@ namespace JobMatching.Domain.Entities
 					"The competence that you're trying to add is null",
 					nameof(competence));
 			if (JobCompetences.Any(comp => comp.CompetenceId == competence.Id))
-				throw new DuplicateCompetenceException("The competence has already been added.");
+				throw new EntityAlreadyExistException("The competence has already been added.");
 
 			JobCompetences.Add(new JobCompetence(competence, this, isCritical));
 		}

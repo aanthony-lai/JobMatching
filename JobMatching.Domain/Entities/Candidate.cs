@@ -1,4 +1,5 @@
-﻿using JobMatching.Domain.Entities.JunctionEntities;
+﻿using JobMatching.Common.Exceptions;
+using JobMatching.Domain.Entities.JunctionEntities;
 using JobMatching.Domain.Exceptions;
 using JobMatching.Domain.Interfaces;
 using JobMatching.Domain.ValueObjects;
@@ -36,8 +37,8 @@ namespace JobMatching.Domain.Entities
 					"The competence that you're trying to add is null");
 
 			if (Competences.Contains(competence))
-				throw new DuplicateCompetenceException(
-					"The candidate already has this competence.");
+				throw new EntityAlreadyExistException(
+					"The competence has already been added.");
 
 			Competences.Add(competence);
 		}
@@ -45,9 +46,17 @@ namespace JobMatching.Domain.Entities
 		public void AddLanguageAndProficiency(CandidateLanguage candidateLanguage)
 		{
 			if (Languages.Any(l => l.LanguageId == candidateLanguage.LanguageId))
-				throw new DuplicateLanguageException("Language has already been added.");
+				throw new EntityAlreadyExistException("Language has already been added.");
 
 			Languages.Add(candidateLanguage);
 		}
-	}
+
+        public void AddJobApplication(JobApplication jobApplication)
+        {
+			if (JobApplications.Any(ja => ja.JobId == jobApplication.JobId))
+				throw new EntityAlreadyExistException("Candidate has already applied for this job.");
+
+            JobApplications.Add(jobApplication);
+        }
+    }
 }

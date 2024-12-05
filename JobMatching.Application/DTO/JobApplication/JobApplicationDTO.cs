@@ -5,9 +5,9 @@ using JobMatching.Domain.Enums;
 namespace JobMatching.Application.DTO.JobApplication
 {
 	public record JobApplicationDTO(
-		Guid jobApplicationId,
-		CandidateDTO candidate,
-		EmployerJobDTO job,
-		DateTime applicationDate,
-		ApplicationStatus status);
+		Guid JobApplicationId,
+		JobApplicationCandidateDTO Candidate,
+		EmployerJobDTO Job,
+		DateTime ApplicationDate,
+		ApplicationStatus Status);
 }

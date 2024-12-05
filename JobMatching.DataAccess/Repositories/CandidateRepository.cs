@@ -21,6 +21,7 @@ public class CandidateRepository : ICandidateRepository
 			.AddTracking(withTracking)
 			.Include(c => c.Competences)
 			.Include(c => c.JobApplications)
+				.ThenInclude(ja => ja.Job.Employer)
 			.Include(c => c.Languages)
 				.ThenInclude(lan => lan.Language)
 			.FirstOrDefaultAsync(u => u.Id == candidateId);
@@ -32,7 +33,8 @@ public class CandidateRepository : ICandidateRepository
 			.AddTracking(withTracking)
 			.Include(c => c.Competences)
 			.Include(c => c.JobApplications)
-			.Include(c => c.Languages)
+                .ThenInclude(ja => ja.Job.Employer)
+            .Include(c => c.Languages)
 				.ThenInclude(lan => lan.Language)
 			.ToListAsync();
 	}

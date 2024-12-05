@@ -1,5 +1,6 @@
 ﻿using JobMatching.Application.DTO.JobApplication;
 using JobMatching.Application.Interfaces;
+using JobMatching.Common.Exceptions;
 using JobMatching.Common.SystemMessages.CandidateMessages;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,12 +48,16 @@ namespace JobMatching.API.Controllers
 
 			try
 			{
-				await _jobApplicationService.CreateJobApplicationAsync(createJobApplicationDTO);
-				return NoContent();
-			}
-			catch (Exception e)
+                await _jobApplicationService.CreateJobApplicationAsync(createJobApplicationDTO);
+                return NoContent();
+            }
+			catch (EntityAlreadyExistException ex)
 			{
-				return BadRequest(e.Message);
+				return BadRequest(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while trying to create the job application.");
 			}
 		}
 	}

@@ -18,27 +18,23 @@ namespace JobMatching.Domain.Entities
 		public MetaData MetaData { get; private set; } = null!;
 
 		protected JobApplication() { }
+        
+        public JobApplication(Guid candidateId, Guid jobId)
+        {
+            if (candidateId == Guid.Empty)
+                throw new ArgumentException(nameof(candidateId),
+                    "An application must contain a valid candidate ID.");
 
-		public JobApplication(Candidate candidate, Job job)
-		{
-			if (candidate is null)
-				throw new ArgumentNullException(nameof(candidate),
-					"An application must contain an existing candidate.");
+            if (jobId == Guid.Empty)
+                throw new ArgumentException(nameof(jobId),
+                    "An application must contain a valid job ID.");
 
-			if (job is null)
-				throw new ArgumentNullException(nameof(job),
-					"An application must contain an existing job.");
-
-			if (candidate.JobApplications.Any(ja => ja.JobId == job.Id))
-				throw new DuplicateJobApplicationsException(
-					JobApplicationMessages.JobApplicationAlreadyExists(candidate.Name.FirstName));
-
-			Id = Guid.NewGuid();
-			Candidate = candidate;
-			Job = job;
-			ApplicationDate = DateTime.UtcNow;
-			ApplicationStatus = ApplicationStatus.Pending;
-			MetaData = new MetaData();
-		}
-	}
+            Id = Guid.NewGuid();
+            CandidateId = candidateId;
+            JobId = jobId;
+            ApplicationDate = DateTime.UtcNow;
+            ApplicationStatus = ApplicationStatus.Pending;
+            MetaData = new MetaData();
+        }
+    }
 }
