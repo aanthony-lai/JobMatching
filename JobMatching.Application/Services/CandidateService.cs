@@ -39,7 +39,7 @@ namespace JobMatching.Application.Services
 
         public async Task CreateCandidateAsync(CreateCandidateDTO createCandidateDto)
         {
-            await _candidateRepository.SaveCandidateAsync(
+            await _candidateRepository.AddCandidateAsync(
                 new Candidate(
                     createCandidateDto.FirstName,
                     createCandidateDto.LastName,

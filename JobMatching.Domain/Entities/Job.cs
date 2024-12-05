@@ -24,7 +24,7 @@ namespace JobMatching.Domain.Entities
 			if (employerId == Guid.Empty)
 				throw new ArgumentException("A job must contain a valid employer id.", nameof(employerId));
 			if (string.IsNullOrWhiteSpace(jobTitle))
-				throw new ArgumentException(nameof(JobTitle));
+				throw new ArgumentException("Job title can't be empty.", nameof(JobTitle));
 			if (salaryRange != null)
 				SalaryRange = salaryRange;
 
@@ -34,16 +34,19 @@ namespace JobMatching.Domain.Entities
 			MetaData = new MetaData();
 		}
 
-		public void AddCompetence(Competence competence, bool isCritical)
+		public void AddCompetence(Guid competenceId, bool isCritical)
 		{
-			if (competence is null)
-				throw new ArgumentNullException(
-					"The competence that you're trying to add is null",
-					nameof(competence));
-			if (JobCompetences.Any(comp => comp.CompetenceId == competence.Id))
-				throw new EntityAlreadyExistException("The competence has already been added.");
+			if (competenceId == Guid.Empty) 
+				throw new ArgumentException("Invalid competence ID.", nameof(competenceId));
 
-			JobCompetences.Add(new JobCompetence(competence, this, isCritical));
+			if (JobCompetences.Where(jc => jc.JobId == this.Id)
+					.Any(jc => jc.CompetenceId == competenceId))
+			{
+                throw new EntityAlreadyExistException(
+                    "The competence has already been added.");
+            }
+
+			JobCompetences.Add(new JobCompetence(competenceId, this.Id, isCritical));
 		}
 	}
 }

@@ -3,10 +3,11 @@
 namespace JobMatching.Application.DTO.Job
 {
 	public record JobDTO(
-		Guid jobId,
-		string jobTitle,
-		int? salaryRangeTop,
-		int? salaryRangeBottom,
-		string employerName,
-		List<CompetenceDTO> competences);
+		Guid JobId,
+		string JobTitle,
+		int? SalaryRangeTop,
+		int? SalaryRangeBottom,
+		string EmployerName,
+		string[] CriticalCompetences,
+		string[] NonCriticalCompetences);
 }

@@ -39,7 +39,7 @@ public class CandidateRepository : ICandidateRepository
 			.ToListAsync();
 	}
 
-	public async Task SaveCandidateAsync(Candidate candidate)
+	public async Task AddCandidateAsync(Candidate candidate)
 	{
 		await _appDbContext.Candidates.AddAsync(candidate);
 		await _appDbContext.SaveChangesAsync();

@@ -1,5 +1,6 @@
 ﻿using JobMatching.Application.DTO.Job;
 using JobMatching.Application.Interfaces;
+using JobMatching.Common.Exceptions;
 using JobMatching.Common.SystemMessages.JobMessages;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,9 +44,36 @@ namespace JobMatching.API.Controllers
 				await _jobService.PostJobAsync(createJobDto);
 				return NoContent();
 			}
-			catch (Exception ex) 
+			catch (ArgumentException ex) 
 			{
 				return BadRequest(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occured.");
+			}
+
+		}
+
+		[HttpPost("competence")]
+		public async Task<ActionResult> AddJobCompetenceAsync([FromBody] AddJobCompetenceDTO addJobCompetenceDTO)
+		{
+			try
+			{
+                await _jobService.AddJobCompetence(addJobCompetenceDTO);
+                return NoContent();
+            }
+			catch (EntityNotFoundException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (EntityAlreadyExistException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
 			}
 		}
 	}

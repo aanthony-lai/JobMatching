@@ -1,6 +1,4 @@
 ﻿using JobMatching.Application.DTO.Candidate;
-using JobMatching.Application.DTO.Shared;
-using JobMatching.Domain.Entities.JunctionEntities;
 
 namespace JobMatching.Application.DTO.JobApplication
 {
@@ -8,7 +6,7 @@ namespace JobMatching.Application.DTO.JobApplication
         Guid CandidateId,
         string FirstName,
         string LastName,
-        List<CompetenceDTO> Competences,
+        string[] Competences,
         List<CandidateLanguageDTO> Languages,
         bool? HasDriversLicense);
 }

@@ -23,7 +23,9 @@ namespace JobMatching.DataAccess.Repositories
 				.Where(a => a.CandidateId == candidateId)
 				.Include(a => a.Candidate.Competences)
 				.Include(a => a.Candidate.Languages)
-				.Include(a => a.Job.JobCompetences)
+                    .ThenInclude(l => l.Language)
+				.Include(a => a.Job.Employer)
+                .Include(a => a.Job.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
                 .AsSplitQuery()
                 .ToListAsync();
@@ -37,7 +39,9 @@ namespace JobMatching.DataAccess.Repositories
 				.Where(a => a.JobId == jobId)
 				.Include(a => a.Candidate.Competences)
 				.Include(a => a.Candidate.Languages)
-				.Include(a => a.Job.JobCompetences)
+                    .ThenInclude(l => l.Language)
+                .Include(a => a.Job.Employer)
+                .Include(a => a.Job.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
 				.AsSplitQuery()
 				.ToListAsync();
@@ -50,7 +54,9 @@ namespace JobMatching.DataAccess.Repositories
 				.AddTracking(withTracking)
 				.Include(a => a.Candidate.Competences)
 				.Include(a => a.Candidate.Languages)
-				.Include(a => a.Job.JobCompetences)
+					.ThenInclude(l => l.Language)
+                .Include(a => a.Job.Employer)
+                .Include(a => a.Job.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
                 .AsSplitQuery()
                 .ToListAsync();

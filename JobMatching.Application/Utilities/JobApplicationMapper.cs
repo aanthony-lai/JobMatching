@@ -18,14 +18,14 @@ namespace JobMatching.Application.Utilities
 					jobApplication.Candidate.Id,
                     jobApplication.Candidate.Name.FirstName!,
                     jobApplication.Candidate.Name.LastName!,
-                    jobApplication.Candidate.Competences.Select(
-						comp => new CompetenceDTO(
-							comp.Id, 
-							comp.CompetenceName)).ToList(),
-					Languages: jobApplication.Candidate.Languages.Select(
-						lan => new CandidateLanguageDTO(
+                    jobApplication.Candidate.Competences
+						.Select(comp => comp.CompetenceName)
+						.ToArray(),
+					Languages: jobApplication.Candidate.Languages
+						.Select(lan => new CandidateLanguageDTO(
 							lan.Language.Name, 
-							lan.ProficiencyLevel.ToString())).ToList(),
+							lan.ProficiencyLevel.ToString()))
+						.ToList(),
 					HasDriversLicense: jobApplication.Candidate.HasDriversLicence),
 				Job: EmployerJobMapper.MapEmployerJob(jobApplication.Job),
 				ApplicationDate: jobApplication.ApplicationDate,

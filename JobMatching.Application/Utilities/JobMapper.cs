@@ -1,5 +1,6 @@
 ﻿using JobMatching.Application.DTO.Job;
 using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 using System.Threading.Tasks.Dataflow;
 
 namespace JobMatching.Application.Utilities
@@ -12,12 +13,17 @@ namespace JobMatching.Application.Utilities
 				throw new ArgumentNullException("Cannot map null to JobDTO", nameof(job));
 
 			return new JobDTO(
-				jobId: job.Id,
-				jobTitle: job.JobTitle,
-				salaryRangeTop: job.SalaryRange.SalaryRangeTop,
-				salaryRangeBottom: job.SalaryRange.SalaryRangeBottom,
-				employerName: job.Employer.Name.EmployerName!,
-				competences: CompetenceMapper.MapJobCompetences(job.JobCompetences));
+				JobId: job.Id,
+				JobTitle: job.JobTitle,
+				SalaryRangeTop: job.SalaryRange.SalaryRangeTop,
+				SalaryRangeBottom: job.SalaryRange.SalaryRangeBottom,
+				EmployerName: job.Employer.Name.EmployerName!,
+				CriticalCompetences: job.JobCompetences
+					.Where(jobComp => jobComp.IsCritical)
+					.Select(jobComp => jobComp.Competence.CompetenceName).ToArray(),
+				NonCriticalCompetences: job.JobCompetences
+					.Where(jobComp => !jobComp.IsCritical)
+					.Select(jobComp => jobComp.Competence.CompetenceName).ToArray());
 		}
 
 		public static List<JobDTO> MapJobs(List<Job> jobs) => 

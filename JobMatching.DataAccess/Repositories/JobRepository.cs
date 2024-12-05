@@ -46,9 +46,16 @@ namespace JobMatching.DataAccess.Repositories
 				.ToListAsync();
 		}
 
-		public async Task SaveJobAsync(Job job)
+		public async Task AddJobAsync(Job job)
 		{
 			await _appDbContext.Jobs.AddAsync(job);
+			await _appDbContext.SaveChangesAsync();
+		}
+
+		public async Task UpdateJobAsync(Job job)
+		{
+			job.MetaData.SetUpdatedAt();
+			_appDbContext.Jobs.Update(job);
 			await _appDbContext.SaveChangesAsync();
 		}
 
