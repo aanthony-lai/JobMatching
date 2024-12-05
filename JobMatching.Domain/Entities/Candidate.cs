@@ -1,6 +1,5 @@
 ﻿using JobMatching.Common.Exceptions;
 using JobMatching.Domain.Entities.JunctionEntities;
-using JobMatching.Domain.Exceptions;
 using JobMatching.Domain.Interfaces;
 using JobMatching.Domain.ValueObjects;
 using JobMatching.Domain.ValueObjects.Name;

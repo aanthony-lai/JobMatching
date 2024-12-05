@@ -44,9 +44,9 @@ namespace JobMatching.API.Controllers
 				await _jobService.PostJobAsync(createJobDto);
 				return NoContent();
 			}
-			catch (ArgumentException ex) 
+			catch (ArgumentOutOfRangeException) 
 			{
-				return BadRequest(ex.Message);
+				return BadRequest("The upper salary range can't be lower than the lower salary range");
 			}
 			catch (Exception)
 			{
