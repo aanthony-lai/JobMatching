@@ -18,15 +18,17 @@ namespace JobMatching.API.Controllers
 			_candidateService = candidateService;
 		}
 
+		//
 		//This one should probably be removed later.
+		//
 		[HttpGet("shouldBeRemovedLater")]
-		public async Task<ActionResult<List<CandidateDTO>>> GetCandidatesAsync()
+		public async Task<ActionResult<List<CandidateDTO>>> GetAllAsync()
 		{
 			return Ok(await _candidateService.GetCandidatesAsync());
 		}
 
 		[HttpGet("{candidateId}")]
-		public async Task<ActionResult<CandidateDTO?>> GetCandidateById(Guid candidateId)
+		public async Task<ActionResult<CandidateDTO?>> GetByIdAsync(Guid candidateId)
 		{
 			if (candidateId == Guid.Empty)
 				return BadRequest(CandidateMessages.InvalidCandidateId(candidateId));
@@ -39,7 +41,7 @@ namespace JobMatching.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> CreateCandidate([FromBody] CreateCandidateDTO createCandidateDto)
+		public async Task<ActionResult> CreateAsync([FromBody] CreateCandidateDTO createCandidateDto)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
@@ -55,15 +57,15 @@ namespace JobMatching.API.Controllers
 			}
 		}
 
-		[HttpPost("competences")]
-		public async Task<ActionResult> AddCandidateCompetence([FromBody] AddCandidateCompetenceDTO addCandidateCompetenceDto)
+		[HttpPost("{candidateId}/competences")]
+		public async Task<ActionResult> CreateCompetence(Guid candidateId, [FromBody] AddCandidateCompetenceDTO addCandidateCompetenceDto)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
 			try
 			{
-				await _candidateService.AddCandidateCompetence(addCandidateCompetenceDto);
+				await _candidateService.AddCandidateCompetence(candidateId, addCandidateCompetenceDto);
 				return NoContent();
 			}
 			catch (Exception ex)
@@ -72,15 +74,15 @@ namespace JobMatching.API.Controllers
 			}
 		}
 
-		[HttpPost("Languages")]
-		public async Task<ActionResult> AddCandidateLanguageAsync([FromBody] AddCandidateLanguageDTO addCandidateLanguageDTO)
+		[HttpPost("{candidateId}/languages")]
+		public async Task<ActionResult> CreateLanguageAsync(Guid candidateId, [FromBody] AddCandidateLanguageDTO addCandidateLanguageDTO)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
 			try
 			{
-				await _candidateService.AddCandidateLanguageAsync(addCandidateLanguageDTO);
+				await _candidateService.AddCandidateLanguageAsync(candidateId, addCandidateLanguageDTO);
 				return NoContent();
 			}
 			catch (DbUpdateException ex)

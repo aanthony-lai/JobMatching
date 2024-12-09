@@ -17,24 +17,24 @@ namespace JobMatching.API.Controllers
 			_jobService = jobService;
 		}
 
-		[HttpGet("{employerId}")]
-		public async Task<ActionResult<List<JobDTO>>> GetJobsByEmployerIdAsync(Guid employerId)
-		{
-			if (employerId == Guid.Empty)
-				return BadRequest(JobMessages.InvalidJobId(employerId));
-
-			var jobsDto = await _jobService.GetJobsByEmployerIdAsync(employerId);
-			return Ok(jobsDto);
-		}
-
 		[HttpGet]
-		public async Task<ActionResult<List<JobDTO>>> GetJobsAsync()
+		public async Task<ActionResult<List<JobDTO>>> GetAllAsync()
 		{
 			return Ok(await _jobService.GetJobsAsync());
 		}
 
+		[HttpGet("{jobTitle}")]
+		public async Task<ActionResult<List<JobDTO>>> GetByJobTitleAsync(string jobTitle)
+		{
+			if (string.IsNullOrWhiteSpace(jobTitle))
+				return BadRequest(JobMessages.InvalidJobTitle(jobTitle));
+
+			var jobsDto = await _jobService.GetByJobTitleAsync(jobTitle);
+			return Ok(jobsDto);
+		}
+
 		[HttpPost]
-		public async Task<ActionResult> PostJobAsync([FromBody] CreateJobDTO createJobDto)
+		public async Task<ActionResult> CreateAsync([FromBody] CreateJobDTO createJobDto)
 		{
 			if (createJobDto.EmployerId == Guid.Empty)
 				return BadRequest("Invalid employer ID.");
@@ -55,8 +55,8 @@ namespace JobMatching.API.Controllers
 
 		}
 
-		[HttpPost("competence")]
-		public async Task<ActionResult> AddJobCompetenceAsync([FromBody] AddJobCompetenceDTO addJobCompetenceDTO)
+		[HttpPost("{jobId}/competence")]
+		public async Task<ActionResult> CreateCompetenceAsync([FromBody] AddJobCompetenceDTO addJobCompetenceDTO)
 		{
 			try
 			{

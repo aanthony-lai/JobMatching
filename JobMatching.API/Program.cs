@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationLayerServices();
 builder.Services.AddDomainServices();
-builder.Services.AddDbContextService();
 
+builder.Services.AddDbContextService();
 var app = builder.Build();
 app.ConfigureApplicationMiddlewares().Run();

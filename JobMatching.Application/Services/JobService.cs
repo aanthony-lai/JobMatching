@@ -19,9 +19,9 @@ namespace JobMatching.Application.Services
             _competenceRepository = competenceRepository;
         }
 
-        public async Task<List<JobDTO>> GetJobsByEmployerIdAsync(Guid employerId)
+        public async Task<List<JobDTO>> GetByJobTitleAsync(string jobTitle)
         {
-            var jobs = await _jobRepository.GetJobsByEmployerIdAsync(employerId, withTracking: false);
+            var jobs = await _jobRepository.GetByJobTitleAsync(jobTitle, withTracking: false);
             return JobMapper.MapJobs(jobs);
         }
 

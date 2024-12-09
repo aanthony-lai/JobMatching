@@ -16,13 +16,13 @@ namespace JobMatching.API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<List<EmployerDTO>>> GetEmployersAsync()
+		public async Task<ActionResult<List<EmployerDTO>>> GetAllAsync()
 		{
 			return await _employerService.GetEmployersAsync();
 		}
 
 		[HttpGet("{employerId}")]
-		public async Task<ActionResult<EmployerDTO>> GetEmployerByIdAsync(Guid employerId)
+		public async Task<ActionResult<EmployerDTO>> GetByIdAsync(Guid employerId)
 		{
 			if (employerId == Guid.Empty)
 				return BadRequest("Invalid employer ID.");
@@ -35,7 +35,7 @@ namespace JobMatching.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> CreateEmployerAsync([FromBody] CreateEmployerDTO createEmployerDto)
+		public async Task<ActionResult> CreateAsync([FromBody] CreateEmployerDTO createEmployerDto)
 		{
 			try
 			{

@@ -47,10 +47,10 @@ namespace JobMatching.Application.Services
                     createCandidateDto.HasDriversLicense));
         }
 
-        public async Task AddCandidateCompetence(AddCandidateCompetenceDTO addCandidateCompetenceDto)
+        public async Task AddCandidateCompetence(Guid candidateId, AddCandidateCompetenceDTO addCandidateCompetenceDto)
         {
-            Candidate candidate = await _candidateRepository.GetCandidateByIdAsync(addCandidateCompetenceDto.candidateId)
-                ?? throw new EntityNotFoundException(CandidateMessages.CandidateNotFound(addCandidateCompetenceDto.candidateId));
+            Candidate candidate = await _candidateRepository.GetCandidateByIdAsync(candidateId)
+                ?? throw new EntityNotFoundException(CandidateMessages.CandidateNotFound(candidateId));
 
             Competence competence = await _competenceRepository.GetCompetenceByIdAsync(addCandidateCompetenceDto.competenceId)
                 ?? throw new EntityNotFoundException(CompetenceMessages.CompetenceDoesNotExist(addCandidateCompetenceDto.competenceId));
@@ -59,10 +59,10 @@ namespace JobMatching.Application.Services
             await _candidateRepository.UpdateCandidateAsync(candidate);
         }
 
-        public async Task AddCandidateLanguageAsync(AddCandidateLanguageDTO addCandidateLanguageDTO)
+        public async Task AddCandidateLanguageAsync(Guid candidateId, AddCandidateLanguageDTO addCandidateLanguageDTO)
         {
-            var candidate = await _candidateRepository.GetCandidateByIdAsync(addCandidateLanguageDTO.CandidateId)
-                ?? throw new EntityNotFoundException(CandidateMessages.CandidateNotFound(addCandidateLanguageDTO.CandidateId));
+            var candidate = await _candidateRepository.GetCandidateByIdAsync(candidateId)
+                ?? throw new EntityNotFoundException(CandidateMessages.CandidateNotFound(candidateId));
 
             candidate.AddLanguageAndProficiency(
                 new CandidateLanguage(candidate.Id, addCandidateLanguageDTO.LanguageId, addCandidateLanguageDTO.ProficiencyLevel));

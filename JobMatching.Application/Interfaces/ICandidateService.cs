@@ -8,7 +8,7 @@ public interface ICandidateService
 	Task<CandidateDTO?> GetCandidateByIdAsync(Guid userId);
 	Task<List<CandidateDTO>> GetCandidatesAsync();
 	Task CreateCandidateAsync(CreateCandidateDTO createCandidateDto);
-	Task AddCandidateCompetence(AddCandidateCompetenceDTO addUserCompetenceDto);
-	Task AddCandidateLanguageAsync(AddCandidateLanguageDTO addCandidateLanguageDTO);
+	Task AddCandidateCompetence(Guid candidateId, AddCandidateCompetenceDTO addUserCompetenceDto);
+	Task AddCandidateLanguageAsync(Guid candidateId, AddCandidateLanguageDTO addCandidateLanguageDTO);
 	Task<bool> CandidateExistsAsync(Guid candidateId);
 }
