@@ -1,19 +1,26 @@
-﻿namespace JobMatching.Domain.ValueObjects
+﻿using JobMatching.Common.Results;
+using JobMatching.Domain.Errors;
+
+namespace JobMatching.Domain.ValueObjects
 {
 	public class Email
 	{
 		public string Address { get; } = null!;
 
-		public Email(string address)
+		private Email(string address)
 		{
-			if (string.IsNullOrEmpty(address))
-				throw new ArgumentNullException(nameof(address),
-					"Email can't be empty.");
-			if (!address.Contains("@"))
-				throw new ArgumentException(nameof(address),
-					"You have provided an invalid email.");
-
 			Address = address;
+		}
+
+		public static Result<Email> SetEmail(string address)
+		{
+			if (string.IsNullOrWhiteSpace(address))
+				return Result<Email>.Failure(EmailErrors.EmailIsEmpty);
+
+			if (!address.Contains("@"))
+				return Result<Email>.Failure(EmailErrors.InvalidEmail);
+
+			return Result<Email>.Success(new Email(address));
 		}
 
 		public override string ToString() => Address;

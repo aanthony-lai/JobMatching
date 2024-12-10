@@ -15,13 +15,9 @@ namespace JobMatching.DataAccess.Configurations
 				employer.Property(emp => emp.Id)
 					.HasColumnName("Id");
 
-				employer.OwnsOne(emp => emp.Name, nameBuilder =>
-				{
-					nameBuilder.Property(n => n.EmployerName)
-						.HasColumnName("Name")
-						.IsRequired();
-					nameBuilder.Ignore(n => n.UserName);
-				});
+				employer.Property(emp => emp.Name)
+					.HasColumnName("Name")
+					.IsRequired();
 
 				employer.HasMany(emp => emp.Jobs)
 					.WithOne(j => j.Employer)

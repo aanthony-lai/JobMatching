@@ -15,18 +15,21 @@ namespace JobMatching.DataAccess.Repositories
 			_appDbContext = appDbContext;
 		}
 
-		public async Task<Competence?> GetCompetenceByIdAsync(Guid competenceId, bool withTracking = true)
+		public async Task<Competence?> GetByIdAsync(Guid competenceId, bool withTracking = true)
 		{
 			return await _appDbContext.Competences
 				.AddTracking(withTracking)
 				.FirstOrDefaultAsync(comp => comp.Id == competenceId);
 		}
 
-		public async Task<List<Competence>> GetCompetencesAsync(bool withTracking = true)
+		public async Task<List<Competence>> GetAllAsync(bool withTracking = true)
 		{
 			return await _appDbContext.Competences
 				.AddTracking(withTracking)
 				.ToListAsync();
 		}
+
+		public async Task<bool> ExistsAsync(Guid competenceId) =>
+			await _appDbContext.Competences.AnyAsync(comp => comp.Id == competenceId);
 	}
 }

@@ -14,7 +14,7 @@ namespace JobMatching.Application.Services
 		}
 		public async Task<List<CompetenceDTO>> GetCompetencesAsync()
 		{
-			var competences = await _competenceRepository.GetCompetencesAsync(withTracking: false);
+			var competences = await _competenceRepository.GetAllAsync(withTracking: false);
 
 			return CompetenceMapper.MapCompetences(competences);
 		}

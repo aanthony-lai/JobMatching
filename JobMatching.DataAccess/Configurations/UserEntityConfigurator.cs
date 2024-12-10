@@ -16,12 +16,9 @@ namespace JobMatching.DataAccess.Configurations
 				user.Property(u => u.Id)
 					.HasColumnName("Id");
 
-				user.OwnsOne(u => u.Name, nameBuilder =>
-				{
-					nameBuilder.Property(n => n.UserName)
-						.HasColumnName("Name")
-						.IsRequired();
-				});
+				user.Property(u => u.Name)
+					.HasColumnName("Name")
+					.IsRequired();
 
 				user.OwnsOne(u => u.Email, emailBuilder =>
 				{

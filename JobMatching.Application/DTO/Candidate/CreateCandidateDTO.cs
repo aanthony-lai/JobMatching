@@ -11,7 +11,7 @@ namespace JobMatching.Application.DTO.Candidate
 		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 		{
 			if (string.IsNullOrEmpty(FirstName))
-				yield return new ValidationResult("First name can't be empty", 
+				yield return new ValidationResult("First name can't be empty",
 					new[] { nameof(FirstName) });
 
 			if (string.IsNullOrEmpty(LastName))

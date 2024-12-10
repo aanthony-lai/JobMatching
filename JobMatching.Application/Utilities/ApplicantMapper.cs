@@ -19,7 +19,7 @@ namespace JobMatching.Application.Utilities
 					jobApplication.Candidate.Name.FirstName,
 					jobApplication.Candidate.Name.LastName,
 					jobApplication.Candidate.Competences
-						.Select(comp => comp.CompetenceName).ToArray(),
+						.Select(comp => comp.Name).ToArray(),
 					jobApplication.Candidate.Languages
 						.Select(lan => new CandidateLanguageDTO(
 							lan.Language.Name,

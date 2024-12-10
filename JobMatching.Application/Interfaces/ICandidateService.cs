@@ -1,14 +1,16 @@
 ﻿using JobMatching.Application.DTO.Candidate;
-using JobMatching.Application.DTO.JobApplication;
+using JobMatching.Common.Results;
+using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 
 namespace JobMatching.Application.Interfaces;
 
-public interface ICandidateService 
+public interface ICandidateService
 {
-	Task<CandidateDTO?> GetCandidateByIdAsync(Guid userId);
-	Task<List<CandidateDTO>> GetCandidatesAsync();
-	Task CreateCandidateAsync(CreateCandidateDTO createCandidateDto);
-	Task AddCandidateCompetence(Guid candidateId, AddCandidateCompetenceDTO addUserCompetenceDto);
-	Task AddCandidateLanguageAsync(Guid candidateId, AddCandidateLanguageDTO addCandidateLanguageDTO);
-	Task<bool> CandidateExistsAsync(Guid candidateId);
+    Task<Result<CandidateDTO>> GetByIdAsync(Guid candidateId);
+    Task<List<CandidateDTO>> GetCandidatesAsync();
+    Task<Result<Candidate>> AddAsync(CreateCandidateDTO dto);
+    Task AddCandidateCompetence(Guid candidateId, AddCandidateCompetenceDTO dto);
+    Task<Result<CandidateLanguage>> AddCandidateLanguageAsync(Guid candidateId, AddCandidateLanguageDTO dto);
+    Task<bool> ExistsAsync(Guid candidateId);
 }

@@ -26,7 +26,7 @@ namespace JobMatching.API.Configurations
 			services.AddScoped<IJobService, JobService>();
 
 			services.AddScoped<IApplicantService, ApplicantService>();
-
+			
 			return services;
 		}
 

@@ -1,10 +1,9 @@
 ﻿using JobMatching.Application.DTO.JobApplication;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
-using JobMatching.Common.Exceptions;
-using JobMatching.Common.SystemMessages.CandidateMessages;
-using JobMatching.Common.SystemMessages.JobMessages;
+using JobMatching.Common.Results;
 using JobMatching.Domain.Entities;
+using JobMatching.Domain.Errors;
 
 namespace JobMatching.Application.Services
 {
@@ -25,32 +24,35 @@ namespace JobMatching.Application.Services
         }
 
         //Only in prototype
-        public async Task<List<JobApplicationDTO>> GetJobApplicationsAsync()
+        public async Task<List<JobApplicationDTO>> GetAllAsync()
         {
             var jobApplications = await _jobApplicationRepository.GetJobApplicationsAsync(withTracking: false);
 
             return JobApplicationMapper.MapJobApplications(jobApplications);
         }
 
-        public async Task<List<JobApplicationDTO>> GetJobApplicationsByCandidateIdAsync(Guid candidateId)
+        public async Task<List<JobApplicationDTO>> GetByCandidateIdAsync(Guid candidateId)
         {
             var jobApplications = await _jobApplicationRepository.GetJobApplicationsByCandidateIdAsync(candidateId, withTracking: false);
 
             return JobApplicationMapper.MapJobApplications(jobApplications);
         }
 
-        public async Task CreateJobApplicationAsync(CreateJobApplicationDTO createJobApplicationDto)
+        public async Task<Result<JobApplication>> AddAsync(CreateJobApplicationDTO dto)
         {
-            Candidate candidate = await _candidateRepository.GetCandidateByIdAsync(createJobApplicationDto.CandidateId)
-                ?? throw new EntityNotFoundException(
-                    CandidateMessages.CandidateNotFound(createJobApplicationDto.CandidateId));
+            if (!await _candidateRepository.ExistsAsync(dto.CandidateId))
+                return Result<JobApplication>.Failure(CandidateErrors.NotFound);
 
-            Job job = await _jobRepository.GetJobByIdAsync(createJobApplicationDto.JobId)
-                ?? throw new EntityNotFoundException(
-                    JobMessages.JobNotFound(createJobApplicationDto.JobId));
+            if (!await _jobRepository.ExistsAsync(dto.JobId))
+                return Result<JobApplication>.Failure(JobErrors.NotFound);
 
-            await _jobApplicationRepository.AddJobApplicationAsync(
-                new JobApplication(createJobApplicationDto.CandidateId, createJobApplicationDto.JobId));
+            Result<JobApplication> applicationResult = JobApplication.Create(dto.CandidateId, dto.JobId);
+
+            if (!applicationResult.IsSuccess)
+                return Result<JobApplication>.Failure(applicationResult.Error);
+
+            await _jobApplicationRepository.AddJobApplicationAsync(applicationResult.Value);
+            return Result<JobApplication>.Success(applicationResult.Value);
         }
     }
 }

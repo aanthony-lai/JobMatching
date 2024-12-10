@@ -1,10 +1,12 @@
 ﻿using JobMatching.Application.DTO.JobApplication;
+using JobMatching.Common.Results;
+using JobMatching.Domain.Entities;
 
 namespace JobMatching.Application.Interfaces;
 
 public interface IJobApplicationService
 {
-	Task<List<JobApplicationDTO>> GetJobApplicationsByCandidateIdAsync(Guid jobApplicationId);
-	Task<List<JobApplicationDTO>> GetJobApplicationsAsync();
-	Task CreateJobApplicationAsync(CreateJobApplicationDTO createJobApplicationDto);
+	Task<List<JobApplicationDTO>> GetByCandidateIdAsync(Guid jobApplicationId);
+	Task<List<JobApplicationDTO>> GetAllAsync();
+	Task<Result<JobApplication>> AddAsync(CreateJobApplicationDTO dto);
 }

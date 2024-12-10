@@ -13,7 +13,7 @@ namespace JobMatching.Application.Utilities
 
 			return new CompetenceDTO(
 				competenceId: competence.Id,
-				competenceName: competence.CompetenceName);
+				competenceName: competence.Name);
 		}
 
 		public static CompetenceDTO MapJobCompetence(JobCompetence jobCompetence)
@@ -23,7 +23,7 @@ namespace JobMatching.Application.Utilities
 
 			return new CompetenceDTO(
 				competenceId: jobCompetence.Competence.Id,
-				competenceName: jobCompetence.Competence.CompetenceName);
+				competenceName: jobCompetence.Competence.Name);
 		}
 
 		public static List<CompetenceDTO> MapCompetences(List<Competence> competences) => 

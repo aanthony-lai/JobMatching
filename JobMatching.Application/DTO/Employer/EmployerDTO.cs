@@ -1,7 +1,7 @@
 ﻿namespace JobMatching.Application.DTO.Employer
 {
 	public record EmployerDTO(
-		Guid employerId,
-		string employerName,
-		List<EmployerJobDTO> jobs);
+		Guid Id,
+		string Name,
+		List<EmployerJobDTO> Jobs);
 }

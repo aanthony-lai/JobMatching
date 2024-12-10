@@ -1,12 +1,14 @@
 using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 
 namespace JobMatching.Application.Interfaces;
 
 public interface ICandidateRepository
 {
-	Task<Candidate?> GetCandidateByIdAsync(Guid userId, bool withTracking = true);
-	Task<List<Candidate>> GetCandidatesAsync(bool withTracking = true);
-	Task AddCandidateAsync(Candidate candidate);
-	Task UpdateCandidateAsync(Candidate candidate);
-	Task<bool> CandidateExistsAsync(Guid candidateId);
+	Task<Candidate?> GetByIdAsync(Guid userId, bool withTracking = true);
+	Task<List<Candidate>> GetAllAsync(bool withTracking = true);
+	Task AddAsync(Candidate candidate);
+	Task<CandidateLanguage> AddCandidateLanguageAsync(CandidateLanguage candidateLanguage);
+    Task UpdateAsync(Candidate candidate);
+	Task<bool> ExistsAsync(Guid candidateId);
 }

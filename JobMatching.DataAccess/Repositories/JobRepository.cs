@@ -2,6 +2,7 @@
 using JobMatching.DataAccess.Context;
 using JobMatching.DataAccess.QueryExtensions;
 using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Repositories
@@ -15,7 +16,7 @@ namespace JobMatching.DataAccess.Repositories
 			_appDbContext = appDbContext;
 		}
 
-		public async Task<Job?> GetJobByIdAsync(Guid jobId, bool withTracking = true)
+		public async Task<Job?> GetByIdAsync(Guid jobId, bool withTracking = true)
 		{
 			return await _appDbContext.Jobs
 				.AddTracking(withTracking)
@@ -29,14 +30,14 @@ namespace JobMatching.DataAccess.Repositories
 		{
 			return await _appDbContext.Jobs
 				.AddTracking(withTracking)
-				.Where(j => j.JobTitle.Contains(jobTitle))
+				.Where(j => j.Title.Contains(jobTitle))
 					.Include(j => j.Employer)
 					.Include(j => j.JobCompetences)
 					.ThenInclude(jc => jc.Competence)
 				.ToListAsync();
 		}
 
-		public async Task<List<Job>> GetJobsAsync(bool withTracking = true)
+		public async Task<List<Job>> GetAllAsync(bool withTracking = true)
 		{
 			return await _appDbContext.Jobs
 				.AddTracking(withTracking)
@@ -46,10 +47,18 @@ namespace JobMatching.DataAccess.Repositories
 				.ToListAsync();
 		}
 
-		public async Task AddJobAsync(Job job)
+		public async Task<Job> AddAsync(Job job)
 		{
 			await _appDbContext.Jobs.AddAsync(job);
 			await _appDbContext.SaveChangesAsync();
+			return job;
+		}
+
+		public async Task<JobCompetence> AddJobCompetenceAsync(JobCompetence jobCompetence)
+		{
+			await _appDbContext.JobCompetences.AddAsync(jobCompetence);
+			await _appDbContext.SaveChangesAsync();
+			return jobCompetence;
 		}
 
 		public async Task UpdateJobAsync(Job job)
@@ -59,7 +68,7 @@ namespace JobMatching.DataAccess.Repositories
 			await _appDbContext.SaveChangesAsync();
 		}
 
-		public async Task<bool> JobExistsAsync(Guid jobId)
+		public async Task<bool> ExistsAsync(Guid jobId)
 		{
 			return await _appDbContext.Jobs.AnyAsync(j => j.Id == jobId);
 		}

@@ -12,15 +12,15 @@ namespace JobMatching.Application.Utilities
 
 			return new EmployerJobDTO(
 				JobId: job.Id,
-				JobTitle: job.JobTitle,
-				SalaryRangeTop: job.SalaryRange.SalaryRangeTop,
-				SalaryRangeBottom: job.SalaryRange.SalaryRangeBottom,
+				JobTitle: job.Title,
+				SalaryRangeTop: job.Salary.MaxSalary,
+				SalaryRangeBottom: job.Salary.MinSalary,
 				CriticalCompetences: job.JobCompetences
 					.Where(comp => comp.IsCritical)
-					.Select(comp => comp.Competence.CompetenceName).ToArray(),
+					.Select(comp => comp.Competence.Name).ToArray(),
 				NonCriticalCompetences: job.JobCompetences
 					.Where(comp => !comp.IsCritical)
-					.Select(comp => comp.Competence.CompetenceName).ToArray());
+					.Select(comp => comp.Competence.Name).ToArray());
 		}
 
 		public static List<EmployerJobDTO> MapJobs(List<Job> jobs) => 

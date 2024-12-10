@@ -1,6 +1,7 @@
 ﻿using JobMatching.DataAccess.Configurations;
 using JobMatching.DataAccess.Configurations.JunctionTables;
 using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Context
@@ -13,7 +14,8 @@ namespace JobMatching.DataAccess.Context
 		public DbSet<Job> Jobs { get; set; }
 		public DbSet<JobApplication> JobApplications { get; set; }
 		public DbSet<Competence> Competences { get; set; }
-		public DbSet<Language> Languages { get; set; }
+		public DbSet<CandidateLanguage> CandidateLanguages { get; set; }
+		public DbSet<JobCompetence> JobCompetences { get; set; }
 
 		public AppDbContext(DbContextOptions<AppDbContext> options)
 			: base(options)

@@ -1,16 +1,13 @@
-﻿namespace JobMatching.Domain.ValueObjects.Name
+﻿using JobMatching.Common.Results;
+using JobMatching.Domain.Errors;
+using System.Runtime.CompilerServices;
+
+namespace JobMatching.Domain.ValueObjects.Name
 {
     public class Name
     {
-        public string? FirstName { get; }
-        public string? LastName { get; }
-        public string? EmployerName { get; }
-        public string? UserName { get; set; }
-
-        public static Name SetCandidateName(string firstName, string lastName) => 
-            new Name(firstName, lastName);
-        public static Name SetEmployerName(string employerName) => 
-            new Name(employerName);
+        public string FirstName { get; } = null!;
+        public string LastName { get; } = null!;
 
         public Name() { }
         private Name(string firstName, string lastName)
@@ -22,17 +19,17 @@
             LastName = string.IsNullOrWhiteSpace(lastName)
                 ? throw new ArgumentNullException(nameof(firstName), "Last name can't be empty.")
                 : lastName.Trim();
-
-            UserName = $"{firstName} {lastName}";
         }
-
-        private Name(string employerName)
+        
+        public static Result<Name> SetName(string firstName, string lastName)
         {
-            EmployerName = string.IsNullOrWhiteSpace(employerName)
-				? throw new ArgumentNullException(nameof(employerName), "Employer name can't be empty.")
-                : employerName.Trim();
+            if (string.IsNullOrWhiteSpace(firstName))
+                return NameErrors.FirstNameIsEmpty;
 
-            UserName = employerName;
-		}
+            if (string.IsNullOrWhiteSpace(lastName))
+                return NameErrors.LastNameIsEmpty;
+
+            return Result<Name>.Success(new Name(firstName, lastName));
+        }
 	}
 }

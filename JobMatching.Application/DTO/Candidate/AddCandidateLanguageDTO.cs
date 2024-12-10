@@ -5,7 +5,7 @@ namespace JobMatching.Application.DTO.Candidate
 {
 	public record AddCandidateLanguageDTO(
 		Guid LanguageId,
-		LanguageProficiencyLevel? ProficiencyLevel) : IValidatableObject
+		LanguageProficiencyLevel ProficiencyLevel = LanguageProficiencyLevel.NotSpecified) : IValidatableObject
 	{
 		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 		{

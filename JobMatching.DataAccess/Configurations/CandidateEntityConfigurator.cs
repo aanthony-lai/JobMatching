@@ -23,7 +23,6 @@ namespace JobMatching.DataAccess.Configurations
 					nameBuilder.Property(ln => ln.LastName)
 						.HasColumnName("LastName")
 						.IsRequired();
-					nameBuilder.Ignore(n => n.UserName);
 				});
 
 				candidate.HasMany(c => c.Competences)

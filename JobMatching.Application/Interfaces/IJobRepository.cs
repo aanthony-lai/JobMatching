@@ -1,13 +1,15 @@
 ﻿using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 
 namespace JobMatching.Application.Interfaces;
 
 public interface IJobRepository
 {
-	Task<Job?> GetJobByIdAsync(Guid jobId, bool withTracking = true);
+	Task<Job?> GetByIdAsync(Guid jobId, bool withTracking = true);
 	Task<List<Job>> GetByJobTitleAsync(string jobTitle, bool withTracking = true);
-	Task<List<Job>> GetJobsAsync(bool withTracking = true);
-	Task AddJobAsync(Job job);
-	Task UpdateJobAsync(Job job);
-    Task<bool> JobExistsAsync(Guid jobId);
+	Task<List<Job>> GetAllAsync(bool withTracking = true);
+    Task<Job> AddAsync(Job job);
+	Task<JobCompetence> AddJobCompetenceAsync(JobCompetence jobCompetence);
+    Task UpdateJobAsync(Job job);
+    Task<bool> ExistsAsync(Guid jobId);
 }

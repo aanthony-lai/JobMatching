@@ -15,15 +15,15 @@ namespace JobMatching.DataAccess.Configurations
 				job.Property(j => j.Id)
 					.HasColumnName("Id");
 
-				job.Property(j => j.JobTitle)
+				job.Property(j => j.Title)
 					.HasColumnName("Title")
 					.IsRequired();
 
-				job.OwnsOne(j => j.SalaryRange, salaryBuilder =>
+				job.OwnsOne(j => j.Salary, salaryBuilder =>
 				{
-					salaryBuilder.Property(st => st.SalaryRangeTop)
+					salaryBuilder.Property(st => st.MaxSalary)
 						.HasColumnName("SalaryRange_Top");
-					salaryBuilder.Property(sb => sb.SalaryRangeBottom)
+					salaryBuilder.Property(sb => sb.MinSalary)
 						.HasColumnName("SalaryRange_Bottom");
 				});
 

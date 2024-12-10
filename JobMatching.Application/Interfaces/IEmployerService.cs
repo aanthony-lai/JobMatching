@@ -1,10 +1,12 @@
 ﻿using JobMatching.Application.DTO.Employer;
+using JobMatching.Common.Results;
+using JobMatching.Domain.Entities;
 
 namespace JobMatching.Application.Interfaces;
 
 public interface IEmployerService
 {
-	Task<EmployerDTO?> GetEmployerByIdAsync(Guid employerId);
-	Task<List<EmployerDTO>> GetEmployersAsync();
-	Task CreateEmployerAsync(CreateEmployerDTO createEmployerDto);
+	Task<List<EmployerDTO>> GetAllAsync();
+	Task<Result<EmployerDTO>> GetByIdAsync(Guid employerId);
+	Task<Result<Employer>> AddAsync(CreateEmployerDTO dto);
 }

@@ -15,7 +15,7 @@ namespace JobMatching.DataAccess.Configurations
 				competence.Property(c => c.Id)
 					.HasColumnName("Id");
 
-				competence.Property(c => c.CompetenceName)
+				competence.Property(c => c.Name)
 					.HasColumnName("Name")
 					.IsRequired();
 

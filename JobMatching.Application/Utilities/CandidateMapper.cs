@@ -15,12 +15,12 @@ namespace JobMatching.Application.Utilities
 				FirstName: candidate.Name.FirstName,
 				LastName: candidate.Name.LastName,
 				//Competences: CompetenceMapper.MapCompetences(candidate.Competences),
-				Competences: candidate.Competences.Select(comp => comp.CompetenceName).ToArray(),
+				Competences: candidate.Competences.Select(comp => comp.Name).ToArray(),
 				JobApplications: candidate.JobApplications.Select(
 					ja => new CandidateJobApplicationsDTO(
 						ja.Id, 
-						ja.Job.Employer.GetName(), 
-						ja.Job.JobTitle)).ToList(),
+						ja.Job.Employer.Name, 
+						ja.Job.Title)).ToList(),
 				Languages: candidate.Languages.Select(
 					language => new CandidateLanguageDTO(
 						language.Language.Name, 

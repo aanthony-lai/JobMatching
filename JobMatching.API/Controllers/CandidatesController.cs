@@ -1,98 +1,99 @@
 using JobMatching.Application.DTO.Candidate;
+using JobMatching.Application.DTO.JobApplication;
 using JobMatching.Application.Interfaces;
+using JobMatching.Common.Results;
 using JobMatching.Common.SystemMessages.CandidateMessages;
+using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.API.Controllers
 {
-	[Route("api/candidates")]
-	[ApiController]
-	public class CandidatesController : ControllerBase
-	{
-		private readonly ICandidateService _candidateService;
+    [Route("api/candidates")]
+    [ApiController]
+    public class CandidatesController : ControllerBase
+    {
+        private readonly ICandidateService _candidateService;
+        private readonly IJobApplicationService _jobApplicationService;
 
-		public CandidatesController(
-			ICandidateService candidateService)
-		{
-			_candidateService = candidateService;
-		}
+        public CandidatesController(
+            ICandidateService candidateService, 
+            IJobApplicationService jobApplicationService)
+        {
+            _candidateService = candidateService;
+            _jobApplicationService = jobApplicationService;
+        }
 
-		//
-		//This one should probably be removed later.
-		//
-		[HttpGet("shouldBeRemovedLater")]
-		public async Task<ActionResult<List<CandidateDTO>>> GetAllAsync()
-		{
-			return Ok(await _candidateService.GetCandidatesAsync());
-		}
+        //
+        //This one should probably be removed later.
+        //
+        [HttpGet("shouldBeRemovedLater")]
+        public async Task<ActionResult<List<CandidateDTO>>> GetAllAsync()
+        {
+            return Ok(await _candidateService.GetCandidatesAsync());
+        }
 
-		[HttpGet("{candidateId}")]
-		public async Task<ActionResult<CandidateDTO?>> GetByIdAsync(Guid candidateId)
-		{
-			if (candidateId == Guid.Empty)
-				return BadRequest(CandidateMessages.InvalidCandidateId(candidateId));
+        [HttpGet("{candidateId}")]
+        public async Task<ActionResult<CandidateDTO?>> GetByIdAsync(Guid candidateId)
+        {
+            if (candidateId == Guid.Empty)
+                return BadRequest("Invalid candidate ID.");
 
-			var candidate = await _candidateService.GetCandidateByIdAsync(candidateId);
+            Result<CandidateDTO> result = await _candidateService.GetByIdAsync(candidateId);
 
-			return candidate is null
-				? NotFound(CandidateMessages.CandidateNotFound(candidateId))
-				: Ok(candidate);
-		}
+            return result.Match<ActionResult>(
+                success => Ok(result.Value),
+                failure => NotFound(result.Error.ToString()));
+        }
 
-		[HttpPost]
-		public async Task<ActionResult> CreateAsync([FromBody] CreateCandidateDTO createCandidateDto)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
+        [HttpGet("{candidateId}/job-applications")]
+        public async Task<ActionResult<List<JobApplicationDTO>>> GetJobApplicationsByCandidateId(Guid candidateId)
+        {
+            if (candidateId == Guid.Empty)
+                return BadRequest(CandidateMessages.InvalidCandidateId(candidateId));
 
-			try
-			{
-				await _candidateService.CreateCandidateAsync(createCandidateDto);
-				return NoContent();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+            if (!await _candidateService.ExistsAsync(candidateId))
+                return NotFound(CandidateMessages.CandidateNotFound(candidateId));
 
-		[HttpPost("{candidateId}/competences")]
-		public async Task<ActionResult> CreateCompetence(Guid candidateId, [FromBody] AddCandidateCompetenceDTO addCandidateCompetenceDto)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
+            return Ok(await _jobApplicationService.GetByCandidateIdAsync(candidateId));
+        }
 
-			try
-			{
-				await _candidateService.AddCandidateCompetence(candidateId, addCandidateCompetenceDto);
-				return NoContent();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+        [HttpPost]
+        public async Task<ActionResult> CreateAsync([FromBody] CreateCandidateDTO createCandidateDto)
+        {
+            Result<Candidate> result = await _candidateService.AddAsync(createCandidateDto);
 
-		[HttpPost("{candidateId}/languages")]
-		public async Task<ActionResult> CreateLanguageAsync(Guid candidateId, [FromBody] AddCandidateLanguageDTO addCandidateLanguageDTO)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
+            return result.Match<ActionResult>(
+                success => CreatedAtAction(
+                    nameof(GetByIdAsync),
+                    new { candidateId = result.Value.Id },
+                    result.Value),
+                failure => BadRequest(failure.ToString()));
+        }
 
-			try
-			{
-				await _candidateService.AddCandidateLanguageAsync(candidateId, addCandidateLanguageDTO);
-				return NoContent();
-			}
-			catch (DbUpdateException ex)
-			{
-				return StatusCode(500, "An error occurred while trying to save the changes.");
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			} 
-		}
-	}
+        [HttpPost("{candidateId}/competences")]
+        public async Task<ActionResult> CreateCompetence(Guid candidateId, [FromBody] AddCandidateCompetenceDTO addCandidateCompetenceDto)
+        {
+            try
+            {
+                await _candidateService.AddCandidateCompetence(candidateId, addCandidateCompetenceDto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{candidateId}/languages")]
+        public async Task<ActionResult> CreateLanguageAsync(Guid candidateId, [FromBody] AddCandidateLanguageDTO addCandidateLanguageDTO)
+        {
+            Result<CandidateLanguage> result = await _candidateService
+                .AddCandidateLanguageAsync(candidateId, addCandidateLanguageDTO);
+
+            return result.Match<ActionResult>(
+                success => NoContent(),
+                failure => BadRequest(result.Error.ToString()));
+        }
+    }
 }

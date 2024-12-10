@@ -1,8 +1,10 @@
 ﻿using JobMatching.Application.DTO.Job;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
-using JobMatching.Common.Exceptions;
+using JobMatching.Common.Results;
 using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Domain.Errors;
 
 namespace JobMatching.Application.Services
 {
@@ -12,7 +14,7 @@ namespace JobMatching.Application.Services
         private readonly ICompetenceRepository _competenceRepository;
 
         public JobService(
-            IJobRepository jobRepository, 
+            IJobRepository jobRepository,
             ICompetenceRepository competenceRepository)
         {
             _jobRepository = jobRepository;
@@ -27,23 +29,36 @@ namespace JobMatching.Application.Services
 
         public async Task<List<JobDTO>> GetJobsAsync()
         {
-            var jobs = await _jobRepository.GetJobsAsync(withTracking: false);
+            var jobs = await _jobRepository.GetAllAsync(withTracking: false);
             return JobMapper.MapJobs(jobs);
         }
 
-        public async Task PostJobAsync(CreateJobDTO createJobDto)
+        public async Task<Result<Job>> AddAsync(CreateJobDTO dto)
         {
-            await _jobRepository.AddJobAsync(CreateJobDTOMapper.MapCreateJobDTO(createJobDto));
+            Result<Job> createJobResult = Job.Create(
+                dto.EmployerId,
+                dto.Title,
+                dto.Salary);
+
+            if (!createJobResult.IsSuccess)
+                return Result<Job>.Failure(createJobResult.Error);
+
+            var job = await _jobRepository.AddAsync(createJobResult.Value);
+            return Result<Job>.Success(job);
         }
 
-        public async Task AddJobCompetence(AddJobCompetenceDTO addJobCompetenceDTO)
+        public async Task<Result<JobCompetence>> AddJobCompetence(Guid jobId, AddJobCompetenceDTO dto)
         {
-            var job = await _jobRepository.GetJobByIdAsync(addJobCompetenceDTO.JobId)
-                ?? throw new EntityNotFoundException("The selected job doesn't exist.");
+            if (!await _jobRepository.ExistsAsync(jobId))
+                return Result<JobCompetence>.Failure(JobErrors.NotFound);
 
-            job.AddCompetence(addJobCompetenceDTO.CompetenceId, addJobCompetenceDTO.IsCritical);
+            if (!await _competenceRepository.ExistsAsync(dto.CompetenceId))
+                return Result<JobCompetence>.Failure(JobErrors.NotFound);
 
-            await _jobRepository.UpdateJobAsync(job);
+            var jobCompetence = await _jobRepository.AddJobCompetenceAsync(
+                new JobCompetence(jobId, dto.CompetenceId, dto.IsCritical));
+
+            return Result<JobCompetence>.Success(jobCompetence);
         }
     }
 }
