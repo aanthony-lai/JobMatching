@@ -12,9 +12,9 @@ namespace JobMatching.Application.Utilities
 
 			return new EmployerJobDTO(
 				JobId: job.Id,
-				JobTitle: job.Title,
-				SalaryRangeTop: job.Salary.MaxSalary,
-				SalaryRangeBottom: job.Salary.MinSalary,
+				Title: job.Title,
+				MaxSalary: job.Salary.MaxSalary,
+				MinSalary: job.Salary.MinSalary,
 				CriticalCompetences: job.JobCompetences
 					.Where(comp => comp.IsCritical)
 					.Select(comp => comp.Competence.Name).ToArray(),

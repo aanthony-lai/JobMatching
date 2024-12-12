@@ -4,9 +4,9 @@ namespace JobMatching.Application.DTO.Employer
 {
     public record EmployerJobDTO(
 		Guid JobId,
-		string JobTitle,
-		int? SalaryRangeTop,
-		int? SalaryRangeBottom,
+		string Title,
+		int? MaxSalary,
+		int? MinSalary,
 		string[] CriticalCompetences,
 		string[] NonCriticalCompetences);
 }
