@@ -1,10 +1,9 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Domain.Entities.ValueObjects;
+using JobMatching.Domain.Enums;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Interfaces;
-using JobMatching.Domain.Types;
-using JobMatching.Domain.ValueObjects;
-using JobMatching.Domain.ValueObjects.Name;
 
 namespace JobMatching.Domain.Entities
 {

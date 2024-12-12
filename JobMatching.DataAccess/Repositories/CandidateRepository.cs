@@ -1,8 +1,8 @@
-using JobMatching.Application.Interfaces;
 using JobMatching.DataAccess.Context;
 using JobMatching.DataAccess.QueryExtensions;
 using JobMatching.Domain.Entities;
 using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Repositories;

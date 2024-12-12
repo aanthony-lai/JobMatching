@@ -3,38 +3,41 @@ using JobMatching.Application.Services;
 using JobMatching.DataAccess.Repositories;
 using JobMatching.Domain.DomainServices;
 using JobMatching.Domain.Interfaces;
+using JobMatching.Domain.Repositories;
 
 namespace JobMatching.API.Configurations
 {
-	public static class CustomServices
-	{
-		public static IServiceCollection AddApplicationLayerServices(this IServiceCollection services)
-		{
-			services.AddScoped<ICandidateRepository, CandidateRepository>();
-			services.AddScoped<ICandidateService, CandidateService>();
+    public static class CustomServices
+    {
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddScoped<ICandidateService, CandidateService>();
+            services.AddScoped<IEmployerService, EmployerService>();
+            services.AddScoped<ICompetenceService, CompetenceService>();
+            services.AddScoped<IJobApplicationService, JobApplicationService>();
+            services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IApplicantService, ApplicantService>();
 
-			services.AddScoped<IEmployerService, EmployerService>();
-			services.AddScoped<IEmployerRepository, EmployerRepository>();
+            return services;
+        }
 
-			services.AddScoped<ICompetenceRepository, CompetenceRepository>();
-			services.AddScoped<ICompetenceService, CompetenceService>();
+        public static IServiceCollection AddDomainServices(this IServiceCollection services)
+        {
+            services.AddScoped<IJobMatchService, JobMatchService>();
 
-			services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
-			services.AddScoped<IJobApplicationService, JobApplicationService>();
+            return services;
+        }
 
-			services.AddScoped<IJobRepository, JobRepository>();
-			services.AddScoped<IJobService, JobService>();
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        {
+            services.AddScoped<ICandidateRepository, CandidateRepository>();
+            services.AddScoped<IEmployerRepository, EmployerRepository>();
+            services.AddScoped<ICompetenceRepository, CompetenceRepository>();
+            services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+            services.AddScoped<IJobRepository, JobRepository>();
+            services.AddScoped<ICandidateRepository, CandidateRepository>();
 
-			services.AddScoped<IApplicantService, ApplicantService>();
-			
-			return services;
-		}
-
-		public static IServiceCollection AddDomainServices(this IServiceCollection services)
-		{
-			services.AddScoped<IJobMatchService, JobMatchService>();
-
-			return services;
-		}
-	}
+            return services;
+        }
+    }
 }

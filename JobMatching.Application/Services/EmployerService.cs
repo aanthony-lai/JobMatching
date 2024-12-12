@@ -4,6 +4,7 @@ using JobMatching.Application.Utilities;
 using JobMatching.Common.Results;
 using JobMatching.Domain.Entities;
 using JobMatching.Domain.Errors;
+using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.Services
 {

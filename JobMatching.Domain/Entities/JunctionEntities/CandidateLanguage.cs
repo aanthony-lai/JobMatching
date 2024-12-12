@@ -1,4 +1,4 @@
-using JobMatching.Domain.Types;
+using JobMatching.Domain.Enums;
 
 namespace JobMatching.Domain.Entities.JunctionEntities;
 

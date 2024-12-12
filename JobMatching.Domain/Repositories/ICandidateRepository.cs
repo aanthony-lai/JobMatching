@@ -1,7 +1,7 @@
 using JobMatching.Domain.Entities;
 using JobMatching.Domain.Entities.JunctionEntities;
 
-namespace JobMatching.Application.Interfaces;
+namespace JobMatching.Domain.Repositories;
 
 public interface ICandidateRepository
 {

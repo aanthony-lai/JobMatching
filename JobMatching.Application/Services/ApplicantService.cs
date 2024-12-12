@@ -2,6 +2,7 @@
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
 using JobMatching.Domain.Interfaces;
+using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.Services
 {

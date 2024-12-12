@@ -1,9 +1,9 @@
-﻿using JobMatching.Domain.Types;
+﻿using JobMatching.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace JobMatching.Application.DTO.Candidate
 {
-	public record AddCandidateLanguageDTO(
+    public record AddCandidateLanguageDTO(
 		Guid LanguageId,
 		LanguageProficiencyLevel ProficiencyLevel = LanguageProficiencyLevel.NotSpecified) : IValidatableObject
 	{

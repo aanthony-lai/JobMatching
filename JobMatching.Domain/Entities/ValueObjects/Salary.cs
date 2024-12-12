@@ -1,7 +1,7 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.ValueObjects
+namespace JobMatching.Domain.Entities.ValueObjects
 {
     public class Salary
     {

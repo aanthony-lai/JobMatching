@@ -2,7 +2,7 @@
 using JobMatching.Domain.Errors;
 using System.Runtime.CompilerServices;
 
-namespace JobMatching.Domain.ValueObjects.Name
+namespace JobMatching.Domain.Entities.ValueObjects
 {
     public class Name
     {
@@ -20,7 +20,7 @@ namespace JobMatching.Domain.ValueObjects.Name
                 ? throw new ArgumentNullException(nameof(firstName), "Last name can't be empty.")
                 : lastName.Trim();
         }
-        
+
         public static Result<Name> SetName(string firstName, string lastName)
         {
             if (string.IsNullOrWhiteSpace(firstName))
@@ -31,5 +31,5 @@ namespace JobMatching.Domain.ValueObjects.Name
 
             return Result<Name>.Success(new Name(firstName, lastName));
         }
-	}
+    }
 }

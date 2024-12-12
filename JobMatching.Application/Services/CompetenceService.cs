@@ -1,6 +1,7 @@
 ﻿using JobMatching.Application.DTO.Shared;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
+using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.Services
 {

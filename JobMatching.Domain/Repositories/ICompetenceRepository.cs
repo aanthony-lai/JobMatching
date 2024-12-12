@@ -1,6 +1,6 @@
 ﻿using JobMatching.Domain.Entities;
 
-namespace JobMatching.Application.Interfaces;
+namespace JobMatching.Domain.Repositories;
 
 public interface ICompetenceRepository
 {

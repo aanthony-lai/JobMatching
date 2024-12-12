@@ -8,6 +8,7 @@ using JobMatching.Common.SystemMessages.CompetenceMessages;
 using JobMatching.Domain.Entities;
 using JobMatching.Domain.Entities.JunctionEntities;
 using JobMatching.Domain.Errors;
+using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.Services
 {

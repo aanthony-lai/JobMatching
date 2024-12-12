@@ -1,7 +1,7 @@
 ﻿using JobMatching.Common.Results;
+using JobMatching.Domain.Entities.ValueObjects;
+using JobMatching.Domain.Enums;
 using JobMatching.Domain.Interfaces;
-using JobMatching.Domain.Types;
-using JobMatching.Domain.ValueObjects;
 
 namespace JobMatching.Domain.Entities
 {

@@ -1,10 +1,10 @@
 ﻿using JobMatching.Domain.Entities;
-using JobMatching.Domain.Types;
+using JobMatching.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Configurations
 {
-	public static class UserEntityConfigurator
+    public static class UserEntityConfigurator
 	{
 		public static ModelBuilder AddUserConfiguration(this ModelBuilder modelBuilder)
 		{
