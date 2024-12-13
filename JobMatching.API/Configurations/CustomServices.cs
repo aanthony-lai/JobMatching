@@ -1,6 +1,7 @@
 ﻿using JobMatching.Application.Interfaces;
 using JobMatching.Application.Services;
 using JobMatching.DataAccess.Repositories;
+using JobMatching.Domain.DomainEvents;
 using JobMatching.Domain.DomainServices;
 using JobMatching.Domain.Interfaces;
 using JobMatching.Domain.Repositories;
@@ -9,7 +10,7 @@ namespace JobMatching.API.Configurations
 {
     public static class CustomServices
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<IEmployerService, EmployerService>();
@@ -21,14 +22,15 @@ namespace JobMatching.API.Configurations
             return services;
         }
 
-        public static IServiceCollection AddDomainServices(this IServiceCollection services)
+        public static IServiceCollection RegisterDomainServices(this IServiceCollection services)
         {
             services.AddScoped<IJobMatchService, JobMatchService>();
+            services.RegisterHandlers();
 
             return services;
         }
 
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IEmployerRepository, EmployerRepository>();

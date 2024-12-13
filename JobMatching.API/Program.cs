@@ -6,9 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddApplicationServices();
-builder.Services.AddDomainServices();
-builder.Services.AddInfrastructureServices();
+builder.Services.RegisterApplicationServices();
+builder.Services.RegisterDomainServices();
+builder.Services.RegisterInfrastructureServices();
 
 builder.Services.AddDbContextService();
 var app = builder.Build();
