@@ -42,42 +42,42 @@ namespace JobMatching.Infrastructure.Configurations
                 candidate.Property(c => c.LastModified).HasColumnName("IsDeleted");
             });
 
-            modelBuilder.Entity<CandidateApplication>(application =>
+            modelBuilder.Entity<JobApplication>(jobApplication =>
             {
-                application.ToTable("Applications")
+                jobApplication.ToTable("Applications")
                     .HasKey(a => a.Id);
                 
-                application.Property(a => a.Id).HasColumnName("Id").IsRequired();
-                application.Property(a => a.CandidateId).HasColumnName("CandidateId").IsRequired();
-                application.Property(a => a.JobId).HasColumnName("JobId").IsRequired();
-                application.Property(a => a.Status).HasColumnName("Status").IsRequired();
-                application.Property(a => a.ApplicationDate).HasColumnName("ApplicationDate").IsRequired();
+                jobApplication.Property(a => a.Id).HasColumnName("Id").IsRequired();
+                jobApplication.Property(a => a.CandidateId).HasColumnName("CandidateId").IsRequired();
+                jobApplication.Property(a => a.JobId).HasColumnName("JobId").IsRequired();
+                jobApplication.Property(a => a.Status).HasColumnName("Status").IsRequired();
+                jobApplication.Property(a => a.ApplicationDate).HasColumnName("ApplicationDate").IsRequired();
 
-                application.Property(a => a.Created).HasColumnName("Created");
-                application.Property(a => a.CreatedBy).HasColumnName("CreatedBy");
-                application.Property(a => a.LastModified).HasColumnName("LastModified");
-                application.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy"); ;
-                application.Property(a => a.LastModified).HasColumnName("IsDeleted");
+                jobApplication.Property(a => a.Created).HasColumnName("Created");
+                jobApplication.Property(a => a.CreatedBy).HasColumnName("CreatedBy");
+                jobApplication.Property(a => a.LastModified).HasColumnName("LastModified");
+                jobApplication.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy"); ;
+                jobApplication.Property(a => a.LastModified).HasColumnName("IsDeleted");
             });
 
-            modelBuilder.Entity<CandidateCompetence>(competence =>
+            modelBuilder.Entity<CandidateCompetence>(candidateCompetence =>
             {
-                competence.ToTable("CandidateCompetences")
+                candidateCompetence.ToTable("CandidateCompetences")
                     .HasKey(comp => new { comp.CandidateId, comp.CompetenceId });
 
-                competence.Property(c => c.CandidateId).HasColumnName("CandidateId").IsRequired();
-                competence.Property(c => c.CompetenceId).HasColumnName("CompetenceId").IsRequired();
-                competence.Property(c => c.CompetenceLevel).HasColumnName("CompetenceLevel");
+                candidateCompetence.Property(c => c.CandidateId).HasColumnName("CandidateId").IsRequired();
+                candidateCompetence.Property(c => c.CompetenceId).HasColumnName("CompetenceId").IsRequired();
+                candidateCompetence.Property(c => c.CompetenceLevel).HasColumnName("CompetenceLevel");
             });
 
-            modelBuilder.Entity<CandidateLanguage>(language =>
+            modelBuilder.Entity<CandidateLanguage>(candidateLanguage =>
             {
-                language.ToTable("CandidateLanguages")
+                candidateLanguage.ToTable("CandidateLanguages")
                     .HasKey(lang => new { lang.CandidateId, lang.LanguageId });
 
-                language.Property(lang => lang.CandidateId).HasColumnName("CandidateId").IsRequired();
-                language.Property(lang => lang.LanguageId).HasColumnName("LanguageId").IsRequired();
-                language.Property(lang => lang.ProficiencyLevel).HasColumnName("ProficiencyLevel");
+                candidateLanguage.Property(lang => lang.CandidateId).HasColumnName("CandidateId").IsRequired();
+                candidateLanguage.Property(lang => lang.LanguageId).HasColumnName("LanguageId").IsRequired();
+                candidateLanguage.Property(lang => lang.ProficiencyLevel).HasColumnName("ProficiencyLevel");
             });
 
             return modelBuilder;

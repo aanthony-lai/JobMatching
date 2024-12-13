@@ -1,10 +1,10 @@
-﻿using JobMatching.Domain.Entities;
+﻿using JobMatching.Domain.Entities.Competence;
 
 namespace JobMatching.Domain.Repositories;
 
 public interface ICompetenceRepository
 {
-	Task<Competence?> GetByIdAsync(Guid competenceId, bool withTracking = true);
-	Task<List<Competence>> GetAllAsync(bool withTracking = true);
-	Task<bool> ExistsAsync(Guid competenceId);
+    Task<List<Competence>> GetAsync(bool withTracking);
+    Task<bool> SaveAsync(Competence competence);
+    Task<bool> UpdateAsync(Competence competence);
 }

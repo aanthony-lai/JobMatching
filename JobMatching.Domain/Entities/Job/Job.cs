@@ -3,7 +3,7 @@ using JobMatching.Domain.BaseClasses;
 
 namespace JobMatching.Domain.Entities.Job
 {
-    public sealed class Job : AuditableEntityBase
+    public class Job : AuditableEntityBase
     {
         private readonly List<JobCompetence> _jobCompetences = new();
         private readonly List<Applicant> _applicants = new();

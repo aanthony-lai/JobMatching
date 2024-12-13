@@ -1,15 +1,12 @@
-﻿using JobMatching.Domain.Entities;
-using JobMatching.Domain.Entities.JunctionEntities;
+﻿using JobMatching.Domain.Entities.Job;
 
 namespace JobMatching.Domain.Repositories;
 
 public interface IJobRepository
 {
-	Task<Job?> GetByIdAsync(Guid jobId, bool withTracking = true);
-	Task<List<Job>> GetByJobTitleAsync(string jobTitle, bool withTracking = true);
-	Task<List<Job>> GetAllAsync(bool withTracking = true);
-    Task<Job> AddAsync(Job job);
-	Task<JobCompetence> AddJobCompetenceAsync(JobCompetence jobCompetence);
-    Task UpdateJobAsync(Job job);
-    Task<bool> ExistsAsync(Guid jobId);
+    Task<List<Job>> GetAsync(bool withTracking);
+    Task<Job?> GetByIdAsync(bool withTracking);
+    Task<Job?> GetByNameAsync(bool withTracking);
+    Task<bool> SaveAsync(Job job);
+    Task<bool> UpdateAsync(Job job);
 }

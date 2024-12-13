@@ -1,12 +1,10 @@
 ﻿using JobMatching.Application.DTO.Candidate;
 using JobMatching.Application.Interfaces;
 using JobMatching.Application.Utilities;
-using JobMatching.Common.Exceptions;
 using JobMatching.Common.Results;
 using JobMatching.Common.SystemMessages.CandidateMessages;
 using JobMatching.Common.SystemMessages.CompetenceMessages;
-using JobMatching.Domain.Entities;
-using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Domain.Entities.Candidate;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
 

@@ -1,12 +1,11 @@
-﻿using JobMatching.Domain.Entities.Job;
-using JobMatching.Domain.Entities.Users;
+﻿using JobMatching.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.Infrastructure.Configurations
 {
     public static class UserAggregateConfiguration
     {
-        public static ModelBuilder AddUserConfigurations(this ModelBuilder modelBuilder) 
+        public static ModelBuilder AddUserConfigurations(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(user =>
             {

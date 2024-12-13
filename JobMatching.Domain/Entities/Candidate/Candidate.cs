@@ -10,11 +10,11 @@ namespace JobMatching.Domain.Entities.Candidate
         private readonly List<CandidateCompetence> _candidateCompetence = new();
 
         public Name Name { get; private set; } = null!;
-        public List<CandidateApplication> Applications { get; private set; } = new();
+        public List<JobApplication> Applications { get; private set; } = new();
         public IReadOnlyList<CandidateLanguage> CandidateLanguages => _candidateLanguages.AsReadOnly();
         public IReadOnlyList<CandidateCompetence> CandidateCompetences => _candidateCompetence.AsReadOnly();
         public Guid UserId { get; private set; }
-        public User User { get; private set; }
+        public User User { get; private set; } = null!;
         
 
         protected Candidate() { }
