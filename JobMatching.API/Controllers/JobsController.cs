@@ -31,6 +31,12 @@ namespace JobMatching.API.Controllers
                 failure => BadRequest(result.Error.ToString()));
         }
 
+        [HttpGet("{jobId}/applicants")]
+        public async Task<ActionResult<JobDTO>> GetApplicantsAsync(Guid jobId)
+        {
+            
+        }
+
         [HttpGet("name/{jobName}")]
         public async Task<ActionResult<List<JobDTO>>> GetByNameAsync(string name)
         {

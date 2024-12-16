@@ -45,6 +45,8 @@ namespace JobMatching.Application.Services
             return Result<JobDTO>.Success(jobDto);
         }
 
+
+
         public async Task<List<JobDTO>> GetByNameAsync(string name)
         {
             var jobs = await _jobRepository.GetByNameAsync(name);

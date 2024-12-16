@@ -12,13 +12,10 @@ namespace JobMatching.Infrastructure.Configurations
                 employer.ToTable("Employers")
                 .HasKey(emp => emp.Id);
 
-                employer.HasOne(emp => emp.User);
                 employer.HasMany(emp => emp.EmployerJobs);
 
                 employer.Property(emp => emp.Id).HasColumnName("Id").IsRequired();
                 employer.Property(emp => emp.Name).HasColumnName("Name").IsRequired();
-                employer.Property(emp => emp.UserId).HasColumnName("UserId").IsRequired();
-
                 employer.Property(c => c.Created).HasColumnName("Created");
                 employer.Property(c => c.CreatedBy).HasColumnName("CreatedBy");
                 employer.Property(c => c.LastModified).HasColumnName("LastModified");

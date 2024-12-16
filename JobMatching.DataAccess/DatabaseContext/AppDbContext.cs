@@ -3,25 +3,25 @@ using JobMatching.Domain.Entities.Competence;
 using JobMatching.Domain.Entities.Employer;
 using JobMatching.Domain.Entities.Job;
 using JobMatching.Domain.Entities.Language;
-using JobMatching.Domain.Entities.Users;
 using JobMatching.Infrastructure.Configurations;
+using JobMatching.Infrastructure.DatabaseContext;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Context
 {
-	public class AppDbContext : DbContext
+	public class AppDbContext : IdentityDbContext<User>
 	{
-		public DbSet<User> Users { get; set; }
+		public AppDbContext(DbContextOptions<AppDbContext> options)
+			: base(options)
+		{
+		}
+
 		public DbSet<Candidate> Candidates { get; set; }
 		public DbSet<Employer> Employers { get; set; }
 		public DbSet<Competence> Competences { get; set; }
 		public DbSet<Job> Jobs { get; set; }
 		public DbSet<Language> Languages { get; set; }
-
-		public AppDbContext(DbContextOptions<AppDbContext> options)
-			: base(options)
-		{
-		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -32,7 +32,6 @@ namespace JobMatching.DataAccess.Context
 			modelBuilder.AddJobConfigurations();
 			modelBuilder.AddLanguageConfigurations();
 			modelBuilder.AddEmployerConfigurations();
-			modelBuilder.AddUserConfigurations();
 		}
 	}
 }

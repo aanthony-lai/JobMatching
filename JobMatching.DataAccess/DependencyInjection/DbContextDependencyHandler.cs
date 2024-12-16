@@ -3,16 +3,18 @@ using JobMatching.DataAccess.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace JobMatching.DataAccess.DependencyInjection
+namespace JobMatching.Infrastructure.DependencyInjection
 {
-    public static class DbContextService
+    public static class DbContextDependencyHandler
     {
-        public static IServiceCollection AddDbContextService(this IServiceCollection services)
+        public static IServiceCollection RegisterDbContextService(this IServiceCollection services)
         {
-            return services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(AppSettingsReader.GetValue("ConnectionStrings:AppDbContext"));
             });
+
+            return services;
         }
     }
 }

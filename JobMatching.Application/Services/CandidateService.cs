@@ -14,7 +14,7 @@ namespace JobMatching.Application.Services
         private readonly ICandidateMapper _candidateMapper;
 
         public CandidateService(
-            ICandidateRepository candidateRepository, 
+            ICandidateRepository candidateRepository,
             ICandidateMapper candidateMapper)
         {
             _candidateRepository = candidateRepository;
@@ -26,7 +26,7 @@ namespace JobMatching.Application.Services
             var candidates = await _candidateRepository.GetAsync();
 
             return candidates
-                .Select(candidate =>_candidateMapper
+                .Select(candidate => _candidateMapper
                 .ToDto(candidate))
                 .ToList();
         }
@@ -34,7 +34,7 @@ namespace JobMatching.Application.Services
         public async Task<Result<CandidateDTO>> GetByIdAsync(Guid candidateId)
         {
             var candidate = await _candidateRepository.GetByIdAsync(candidateId);
-            
+
             if (candidate is null)
                 return Result<CandidateDTO>.Failure(CandidateErrors.NotFound);
 
@@ -47,9 +47,7 @@ namespace JobMatching.Application.Services
         {
             var candidateResult = Candidate.Create(
                 candidateDto.FirstName,
-                candidateDto.LastName,
-                candidateDto.Email);
-
+                candidateDto.LastName);
 
             if (!candidateResult.IsSuccess)
                 return Result<Candidate>.Failure(candidateResult.Error);

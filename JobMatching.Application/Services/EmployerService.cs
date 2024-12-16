@@ -60,7 +60,7 @@ namespace JobMatching.Application.Services
         public async Task<Result<Employer>> AddAsync(CreateEmployerDTO createEmployerDto)
         {
             var employerResult = Employer.Create(
-                createEmployerDto.Name, createEmployerDto.Email);
+                createEmployerDto.Name);
             
             if (!employerResult.IsSuccess)
                 return Result<Employer>.Failure(employerResult.Error);

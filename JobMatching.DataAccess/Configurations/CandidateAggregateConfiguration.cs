@@ -1,12 +1,11 @@
 ﻿using JobMatching.Domain.Entities.Candidate;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace JobMatching.Infrastructure.Configurations
 {
     public static class CandidateAggregateConfiguration
     {
-        public static ModelBuilder AddCandidateConfigurations(this ModelBuilder modelBuilder) 
+        public static ModelBuilder AddCandidateConfigurations(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Candidate>(candidate =>
             {
@@ -26,11 +25,6 @@ namespace JobMatching.Infrastructure.Configurations
                         .IsRequired();
                 });
 
-                candidate.Property(c => c.UserId)
-                    .HasColumnName("UserId")
-                    .IsRequired();
-
-                candidate.HasOne(c => c.User);
                 candidate.HasMany(c => c.Applications);
                 candidate.HasMany(c => c.CandidateLanguages);
                 candidate.HasMany(c => c.CandidateCompetences);
@@ -46,7 +40,7 @@ namespace JobMatching.Infrastructure.Configurations
             {
                 jobApplication.ToTable("Applications")
                     .HasKey(a => a.Id);
-                
+
                 jobApplication.Property(a => a.Id).HasColumnName("Id").IsRequired();
                 jobApplication.Property(a => a.CandidateId).HasColumnName("CandidateId").IsRequired();
                 jobApplication.Property(a => a.JobId).HasColumnName("JobId").IsRequired();
