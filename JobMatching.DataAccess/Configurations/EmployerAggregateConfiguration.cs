@@ -1,12 +1,11 @@
-﻿using JobMatching.Domain.Entities.Candidate;
-using JobMatching.Domain.Entities.Employer;
+﻿using JobMatching.Domain.Entities.Employer;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.Infrastructure.Configurations
 {
     public static class EmployerAggregateConfiguration
     {
-        public static ModelBuilder AddEmployerConfigurations(this ModelBuilder modelBuilder) 
+        public static ModelBuilder AddEmployerConfigurations(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employer>(employer =>
             {

@@ -4,8 +4,8 @@ namespace JobMatching.Domain.Repositories;
 
 public interface ICandidateRepository
 {
-    Task<List<Candidate>> GetAsync(bool withTracking);
-    Task<Candidate?> GetByIdAsync(Guid candidateId, bool withTracking);
-    Task<bool> SaveAsync(Candidate candidate);
-    Task<bool> UpdateAsync(Candidate candidate);
+    Task<List<Candidate>> GetAsync(bool withTracking = false);
+    Task<Candidate?> GetByIdAsync(Guid candidateId, bool withTracking = false);
+    Task SaveAsync(Candidate candidate);
+    Task UpdateAsync(Candidate candidate);
 }

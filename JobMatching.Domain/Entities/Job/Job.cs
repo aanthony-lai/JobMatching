@@ -1,5 +1,6 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.BaseClasses;
+using JobMatching.Domain.Errors;
 
 namespace JobMatching.Domain.Entities.Job
 {
@@ -7,31 +8,33 @@ namespace JobMatching.Domain.Entities.Job
     {
         private readonly List<JobCompetence> _jobCompetences = new();
         private readonly List<Applicant> _applicants = new();
-        private readonly List<JobEmployer> _jobEmployers = new();
 
-        public JobTitle Title { get; private set; } = null!;
+        public JobTitle JobTitle { get; private set; } = null!;
         public JobDescription? Description { get; private set; } = null;
         public Salary? Salary { get; private set; } = null;
+        public Guid EmployerId { get; private set; }
         public IReadOnlyList<JobCompetence> JobCompetences => _jobCompetences.AsReadOnly();
         public IReadOnlyList<Applicant> Applicants => _applicants.AsReadOnly();
-        public IReadOnlyList<JobEmployer> JobEmployers => _jobEmployers.AsReadOnly();
 
         protected Job() { }
         private Job(
             JobTitle title, 
             Salary salary, 
-            JobDescription? description) : base()
+            JobDescription? description,
+            Guid employerId) : base()
         {
             base.Id = Guid.NewGuid();
-            Title = title;
+            JobTitle = title;
             Salary = salary;
             Description = description;
+            EmployerId = employerId;
         }
 
         public static Result<Job> Create(
             string title,
             int maxSalary,
             int minSalary,
+            Guid employerId,
             string? desription = null)
         {
             var titleResult = JobTitle.SetTitle(title);
@@ -42,6 +45,9 @@ namespace JobMatching.Domain.Entities.Job
             if (!salaryResult.IsSuccess)
                 return Result<Job>.Failure(salaryResult.Error);
 
+            if (employerId == Guid.Empty)
+                return Result<Job>.Failure(JobErrors.InvalidEmployer);
+
             var descriptionResult = JobDescription.SetDescription(desription);
             if (!descriptionResult.IsSuccess)
                 return Result<Job>.Failure(descriptionResult.Error);
@@ -50,7 +56,8 @@ namespace JobMatching.Domain.Entities.Job
                 new Job(
                     titleResult.Value,
                     salaryResult.Value,
-                    descriptionResult.Value));
+                    descriptionResult.Value,
+                    employerId));
         }
     }
 }

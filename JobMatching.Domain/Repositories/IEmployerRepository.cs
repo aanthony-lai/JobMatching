@@ -4,9 +4,8 @@ namespace JobMatching.Domain.Repositories;
 
 public interface IEmployerRepository
 {
-    Task<List<Employer>> GetAsync(bool withTracking);
-    Task<Employer?> GetByIdAsync(bool withTracking);
-    Task<Employer?> GetByNameAsync(bool withTracking);
-    Task<bool> SaveAsync(Employer employer);
-    Task<bool> UpdateAsync(Employer employer);
+    Task<List<Employer>> GetAsync(bool withTracking = false);
+    Task<Employer?> GetByIdAsync(Guid employerId, bool withTracking = false);
+    Task<List<Employer>> GetByNameAsync(string name, bool withTracking = false);
+    Task SaveAsync(Employer employer);
 }

@@ -1,34 +1,26 @@
 ﻿using JobMatching.Application.DTO.Candidate;
-using JobMatching.Domain.Entities;
+using JobMatching.Application.Interfaces.Mappers;
+using JobMatching.Domain.Entities.Candidate;
 
 namespace JobMatching.Application.Utilities
 {
-    public static class CandidateMapper
-	{
-		public static CandidateDTO MapCandidate(Candidate candidate)
-		{
-			if (candidate is null)
-				throw new ArgumentNullException("Cannot map null to CandidateDTO.", nameof(candidate));
-
-			return new CandidateDTO(
-				CandidateId: candidate.Id,
-				FirstName: candidate.Name.FirstName,
-				LastName: candidate.Name.LastName,
-				//Competences: CompetenceMapper.MapCompetences(candidate.Competences),
-				Competences: candidate.Competences.Select(comp => comp.Name).ToArray(),
-				JobApplications: candidate.JobApplications.Select(
-					ja => new CandidateJobApplicationsDTO(
-						ja.Id, 
-						ja.Job.Employer.Name, 
-						ja.Job.Title)).ToList(),
-				Languages: candidate.Languages.Select(
-					language => new CandidateLanguageDTO(
-						language.Language.Name, 
-						language.ProficiencyLevel.ToString())).ToList(),
-				HasDriversLicense: candidate.HasDriversLicence);
-		}
-
-		public static List<CandidateDTO> MapCandidates(List<Candidate> candidates) => 
-			candidates.Select(MapCandidate).ToList();
-	}
+    public class CandidateMapper : ICandidateMapper
+    {
+        public CandidateDTO ToDto(Candidate candidate)
+        {
+            return new CandidateDTO(
+                Id: candidate.Id,
+                FullName: candidate.Name.ToString(),
+                JobApplication: candidate.Applications.Select(a => new JobApplicationDTO(
+                    JobId: a.JobId,
+                    Status: a.Status,
+                    ApplicationDate: a.ApplicationDate)).ToList(),
+                LanguageSkills: candidate.CandidateLanguages.Select(lang => new CandidateLanguageDTO(
+                    LanguageId: lang.LanguageId,
+                    ProficiencyLevel: lang.ProficiencyLevel)).ToList(),
+                Competences: candidate.CandidateCompetences.Select(comp => new CandidateCompetenceDTO(
+                    CompetenceId: comp.CompetenceId,
+                    CompetenceLevel: comp.CompetenceLevel)).ToList());
+        }
+    }
 }

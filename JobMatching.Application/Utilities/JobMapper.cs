@@ -1,32 +1,22 @@
 ﻿using JobMatching.Application.DTO.Job;
-using JobMatching.Domain.Entities;
-using JobMatching.Domain.Entities.JunctionEntities;
-using System.Threading.Tasks.Dataflow;
+using JobMatching.Application.Interfaces.Mappers;
+using JobMatching.Domain.Entities.Job;
 
 namespace JobMatching.Application.Utilities
 {
-	public static class JobMapper
-	{
-		public static JobDTO MapJob(Job job)
-		{
-			if (job is null)
-				throw new ArgumentNullException("Cannot map null to JobDTO", nameof(job));
-
-			return new JobDTO(
-				JobId: job.Id,
-				JobTitle: job.Title,
-				SalaryRangeTop: job.Salary.MaxSalary,
-				SalaryRangeBottom: job.Salary.MinSalary,
-				EmployerName: job.Employer.Name,
-				CriticalCompetences: job.JobCompetences
-					.Where(jobComp => jobComp.IsCritical)
-					.Select(jobComp => jobComp.Competence.Name).ToArray(),
-				NonCriticalCompetences: job.JobCompetences
-					.Where(jobComp => !jobComp.IsCritical)
-					.Select(jobComp => jobComp.Competence.Name).ToArray());
-		}
-
-		public static List<JobDTO> MapJobs(List<Job> jobs) => 
-			jobs.Select(MapJob).ToList();
-	}
+    public class JobMapper : IJobMapper
+    {
+        public JobDTO ToDto(Job job)
+        {
+            return new JobDTO(
+                Title: job.JobTitle,
+                JobDescription: job.Description,
+                MaxSalary: job.Salary.MaxSalary,
+                MinSalary: job.Salary.MinSalary,
+                PreferredCompetences: job.JobCompetences.Where(c => !c.IsCritical).Select(c => c.CompetenceId).ToList(),
+                CriticalCompetences: job.JobCompetences.Where(c => c.IsCritical).Select(c => c.CompetenceId).ToList(),
+                Applicants: job.Applicants.Select(a => a.CandidateId).ToList(),
+                EmployerId: job.EmployerId);
+        }
+    }
 }

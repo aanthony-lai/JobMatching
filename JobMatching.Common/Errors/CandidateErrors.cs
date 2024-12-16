@@ -9,6 +9,6 @@ namespace JobMatching.Domain.Errors
         public static readonly Error InvalidCompetence = new("You've selected an invalid competence.");
         public static readonly Error InvalidLanguage = new("You've selected an invalid language.");
         public static readonly Error InvalidJob = new("You've selected an invalid job ID.");
-
+        public static readonly Error NotFound = new("Candidate was not found.");
     }
 }

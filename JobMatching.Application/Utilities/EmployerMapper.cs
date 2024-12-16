@@ -1,22 +1,16 @@
 ﻿using JobMatching.Application.DTO.Employer;
-using JobMatching.Domain.Entities;
+using JobMatching.Application.Interfaces.Mappers;
+using JobMatching.Domain.Entities.Employer;
 
 namespace JobMatching.Application.Utilities
 {
-	public static class EmployerMapper
-	{
-		public static EmployerDTO MapEmployer(Employer employer)
-		{
-			if (employer is null)
-				throw new ArgumentNullException("Cannot map null to EmployerDTO", nameof(employer));
-
-			return new EmployerDTO(
-				Id: employer.Id,
-				Name: employer.Name,
-				Jobs: EmployerJobMapper.MapJobs(employer.Jobs));
-		}
-
-		public static List<EmployerDTO> MapEmployers(List<Employer> employers) => 
-			employers.Select(MapEmployer).ToList();
-	}
+    public class EmployerMapper : IEmployerMapper
+    {
+        public EmployerDTO ToDto(Employer employer)
+        {
+            return new EmployerDTO(
+                Name: employer.Name,
+                Jobs: employer.EmployerJobs.Select(j => j.JobId).ToList());
+        }
+    }
 }

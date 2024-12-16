@@ -1,9 +1,9 @@
 ﻿using JobMatching.DataAccess.Context;
 using JobMatching.DataAccess.QueryExtensions;
-using JobMatching.Domain.Entities;
-using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Domain.Entities.Job;
 using JobMatching.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace JobMatching.DataAccess.Repositories
 {
@@ -16,61 +16,48 @@ namespace JobMatching.DataAccess.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task<Job?> GetByIdAsync(Guid jobId, bool withTracking = true)
+        public async Task<List<Job>> GetAsync(bool withTracking = false)
         {
             return await _appDbContext.Jobs
                 .AddTracking(withTracking)
-                    .Include(j => j.Employer)
-                    .Include(j => j.JobCompetences)
-                    .ThenInclude(jc => jc.Competence)
-                .FirstOrDefaultAsync(j => j.Id == jobId);
-        }
-
-        public async Task<List<Job>> GetByJobTitleAsync(string jobTitle, bool withTracking = true)
-        {
-            return await _appDbContext.Jobs
-                .AddTracking(withTracking)
-                .Where(j => j.Title.Contains(jobTitle))
-                    .Include(j => j.Employer)
-                    .Include(j => j.JobCompetences)
-                    .ThenInclude(jc => jc.Competence)
+                .Include(j => j.JobCompetences)
+                .Include(j => j.Applicants)
+                .Include(j => j.JobCompetences)
                 .ToListAsync();
         }
 
-        public async Task<List<Job>> GetAllAsync(bool withTracking = true)
+        public async Task<Job?> GetByIdAsync(Guid jobId, bool withTracking = false)
         {
             return await _appDbContext.Jobs
                 .AddTracking(withTracking)
-                    .Include(j => j.Employer)
-                    .Include(j => j.JobCompetences)
-                    .ThenInclude(jc => jc.Competence)
+                .Where(j => j.Id == jobId)
+                .Include(j => j.JobCompetences)
+                .Include(j => j.Applicants)
+                .Include(j => j.JobCompetences)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Job>> GetByNameAsync(string title, bool withTracking = false)
+        {
+            return await _appDbContext.Jobs
+                .AddTracking(withTracking)
+                .Where(j => j.JobTitle.Title.Contains(title))
+                .Include(j => j.JobCompetences)
+                .Include(j => j.Applicants)
+                .Include(j => j.JobCompetences)
                 .ToListAsync();
         }
 
-        public async Task<Job> AddAsync(Job job)
+        public async Task SaveAsync(Job job)
         {
             await _appDbContext.Jobs.AddAsync(job);
             await _appDbContext.SaveChangesAsync();
-            return job;
         }
 
-        public async Task<JobCompetence> AddJobCompetenceAsync(JobCompetence jobCompetence)
+        public async Task UpdateAsync(Job job)
         {
-            await _appDbContext.JobCompetences.AddAsync(jobCompetence);
-            await _appDbContext.SaveChangesAsync();
-            return jobCompetence;
-        }
-
-        public async Task UpdateJobAsync(Job job)
-        {
-            job.MetaData.SetUpdatedAt();
             _appDbContext.Jobs.Update(job);
             await _appDbContext.SaveChangesAsync();
-        }
-
-        public async Task<bool> ExistsAsync(Guid jobId)
-        {
-            return await _appDbContext.Jobs.AnyAsync(j => j.Id == jobId);
         }
     }
 }

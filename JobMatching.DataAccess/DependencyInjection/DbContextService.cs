@@ -5,16 +5,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace JobMatching.DataAccess.DependencyInjection
 {
-	public static class DbContextService
-	{
-		public static IServiceCollection AddDbContextService(this IServiceCollection service)
-		{
-			service.AddDbContext<AppDbContext>(options =>
-			{
-				options.UseSqlServer(AppSettingsReader.GetValue("ConnectionStrings:AppDbContext"));
-			});
-
-			return service;
-		}
-	}
+    public static class DbContextService
+    {
+        public static IServiceCollection AddDbContextService(this IServiceCollection services)
+        {
+            return services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(AppSettingsReader.GetValue("ConnectionStrings:AppDbContext"));
+            });
+        }
+    }
 }

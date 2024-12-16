@@ -1,6 +1,8 @@
-﻿namespace JobMatching.Application.DTO.Candidate
+﻿using JobMatching.Domain.Enums;
+
+namespace JobMatching.Application.DTO.Candidate
 {
-	public record CandidateLanguageDTO(
-		string Language,
-		string? ProficiencyLevel);
+    public record CandidateLanguageDTO(
+        Guid LanguageId,
+        LanguageProficiencyLevel ProficiencyLevel);
 }

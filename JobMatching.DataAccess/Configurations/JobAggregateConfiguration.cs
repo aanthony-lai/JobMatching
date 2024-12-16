@@ -15,7 +15,7 @@ namespace JobMatching.Infrastructure.Configurations
 
                 job.Property(j => j.Id).HasColumnName("Id");
 
-                job.OwnsOne(j => j.Title, builder =>
+                job.OwnsOne(j => j.JobTitle, builder =>
                 {
                     builder.Property(t => t.Title)
                         .HasColumnName("Title")
@@ -37,8 +37,8 @@ namespace JobMatching.Infrastructure.Configurations
 
                 job.HasMany(j => j.JobCompetences);
                 job.HasMany(j => j.Applicants);
-                job.HasMany(j => j.JobEmployers);
 
+                job.Property(j => j.EmployerId).HasColumnName("EmployerId");
                 job.Property(j => j.Created).HasColumnName("Created");
                 job.Property(j => j.CreatedBy).HasColumnName("CreatedBy");
                 job.Property(j => j.LastModified).HasColumnName("LastModified");
@@ -63,15 +63,6 @@ namespace JobMatching.Infrastructure.Configurations
 
                 applicant.Property(c => c.JobId).HasColumnName("JobId").IsRequired();
                 applicant.Property(c => c.CandidateId).HasColumnName("CandidateId").IsRequired();
-            });
-
-            modelBuilder.Entity<JobEmployer>(JobEmployer =>
-            {
-                JobEmployer.ToTable("Applicants")
-                    .HasKey(c => new { c.JobId, c.EmployerId });
-
-                JobEmployer.Property(c => c.JobId).HasColumnName("JobId").IsRequired();
-                JobEmployer.Property(c => c.EmployerId).HasColumnName("EmployerId").IsRequired();
             });
 
             return modelBuilder;

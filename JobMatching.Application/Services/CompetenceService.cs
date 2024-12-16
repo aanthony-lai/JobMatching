@@ -1,23 +1,21 @@
-﻿using JobMatching.Application.DTO.Shared;
-using JobMatching.Application.Interfaces;
-using JobMatching.Application.Utilities;
+﻿using JobMatching.Application.Interfaces.Services;
+using JobMatching.Domain.Entities.Competence;
 using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.Services
 {
     public class CompetenceService : ICompetenceService
-	{
-		private readonly ICompetenceRepository _competenceRepository;
+    {
+        private readonly ICompetenceRepository _competenceRepository;
 
-		public CompetenceService(ICompetenceRepository competenceRepository)
-		{
-			_competenceRepository = competenceRepository;
-		}
-		public async Task<List<CompetenceDTO>> GetCompetencesAsync()
-		{
-			var competences = await _competenceRepository.GetAllAsync(withTracking: false);
+        public CompetenceService(ICompetenceRepository competenceRepository)
+        {
+            _competenceRepository = competenceRepository;
+        }
 
-			return CompetenceMapper.MapCompetences(competences);
-		}
-	}
+        public async Task<List<Competence>> GetAsync()
+        {
+            return await _competenceRepository.GetAsync();
+        }
+    }
 }

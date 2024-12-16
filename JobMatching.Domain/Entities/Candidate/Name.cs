@@ -28,5 +28,7 @@ namespace JobMatching.Domain.Entities.Candidate
         }
 
         public string GetFullName() => FullName;
+
+        public override string ToString() => FullName;
     }
 }

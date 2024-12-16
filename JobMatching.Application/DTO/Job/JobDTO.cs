@@ -1,13 +1,12 @@
-﻿using JobMatching.Application.DTO.Shared;
-
-namespace JobMatching.Application.DTO.Job
+﻿namespace JobMatching.Application.DTO.Job
 {
-	public record JobDTO(
-		Guid JobId,
-		string JobTitle,
-		int? SalaryRangeTop,
-		int? SalaryRangeBottom,
-		string EmployerName,
-		string[] CriticalCompetences,
-		string[] NonCriticalCompetences);
+    public record JobDTO(
+        string Title,
+        string? JobDescription,
+        int? MaxSalary,
+        int? MinSalary,
+        IReadOnlyList<Guid> PreferredCompetences,
+        IReadOnlyList<Guid> CriticalCompetences,
+        IReadOnlyList<Guid> Applicants,
+        Guid EmployerId);
 }

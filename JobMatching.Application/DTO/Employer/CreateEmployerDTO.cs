@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
 namespace JobMatching.Application.DTO.Employer
 {
@@ -10,10 +9,11 @@ namespace JobMatching.Application.DTO.Employer
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(Name))
-                yield return new ValidationResult("Employer name can't be empty.",
+                yield return new ValidationResult("Employer name can't be empty",
                     new[] { nameof(Name) });
 
-            if (!Email.Contains("@"))
+            if (string.IsNullOrWhiteSpace(Email) ||
+                !Email.Contains("@"))
                 yield return new ValidationResult("Invalid email.",
                     new[] { nameof(Email) });
         }

@@ -1,9 +1,8 @@
 ﻿using JobMatching.Application.DTO.Job;
-using JobMatching.Application.Interfaces;
-using JobMatching.Application.Utilities;
+using JobMatching.Application.Interfaces.Mappers;
+using JobMatching.Application.Interfaces.Services;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Entities;
-using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Domain.Entities.Job;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
 
@@ -12,54 +11,64 @@ namespace JobMatching.Application.Services
     public class JobService : IJobService
     {
         private readonly IJobRepository _jobRepository;
-        private readonly ICompetenceRepository _competenceRepository;
+        private readonly IJobMapper _jobMapper;
 
         public JobService(
             IJobRepository jobRepository,
-            ICompetenceRepository competenceRepository)
+            IJobMapper jobMapper)
         {
             _jobRepository = jobRepository;
-            _competenceRepository = competenceRepository;
+            _jobMapper = jobMapper;
         }
 
-        public async Task<List<JobDTO>> GetByJobTitleAsync(string jobTitle)
+        public async Task<Result<List<JobDTO>>> GetAsync()
         {
-            var jobs = await _jobRepository.GetByJobTitleAsync(jobTitle, withTracking: false);
-            return JobMapper.MapJobs(jobs);
+            var jobs = await _jobRepository.GetAsync();
+
+            var jobsDto = jobs
+                .Select(job => _jobMapper
+                .ToDto(job))
+                .ToList();
+
+            return Result<List<JobDTO>>.Success(jobsDto);
         }
 
-        public async Task<List<JobDTO>> GetJobsAsync()
+        public async Task<Result<JobDTO>> GetByIdAsync(Guid jobId)
         {
-            var jobs = await _jobRepository.GetAllAsync(withTracking: false);
-            return JobMapper.MapJobs(jobs);
+            var job = await _jobRepository.GetByIdAsync(jobId);
+
+            if (job is null)
+                return Result<JobDTO>.Failure(JobErrors.NotFound);
+
+            var jobDto = _jobMapper.ToDto(job);
+
+            return Result<JobDTO>.Success(jobDto);
         }
 
-        public async Task<Result<Job>> AddAsync(CreateJobDTO dto)
+        public async Task<List<JobDTO>> GetByNameAsync(string name)
         {
-            Result<Job> createJobResult = Job.Create(
-                dto.EmployerId,
-                dto.Title,
-                dto.Salary);
+            var jobs = await _jobRepository.GetByNameAsync(name);
 
-            if (!createJobResult.IsSuccess)
-                return Result<Job>.Failure(createJobResult.Error);
+            if (!jobs.Any())
+                return new List<JobDTO>();
 
-            var job = await _jobRepository.AddAsync(createJobResult.Value);
-            return Result<Job>.Success(job);
+            return jobs.Select(job => _jobMapper.ToDto(job)).ToList();
         }
 
-        public async Task<Result<JobCompetence>> AddJobCompetence(Guid jobId, AddJobCompetenceDTO dto)
+        public async Task<Result<Job>> AddAsync(Guid employerId, CreateJobDTO createJobDto)
         {
-            if (!await _jobRepository.ExistsAsync(jobId))
-                return Result<JobCompetence>.Failure(JobErrors.NotFound);
+            var addJobResult = Job.Create(
+                createJobDto.Title, 
+                createJobDto.MaxSalary, 
+                createJobDto.MinSalary, 
+                employerId, 
+                createJobDto.Description);
 
-            if (!await _competenceRepository.ExistsAsync(dto.CompetenceId))
-                return Result<JobCompetence>.Failure(JobErrors.NotFound);
+            if (!addJobResult.IsSuccess)
+                return Result<Job>.Failure(addJobResult.Error);
 
-            var jobCompetence = await _jobRepository.AddJobCompetenceAsync(
-                new JobCompetence(jobId, dto.CompetenceId, dto.IsCritical));
-
-            return Result<JobCompetence>.Success(jobCompetence);
+            await _jobRepository.SaveAsync(addJobResult.Value);
+            return Result<Job>.Success(addJobResult.Value);
         }
     }
 }

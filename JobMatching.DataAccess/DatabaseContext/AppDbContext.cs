@@ -30,6 +30,9 @@ namespace JobMatching.DataAccess.Context
 			modelBuilder.AddCandidateConfigurations();
 			modelBuilder.AddCompetenceConfigurations();
 			modelBuilder.AddJobConfigurations();
+			modelBuilder.AddLanguageConfigurations();
+			modelBuilder.AddEmployerConfigurations();
+			modelBuilder.AddUserConfigurations();
 		}
 	}
 }

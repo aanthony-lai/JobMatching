@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DomainEvents\Handlers\" />
-    <Folder Include="DomainEvents\Requests\" />
+    <Folder Include="DomainEvents\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,7 @@
 ﻿using JobMatching.Application.DTO.Candidate;
-using JobMatching.Application.Interfaces;
-using JobMatching.Application.Utilities;
+using JobMatching.Application.Interfaces.Mappers;
+using JobMatching.Application.Interfaces.Services;
 using JobMatching.Common.Results;
-using JobMatching.Common.SystemMessages.CandidateMessages;
-using JobMatching.Common.SystemMessages.CompetenceMessages;
 using JobMatching.Domain.Entities.Candidate;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
@@ -13,72 +11,52 @@ namespace JobMatching.Application.Services
     public class CandidateService : ICandidateService
     {
         private readonly ICandidateRepository _candidateRepository;
-        private readonly ICompetenceRepository _competenceRepository;
+        private readonly ICandidateMapper _candidateMapper;
 
         public CandidateService(
-            ICandidateRepository candidateRepository,
-            ICompetenceRepository competenceRepository)
+            ICandidateRepository candidateRepository, 
+            ICandidateMapper candidateMapper)
         {
             _candidateRepository = candidateRepository;
-            _competenceRepository = competenceRepository;
+            _candidateMapper = candidateMapper;
+        }
+
+        public async Task<List<CandidateDTO>> GetAsync()
+        {
+            var candidates = await _candidateRepository.GetAsync();
+
+            return candidates
+                .Select(candidate =>_candidateMapper
+                .ToDto(candidate))
+                .ToList();
         }
 
         public async Task<Result<CandidateDTO>> GetByIdAsync(Guid candidateId)
         {
-            var candidate = await _candidateRepository.GetByIdAsync(candidateId, withTracking: false);
+            var candidate = await _candidateRepository.GetByIdAsync(candidateId);
+            
             if (candidate is null)
                 return Result<CandidateDTO>.Failure(CandidateErrors.NotFound);
 
-            return Result<CandidateDTO>.Success(CandidateMapper.MapCandidate(candidate));
+            var candidateDto = _candidateMapper.ToDto(candidate);
+
+            return Result<CandidateDTO>.Success(candidateDto);
         }
 
-        public async Task<List<CandidateDTO>> GetCandidatesAsync()
+        public async Task<Result<Candidate>> AddAsync(CreateCandidateDTO candidateDto)
         {
-            var candidates = await _candidateRepository.GetAllAsync(withTracking: false);
-            return CandidateMapper.MapCandidates(candidates);
+            var candidateResult = Candidate.Create(
+                candidateDto.FirstName,
+                candidateDto.LastName,
+                candidateDto.Email);
+
+
+            if (!candidateResult.IsSuccess)
+                return Result<Candidate>.Failure(candidateResult.Error);
+
+            await _candidateRepository.SaveAsync(candidateResult.Value);
+
+            return Result<Candidate>.Success(candidateResult.Value);
         }
-
-        public async Task<Result<Candidate>> AddAsync(CreateCandidateDTO dto)
-        {
-            Result<Candidate> result = Candidate.Create(
-                dto.FirstName,
-                dto.LastName,
-                dto.Email,
-                dto.HasDriversLicense);
-
-            if (!result.IsSuccess)
-                return Result<Candidate>.Failure(result.Error);
-
-            await _candidateRepository.AddAsync(result.Value);
-
-            return Result<Candidate>.Success(result.Value);
-        }
-
-        public async Task AddCandidateCompetence(Guid candidateId, AddCandidateCompetenceDTO dto)
-        {
-            Candidate candidate = await _candidateRepository.GetByIdAsync(candidateId)
-                ?? throw new EntityNotFoundException(CandidateMessages.CandidateNotFound(candidateId));
-
-            Competence competence = await _competenceRepository.GetByIdAsync(dto.competenceId)
-                ?? throw new EntityNotFoundException(CompetenceMessages.CompetenceDoesNotExist(dto.competenceId));
-
-            candidate.AddCompetence(competence);
-            await _candidateRepository.UpdateAsync(candidate);
-        }
-
-        public async Task<Result<CandidateLanguage>> AddCandidateLanguageAsync(Guid candidateId, AddCandidateLanguageDTO dto)
-        {
-            if (!await _candidateRepository.ExistsAsync(candidateId))
-                return Result<CandidateLanguage>.Failure(CandidateErrors.NotFound);
-
-            var candidateLanguage = new CandidateLanguage(
-                candidateId, dto.LanguageId, dto.ProficiencyLevel);
-
-            await _candidateRepository.AddCandidateLanguageAsync(candidateLanguage);
-            return Result<CandidateLanguage>.Success(candidateLanguage);
-        }
-
-        public async Task<bool> ExistsAsync(Guid candidateId) =>
-            await _candidateRepository.ExistsAsync(candidateId);
     }
 }

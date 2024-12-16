@@ -1,5 +1,5 @@
 ﻿using JobMatching.Application.DTO.Employer;
-using JobMatching.Application.Interfaces;
+using JobMatching.Application.Interfaces.Services;
 using JobMatching.Application.Utilities;
 using JobMatching.Common.Results;
 using JobMatching.Domain.Entities;
@@ -19,35 +19,41 @@ namespace JobMatching.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<EmployerDTO>>> GetAllAsync()
+        public async Task<ActionResult<List<EmployerDTO>>> GetAsync()
         {
-            return await _employerService.GetAllAsync();
+            return Ok(await _employerService.GetAsync());
         }
 
         [HttpGet("{employerId}")]
-        public async Task<ActionResult<EmployerDTO>> GetByIdAsync([FromRoute] Guid employerId)
+        public async Task<ActionResult<EmployerDTO>> GetByIdAsync(Guid employerId)
         {
-            if (employerId == Guid.Empty)
-                return BadRequest("Invalid employer ID.");
-
-            Result<EmployerDTO> result = await _employerService.GetByIdAsync(employerId);
+            var result = await _employerService.GetByIdAsync(employerId);
 
             return result.Match<ActionResult>(
                 success => Ok(result.Value),
-                failture => NotFound(result.Error.ToString()));
+                failure => BadRequest(result.Error.ToString()));
+        }
+
+        [HttpGet("name/{employerName}")]
+        public async Task<ActionResult<EmployerDTO>> GetByNameAsync(string employerName)
+        {
+            var result = await _employerService.GetByNameAsync(employerName);
+
+            return result.Match<ActionResult>(
+                success => Ok(result.Value),
+                failure => BadRequest(result.Error.ToString()));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromBody] CreateEmployerDTO createEmployerDto)
+        public async Task<ActionResult> AddAsync([FromBody]CreateEmployerDTO createEmployerDto)
         {
-            Result<Employer> result = await _employerService
-                .AddAsync(createEmployerDto);
+            var result = await _employerService.AddAsync(createEmployerDto);
 
             return result.Match<ActionResult>(
                 success => CreatedAtAction(
                     nameof(GetByIdAsync),
                     new { employerId = result.Value.Id },
-                    result.Value),
+                    new { result.Value }),
                 failure => BadRequest(result.Error.ToString()));
         }
     }

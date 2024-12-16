@@ -1,49 +1,73 @@
 ﻿using JobMatching.Application.DTO.Employer;
-using JobMatching.Application.Interfaces;
-using JobMatching.Application.Utilities;
+using JobMatching.Application.Interfaces.Mappers;
+using JobMatching.Application.Interfaces.Services;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Entities;
+using JobMatching.Domain.Entities.Employer;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.Services
 {
     public class EmployerService : IEmployerService
-	{
-		private readonly IEmployerRepository _employerRepository;
+    {
+        private readonly IEmployerRepository _employerRepository;
+        private readonly IEmployerMapper _employerMapper;
 
-		public EmployerService(IEmployerRepository employerRepository)
-		{
-			_employerRepository = employerRepository;
-		}
+        public EmployerService(
+            IEmployerRepository employerRepository,
+            IEmployerMapper employerMapper)
+        {
+            _employerRepository = employerRepository;
+            _employerMapper = employerMapper;
+        }
 
-		public async Task<List<EmployerDTO>> GetAllAsync()
-		{
-			var employers = await _employerRepository.GetEmployersAsync(withTracking: false);
+        public async Task<Result<List<EmployerDTO>>> GetAsync()
+        {
+            var employers = await _employerRepository.GetAsync();
 
-			return EmployerMapper.MapEmployers(employers);
-		}
+            var employersDto = employers
+                .Select(employer => _employerMapper
+                .ToDto(employer))
+                .ToList();
 
-		public async Task<Result<EmployerDTO>> GetByIdAsync(Guid employerId)
-		{
-			var employer = await _employerRepository.GetEmployerByIdAsync(employerId, withTracking: false);
+            return Result<List<EmployerDTO>>.Success(employersDto);
+        }
 
-			if (employer is null)
-				return Result<EmployerDTO>.Failure(EmployerErrors.NotFound);
+        public async Task<Result<EmployerDTO>> GetByIdAsync(Guid employerId)
+        {
+            var employer = await _employerRepository.GetByIdAsync(employerId);
+            
+            if (employer is null)
+                return Result<EmployerDTO>.Failure(EmployerErrors.NotFound);
 
-			return Result<EmployerDTO>.Success(
-				EmployerMapper.MapEmployer(employer));
-		}
+            var employerDto = _employerMapper.ToDto(employer);
 
-		public async Task<Result<Employer>> AddAsync(CreateEmployerDTO dto)
-		{
-			Result<Employer> employerResult = Employer.Create(dto.Name, dto.Email);
+            return Result<EmployerDTO>.Success(employerDto);
+        }
 
-			if (!employerResult.IsSuccess)
-				return Result<Employer>.Failure(employerResult.Error);
+        public async Task<Result<List<EmployerDTO>>> GetByNameAsync(string name)
+        {
+            var employers = await _employerRepository.GetByNameAsync(name);
 
-			await _employerRepository.SaveEmployerAsync(employerResult.Value);
-			return Result<Employer>.Success(employerResult.Value);
-		}
-	}
+            var employersDto = employers
+                .Select(employer => _employerMapper
+                .ToDto(employer))
+                .ToList();
+
+            return Result<List<EmployerDTO>>.Success(employersDto);
+        }
+
+        public async Task<Result<Employer>> AddAsync(CreateEmployerDTO createEmployerDto)
+        {
+            var employerResult = Employer.Create(
+                createEmployerDto.Name, createEmployerDto.Email);
+            
+            if (!employerResult.IsSuccess)
+                return Result<Employer>.Failure(employerResult.Error);
+
+            await _employerRepository.SaveAsync(employerResult.Value);
+
+            return Result<Employer>.Success(employerResult.Value);
+        }
+    }
 }

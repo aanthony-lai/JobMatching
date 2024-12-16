@@ -1,8 +1,5 @@
 ﻿using JobMatching.Application.DTO.Job;
-using JobMatching.Application.Interfaces;
-using JobMatching.Common.Results;
-using JobMatching.Domain.Entities;
-using JobMatching.Domain.Entities.JunctionEntities;
+using JobMatching.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -19,44 +16,37 @@ namespace JobMatching.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<JobDTO>>> GetAllAsync()
+        public async Task<ActionResult<List<JobDTO>>> GetAsync()
         {
-            return Ok(await _jobService.GetJobsAsync());
+            return Ok(await _jobService.GetAsync());
         }
 
-        [HttpGet("{jobTitle}")]
-        public async Task<ActionResult<List<JobDTO>>> GetByTitleAsync(string jobTitle)
+        [HttpGet("{jobId}")]
+        public async Task<ActionResult<JobDTO>> GetByIdAsync(Guid jobId)
         {
-            if (string.IsNullOrWhiteSpace(jobTitle))
-                return BadRequest("No jobs found.");
-
-            var jobsDto = await _jobService.GetByJobTitleAsync(jobTitle);
-            return Ok(jobsDto);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromBody] CreateJobDTO dto)
-        {
-            if (dto.EmployerId == Guid.Empty)
-                return BadRequest("Invalid employer ID.");
-
-            Result<Job> result = await _jobService.AddAsync(dto);
+            var result = await _jobService.GetByIdAsync(jobId);
 
             return result.Match<ActionResult>(
-                success => NoContent(),
+                success => Ok(result.Value),
                 failure => BadRequest(result.Error.ToString()));
         }
 
-        [HttpPost("{jobId}/competence")]
-        public async Task<ActionResult> CreateCompetenceAsync(Guid jobId, [FromBody] AddJobCompetenceDTO dto)
+        [HttpGet("name/{jobName}")]
+        public async Task<ActionResult<List<JobDTO>>> GetByNameAsync(string name)
         {
-            if (jobId == Guid.Empty)
-                return BadRequest("Invalid job ID.");
+            return Ok(await _jobService.GetByNameAsync(name));
+        }
 
-            Result<JobCompetence> result = await _jobService.AddJobCompetence(jobId, dto);
+        [HttpPost("{employerId}")]
+        public async Task<ActionResult> AddAsync(Guid employerId, CreateJobDTO createJobDTO)
+        {
+            var result = await _jobService.AddAsync(employerId, createJobDTO);
 
             return result.Match<ActionResult>(
-                success => NoContent(),
+                success => CreatedAtAction(
+                    nameof(GetByIdAsync),
+                    new { jobId = result.Value.Id },
+                    new { result.Value }),
                 failure => BadRequest(result.Error.ToString()));
         }
     }
