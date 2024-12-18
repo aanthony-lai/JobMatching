@@ -1,10 +1,10 @@
-﻿using JobMatching.Application.Interfaces.Mappers;
+﻿using JobMatching.Application.Applicants;
+using JobMatching.Application.Interfaces.Mappers;
 using JobMatching.Application.Interfaces.Services;
 using JobMatching.Application.Services;
 using JobMatching.Application.Utilities;
 using JobMatching.DataAccess.Repositories;
-using JobMatching.Domain.DomainServices;
-using JobMatching.Domain.Interfaces;
+using JobMatching.Domain.JobMatchGradeService;
 using JobMatching.Domain.Repositories;
 
 namespace JobMatching.API.Configurations
@@ -21,6 +21,7 @@ namespace JobMatching.API.Configurations
             services.AddScoped<ICandidateMapper, CandidateMapper>();
             services.AddScoped<IEmployerMapper, EmployerMapper>();
             services.AddScoped<IJobMapper, JobMapper>();
+            services.AddScoped<IApplicantMapper, ApplicantMapper>();
 
             return services;
         }

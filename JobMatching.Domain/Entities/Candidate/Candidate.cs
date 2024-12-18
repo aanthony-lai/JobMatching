@@ -1,5 +1,4 @@
 ﻿using JobMatching.Common.Results;
-using JobMatching.Domain.BaseClasses;
 
 namespace JobMatching.Domain.Entities.Candidate
 {

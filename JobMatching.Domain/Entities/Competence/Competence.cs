@@ -1,10 +1,9 @@
 ﻿using JobMatching.Common.Results;
-using JobMatching.Domain.BaseClasses;
 using JobMatching.Domain.Errors;
 
 namespace JobMatching.Domain.Entities.Competence
 {
-    public class Competence: EntityBase
+    public class Competence: EntityBase, IEquatable<Competence>
     {
         public string Name { get; } = null!;
 
@@ -17,6 +16,11 @@ namespace JobMatching.Domain.Entities.Competence
                 return Result<Competence>.Failure(CompetenceErrors.InvalidName);
 
             return Result<Competence>.Success(new Competence(name));
+        }
+
+        public bool Equals(Competence? other)
+        {
+            return base.Id == other!.Id;
         }
     }
 }

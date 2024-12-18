@@ -38,14 +38,14 @@ namespace JobMatching.Application.Services
             var job = await _jobRepository.GetByIdAsync(jobId);
 
             if (job is null)
-                return Result<JobDTO>.Failure(JobErrors.NotFound);
+                return Result<JobDTO>.Failure(JobErrors.NotFound(jobId));
 
             var jobDto = _jobMapper.ToDto(job);
 
             return Result<JobDTO>.Success(jobDto);
         }
 
-
+        //public async Task<Result>
 
         public async Task<List<JobDTO>> GetByNameAsync(string name)
         {

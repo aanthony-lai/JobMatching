@@ -8,12 +8,14 @@ namespace JobMatching.Domain.Entities.Candidate
     {
         public Guid CandidateId { get; private set; }
         public Guid CompetenceId { get; private set; }
+        public string CompetenceName { get; private set; }
         public CompetenceLevel CompetenceLevel { get; private set; }
 
         protected CandidateCompetence() { }
         private CandidateCompetence(
             Guid candidateId, 
-            Guid competenceId, 
+            Guid competenceId,
+            string CompetenceName,
             CompetenceLevel competenceLevel)
         {
             CandidateId = candidateId;
@@ -24,6 +26,7 @@ namespace JobMatching.Domain.Entities.Candidate
         public static Result<CandidateCompetence> Create(
             Guid candidateId, 
             Guid competenceId, 
+            string competenceName,
             CompetenceLevel competenceLevel = 
             CompetenceLevel.NotSpecified)
         {
@@ -33,7 +36,8 @@ namespace JobMatching.Domain.Entities.Candidate
             return Result<CandidateCompetence>.Success(
                 new CandidateCompetence(
                     candidateId, 
-                    competenceId, 
+                    competenceId,
+                    competenceName,
                     competenceLevel));
         }
 

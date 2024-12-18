@@ -59,6 +59,7 @@ namespace JobMatching.Infrastructure.Configurations
                 candidateCompetence.ToTable("CandidateCompetences")
                     .HasKey(comp => new { comp.CandidateId, comp.CompetenceId });
 
+                candidateCompetence.Property(c => c.CompetenceName).HasColumnName("CompetenceName").IsRequired();
                 candidateCompetence.Property(c => c.CandidateId).HasColumnName("CandidateId").IsRequired();
                 candidateCompetence.Property(c => c.CompetenceId).HasColumnName("CompetenceId").IsRequired();
                 candidateCompetence.Property(c => c.CompetenceLevel).HasColumnName("CompetenceLevel");

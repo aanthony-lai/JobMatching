@@ -1,4 +1,4 @@
-﻿namespace JobMatching.Domain.Interfaces
+﻿namespace JobMatching.Domain.Entities
 {
     public interface IEntity
     {

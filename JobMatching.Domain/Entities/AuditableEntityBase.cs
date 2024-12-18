@@ -1,6 +1,6 @@
-﻿namespace JobMatching.Domain.BaseClasses
+﻿namespace JobMatching.Domain.Entities
 {
-    public abstract class AuditableEntityBase: EntityBase
+    public abstract class AuditableEntityBase : EntityBase
     {
         public DateTime Created { get; set; }
         public string? CreatedBy { get; set; }
@@ -8,7 +8,7 @@
         public string? ModifiedBy { get; set; }
         public bool? IsDeleted { get; set; }
 
-        protected AuditableEntityBase() 
+        protected AuditableEntityBase()
         {
             Created = DateTime.UtcNow;
             LastModified = DateTime.UtcNow;

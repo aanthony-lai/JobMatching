@@ -1,6 +1,7 @@
 ﻿namespace JobMatching.Application.DTO.Job
 {
     public record JobDTO(
+        Guid JobId,
         string Title,
         string? JobDescription,
         int? MaxSalary,

@@ -9,6 +9,7 @@ namespace JobMatching.Application.Utilities
         public JobDTO ToDto(Job job)
         {
             return new JobDTO(
+                JobId: job.Id,
                 Title: job.JobTitle,
                 JobDescription: job.Description,
                 MaxSalary: job.Salary.MaxSalary,

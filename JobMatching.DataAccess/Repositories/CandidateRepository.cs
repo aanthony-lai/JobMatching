@@ -36,6 +36,17 @@ public class CandidateRepository : ICandidateRepository
             .FirstOrDefaultAsync();
     }
 
+    public async Task<List<Candidate>> GetByIdsAsync(IEnumerable<Guid> ids, bool withTracking = false)
+    {
+        return await _appDbContext.Candidates
+            .AddTracking(withTracking)
+            .Where(c => ids.Contains(c.Id))
+            .Include(c => c.Applications)
+            .Include(c => c.CandidateLanguages)
+            .Include(c => c.CandidateCompetences)
+            .ToListAsync();
+    }
+
     public async Task SaveAsync(Candidate candidate)
     {
         await _appDbContext.Candidates.AddAsync(candidate);

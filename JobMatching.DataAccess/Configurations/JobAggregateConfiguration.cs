@@ -51,6 +51,7 @@ namespace JobMatching.Infrastructure.Configurations
                 jobCompetence.ToTable("JobCompetences")
                     .HasKey(c => new { c.JobId, c.CompetenceId });
 
+                jobCompetence.Property(c => c.CompetenceName).HasColumnName("CompetenceName").IsRequired();
                 jobCompetence.Property(c => c.JobId).HasColumnName("JobId").IsRequired();
                 jobCompetence.Property(c => c.CompetenceId).HasColumnName("CompetenceId").IsRequired();
                 jobCompetence.Property(c => c.IsCritical).HasColumnName("IsCritical").IsRequired();

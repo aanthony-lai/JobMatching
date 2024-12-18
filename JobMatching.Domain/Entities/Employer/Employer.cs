@@ -1,5 +1,4 @@
 ﻿using JobMatching.Common.Results;
-using JobMatching.Domain.BaseClasses;
 using JobMatching.Domain.Errors;
 
 namespace JobMatching.Domain.Entities.Employer

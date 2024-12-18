@@ -5,7 +5,7 @@ namespace JobMatching.Domain.Entities.Candidate
 {
     public record Name
     {
-        private string FullName = string.Empty;
+        public string FullName { get; } = null!;
         public string FirstName { get; } = null!;
         public string LastName { get; } = null!;
 
@@ -26,8 +26,6 @@ namespace JobMatching.Domain.Entities.Candidate
 
             return Result<Name>.Success(new Name(firstName, lastName));
         }
-
-        public string GetFullName() => FullName;
 
         public override string ToString() => FullName;
     }

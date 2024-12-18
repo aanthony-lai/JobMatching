@@ -1,5 +1,7 @@
-﻿using JobMatching.Application.DTO.Job;
+﻿using JobMatching.Application.Applicants;
+using JobMatching.Application.DTO.Job;
 using JobMatching.Application.Interfaces.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -9,10 +11,14 @@ namespace JobMatching.API.Controllers
     public class JobsController : ControllerBase
     {
         private readonly IJobService _jobService;
+        private readonly IMediator _mediator;
 
-        public JobsController(IJobService jobService)
+        public JobsController(
+            IJobService jobService,
+            IMediator mediator)
         {
             _jobService = jobService;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -32,9 +38,13 @@ namespace JobMatching.API.Controllers
         }
 
         [HttpGet("{jobId}/applicants")]
-        public async Task<ActionResult<JobDTO>> GetApplicantsAsync(Guid jobId)
+        public async Task<ActionResult<ApplicantsMatchSummaryDTO>> GetApplicantsAsync(Guid jobId)
         {
-            
+            var result = await _mediator.Send(new ApplicantsMatchSummaryRequest(jobId));
+
+            return result.Match<ActionResult>(
+                success => Ok(result.Value),
+                failure => BadRequest("Something went wrong"));
         }
 
         [HttpGet("name/{jobName}")]

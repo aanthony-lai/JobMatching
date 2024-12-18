@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JobMatching.Domain.BaseClasses
+namespace JobMatching.Domain.Entities
 {
-    public abstract class EntityBase: IEquatable<EntityBase>
+    public abstract class EntityBase : IEquatable<EntityBase>
     {
         public Guid Id { get; set; }
 
@@ -15,15 +15,15 @@ namespace JobMatching.Domain.BaseClasses
         public void AddDomainEvent(IRequest domainEvent) =>
             _domainEvents.Add(domainEvent);
 
-        public void RemoveDomainEvent(IRequest domainEvent) => 
+        public void RemoveDomainEvent(IRequest domainEvent) =>
             _domainEvents.Remove(domainEvent);
 
-        public void ClearDomainEvents() => 
+        public void ClearDomainEvents() =>
             _domainEvents.Clear();
 
         public bool Equals(EntityBase other)
         {
-            return this.Id == other.Id;
+            return Id == other.Id;
         }
     }
 }

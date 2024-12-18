@@ -1,4 +1,5 @@
 using JobMatching.API.Configurations;
+using JobMatching.Application.DependencyInjection;
 using JobMatching.DataAccess.Context;
 using JobMatching.Infrastructure.DatabaseContext;
 using JobMatching.Infrastructure.DependencyInjection;
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.RegisterApplicationServices();
 builder.Services.RegisterDomainServices();
 builder.Services.RegisterInfrastructureServices();
+builder.Services.RegisterMediatrRequestHandlers();
 builder.Services.RegisterDbContextService();
 
 builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
