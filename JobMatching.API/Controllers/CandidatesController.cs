@@ -1,5 +1,7 @@
+using JobMatching.Application.Candidates;
+using JobMatching.Application.Candidates.GetJobApplications;
 using JobMatching.Application.DTO.Candidate;
-using JobMatching.Application.Interfaces.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -9,15 +11,18 @@ namespace JobMatching.API.Controllers
     public class CandidatesController : ControllerBase
     {
         private readonly ICandidateService _candidateService;
+        private readonly IMediator _mediator;
 
         public CandidatesController(
-            ICandidateService candidateService)
+            ICandidateService candidateService,
+            IMediator mediator)
         {
             _candidateService = candidateService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CandidateDTO>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<CandidateDTO>>> GetAsync()
         {
             return await _candidateService.GetAsync();
         }
@@ -30,6 +35,16 @@ namespace JobMatching.API.Controllers
             return result.Match<ActionResult>(
                 success => Ok(result.Value),
                 failure => BadRequest(result.Error.ToString()));
+        }
+
+        [HttpGet("{candidateId}/job-applications")]
+        public async Task<ActionResult<IEnumerable<JobApplicationDTO>>> GetJobApplicationsAsync(Guid candidateId)
+        {
+            var jobApplicationsResult = await _mediator.Send(new GetJobApplicationsRequest(candidateId));
+
+            return jobApplicationsResult.Match<ActionResult>(
+                succuess => Ok(jobApplicationsResult.Value),
+                failure => BadRequest(jobApplicationsResult.Error.ToString()));
         }
 
         [HttpPost]

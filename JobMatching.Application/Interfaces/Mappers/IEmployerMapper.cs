@@ -5,6 +5,6 @@ namespace JobMatching.Application.Interfaces.Mappers
 {
     public interface IEmployerMapper
     {
-        EmployerDTO ToDto(Employer employer);
+        EmployerDTO ToEmployerDto(Employer employer);
     }
 }

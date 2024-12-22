@@ -27,6 +27,8 @@ namespace JobMatching.Domain.Entities.Candidate
             return Result<Name>.Success(new Name(firstName, lastName));
         }
 
+        public static implicit operator Name(string name) => new(name);
+
         public override string ToString() => FullName;
     }
 }

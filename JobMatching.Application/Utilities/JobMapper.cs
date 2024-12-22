@@ -6,7 +6,7 @@ namespace JobMatching.Application.Utilities
 {
     public class JobMapper : IJobMapper
     {
-        public JobDTO ToDto(Job job)
+        public JobDTO ToJobDto(Job job)
         {
             return new JobDTO(
                 JobId: job.Id,

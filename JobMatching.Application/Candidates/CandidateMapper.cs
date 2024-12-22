@@ -1,17 +1,16 @@
 ﻿using JobMatching.Application.DTO.Candidate;
-using JobMatching.Application.Interfaces.Mappers;
 using JobMatching.Domain.Entities.Candidate;
 
-namespace JobMatching.Application.Utilities
+namespace JobMatching.Application.Candidates
 {
     public class CandidateMapper : ICandidateMapper
     {
-        public CandidateDTO ToDto(Candidate candidate)
+        public CandidateDTO ToCandidateDto(Candidate candidate)
         {
             return new CandidateDTO(
                 Id: candidate.Id,
                 FullName: candidate.Name.ToString(),
-                JobApplication: candidate.Applications.Select(a => new JobApplicationDTO(
+                JobApplication: candidate.JobApplications.Select(a => new JobApplicationDTO(
                     JobId: a.JobId,
                     Status: a.Status,
                     ApplicationDate: a.ApplicationDate)).ToList(),

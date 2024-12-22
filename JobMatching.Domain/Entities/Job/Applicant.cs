@@ -26,7 +26,7 @@ namespace JobMatching.Domain.Entities.Job
         }
 
         public bool Equals(Applicant? other) => 
-            this.JobId == other.JobId &&
+            this.JobId == other?.JobId &&
             this.CandidateId == other.CandidateId;
     }
 }

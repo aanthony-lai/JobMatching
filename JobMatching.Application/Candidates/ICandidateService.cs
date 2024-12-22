@@ -2,7 +2,7 @@
 using JobMatching.Common.Results;
 using JobMatching.Domain.Entities.Candidate;
 
-namespace JobMatching.Application.Interfaces.Services;
+namespace JobMatching.Application.Candidates;
 
 public interface ICandidateService
 {

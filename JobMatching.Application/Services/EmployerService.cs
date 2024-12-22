@@ -27,7 +27,7 @@ namespace JobMatching.Application.Services
 
             var employersDto = employers
                 .Select(employer => _employerMapper
-                .ToDto(employer))
+                .ToEmployerDto(employer))
                 .ToList();
 
             return Result<List<EmployerDTO>>.Success(employersDto);
@@ -40,7 +40,7 @@ namespace JobMatching.Application.Services
             if (employer is null)
                 return Result<EmployerDTO>.Failure(EmployerErrors.NotFound);
 
-            var employerDto = _employerMapper.ToDto(employer);
+            var employerDto = _employerMapper.ToEmployerDto(employer);
 
             return Result<EmployerDTO>.Success(employerDto);
         }
@@ -51,7 +51,7 @@ namespace JobMatching.Application.Services
 
             var employersDto = employers
                 .Select(employer => _employerMapper
-                .ToDto(employer))
+                .ToEmployerDto(employer))
                 .ToList();
 
             return Result<List<EmployerDTO>>.Success(employersDto);

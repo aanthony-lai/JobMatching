@@ -25,7 +25,7 @@ namespace JobMatching.Infrastructure.Configurations
                         .IsRequired();
                 });
 
-                candidate.HasMany(c => c.Applications);
+                candidate.HasMany(c => c.JobApplications);
                 candidate.HasMany(c => c.CandidateLanguages);
                 candidate.HasMany(c => c.CandidateCompetences);
 

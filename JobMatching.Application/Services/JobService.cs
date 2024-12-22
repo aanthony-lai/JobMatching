@@ -27,7 +27,7 @@ namespace JobMatching.Application.Services
 
             var jobsDto = jobs
                 .Select(job => _jobMapper
-                .ToDto(job))
+                .ToJobDto(job))
                 .ToList();
 
             return Result<List<JobDTO>>.Success(jobsDto);
@@ -40,7 +40,7 @@ namespace JobMatching.Application.Services
             if (job is null)
                 return Result<JobDTO>.Failure(JobErrors.NotFound(jobId));
 
-            var jobDto = _jobMapper.ToDto(job);
+            var jobDto = _jobMapper.ToJobDto(job);
 
             return Result<JobDTO>.Success(jobDto);
         }
@@ -54,7 +54,7 @@ namespace JobMatching.Application.Services
             if (!jobs.Any())
                 return new List<JobDTO>();
 
-            return jobs.Select(job => _jobMapper.ToDto(job)).ToList();
+            return jobs.Select(job => _jobMapper.ToJobDto(job)).ToList();
         }
 
         public async Task<Result<Job>> AddAsync(Guid employerId, CreateJobDTO createJobDto)

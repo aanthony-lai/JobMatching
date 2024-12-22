@@ -1,46 +1,24 @@
-﻿using JobMatching.Domain.Entities.Candidate;
-using JobMatching.Domain.Entities.Job;
-using JobMatching.Domain.JobMatchService;
+﻿using JobMatching.Application.Applicants.GetApplicants;
+using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
+using JobMatching.Domain.Entities.Candidate;
 
 namespace JobMatching.Application.Applicants
 {
-    public class ApplicantMapper : IApplicantMapper
+    public sealed class ApplicantMapper : IApplicantMapper
     {
-        public ApplicantsMatchSummaryDTO ToApplicantsMatchSummaryDto(
-            Job job, 
-            List<ApplicantDTO> applicantsDto)
+        public ApplicantMatchSummaryDTO ToApplicantMatchSummaryDto(
+            Candidate applicant,
+            IReadOnlyList<CriticalCompetenceMatch> matchingJobCriticalCompetences,
+            decimal overallMatchGrade)
         {
-            return new ApplicantsMatchSummaryDTO(
-                job.Id,
-                job.JobTitle,
-                PreferredCompetences: job.JobCompetences
-                    .Where(comp => !comp.IsCritical)
-                    .Select(comp => comp.CompetenceName)
+            return new ApplicantMatchSummaryDTO(
+                applicant.Id,
+                applicant.Name.FullName,
+                applicant.CandidateCompetences
+                    .Select(c => c.CompetenceName)
                     .ToList(),
-                CriticalCompetences: job.JobCompetences
-                    .Where(comp => comp.IsCritical)
-                    .Select(comp => comp.CompetenceName)
-                    .ToList(),
-                Applicants: applicantsDto);
-            //Applicants: applicants.Select(applicant => new ApplicantDTO(
-            //    ApplicantId: applicant.Id,
-            //    FullName: applicant.Name.FullName,
-            //    Competences: applicant.CandidateCompetences.Select(comp => comp.CompetenceName).ToList(),
-            //    MatchedCriticalCompetences: matchedCriticalCompetences,
-            //    MatchGrade: matchGrade)).ToList());
-        }
-
-        public List<ApplicantDTO> ToApplicantsDto(
-            List<Candidate> applicants,
-            List<CriticalCompetenceMatch> matchedCriticalCompetences,
-            decimal matchGrade)
-        {
-            return applicants.Select(applicant => new ApplicantDTO(
-                    ApplicantId: applicant.Id,
-                    FullName: applicant.Name.FullName,
-                    Competences: applicant.CandidateCompetences.Select(comp => comp.CompetenceName).ToList(),
-                    MatchedCriticalCompetences: matchedCriticalCompetences,
-                    MatchGrade: matchGrade)).ToList();
+                matchingJobCriticalCompetences,
+                overallMatchGrade);
         }
     }
 }

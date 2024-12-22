@@ -1,4 +1,6 @@
-﻿namespace JobMatching.Application.DTO.Candidate
+﻿using JobMatching.Application.Candidates;
+
+namespace JobMatching.Application.DTO.Candidate
 {
     public record CandidateDTO(
         Guid Id,

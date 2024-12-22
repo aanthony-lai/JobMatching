@@ -1,4 +1,4 @@
-﻿using JobMatching.Application.Applicants;
+﻿using JobMatching.Application.Applicants.GetApplicants;
 using JobMatching.Application.DTO.Job;
 using JobMatching.Application.Interfaces.Services;
 using MediatR;
@@ -38,13 +38,13 @@ namespace JobMatching.API.Controllers
         }
 
         [HttpGet("{jobId}/applicants")]
-        public async Task<ActionResult<ApplicantsMatchSummaryDTO>> GetApplicantsAsync(Guid jobId)
+        public async Task<ActionResult<IEnumerable<ApplicantMatchSummaryDTO>>> GetApplicantsAsync(Guid jobId)
         {
-            var result = await _mediator.Send(new ApplicantsMatchSummaryRequest(jobId));
+            var applicantsResult = await _mediator.Send(new GetApplicantsMatchSummaryRequest(jobId));
 
-            return result.Match<ActionResult>(
-                success => Ok(result.Value),
-                failure => BadRequest("Something went wrong"));
+            return applicantsResult.Match<ActionResult>(
+                success => Ok(applicantsResult.Value),
+                failure => BadRequest(applicantsResult.Error.ToString()));
         }
 
         [HttpGet("name/{jobName}")]

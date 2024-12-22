@@ -19,7 +19,7 @@ public class CandidateRepository : ICandidateRepository
     {
         return await _appDbContext.Candidates
             .AddTracking(withTracking)
-            .Include(c => c.Applications)
+            .Include(c => c.JobApplications)
             .Include(c => c.CandidateLanguages)
             .Include(c => c.CandidateCompetences)
             .ToListAsync();
@@ -30,18 +30,18 @@ public class CandidateRepository : ICandidateRepository
         return await _appDbContext.Candidates
             .AddTracking(withTracking)
             .Where(c => c.Id == candidateId)
-            .Include(c => c.Applications)
+            .Include(c => c.JobApplications)
             .Include(c => c.CandidateLanguages)
             .Include(c => c.CandidateCompetences)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<List<Candidate>> GetByIdsAsync(IEnumerable<Guid> ids, bool withTracking = false)
+    public async Task<IEnumerable<Candidate>> GetByIdsAsync(IEnumerable<Guid> ids, bool withTracking = false)
     {
         return await _appDbContext.Candidates
             .AddTracking(withTracking)
             .Where(c => ids.Contains(c.Id))
-            .Include(c => c.Applications)
+            .Include(c => c.JobApplications)
             .Include(c => c.CandidateLanguages)
             .Include(c => c.CandidateCompetences)
             .ToListAsync();

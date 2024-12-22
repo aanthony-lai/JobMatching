@@ -1,10 +1,13 @@
 ﻿using JobMatching.Application.Applicants;
+using JobMatching.Application.Applicants.GetApplicants;
+using JobMatching.Application.Candidates;
 using JobMatching.Application.Interfaces.Mappers;
 using JobMatching.Application.Interfaces.Services;
 using JobMatching.Application.Services;
 using JobMatching.Application.Utilities;
 using JobMatching.DataAccess.Repositories;
-using JobMatching.Domain.JobMatchGradeService;
+using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
+using JobMatching.Domain.DomainServices.OverallMatchGradeService;
 using JobMatching.Domain.Repositories;
 
 namespace JobMatching.API.Configurations
@@ -17,7 +20,8 @@ namespace JobMatching.API.Configurations
             services.AddScoped<IEmployerService, EmployerService>();
             services.AddScoped<ICompetenceService, CompetenceService>();
             services.AddScoped<IJobService, JobService>();
-            
+            services.AddScoped<IApplicantMatchSummaryService, ApplicantMatchSummaryService>();
+
             services.AddScoped<ICandidateMapper, CandidateMapper>();
             services.AddScoped<IEmployerMapper, EmployerMapper>();
             services.AddScoped<IJobMapper, JobMapper>();
@@ -28,7 +32,8 @@ namespace JobMatching.API.Configurations
 
         public static IServiceCollection RegisterDomainServices(this IServiceCollection services)
         {
-            services.AddScoped<IJobMatchService, JobMatchService>();
+            services.AddScoped<IOverallMatchGradeService, OverallMatchGradeService>();
+            services.AddScoped<ICriticalCompetencesMatchService, CriticalCompetenceMatchService>();
 
             return services;
         }

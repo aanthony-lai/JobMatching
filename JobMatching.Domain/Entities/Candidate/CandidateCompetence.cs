@@ -8,7 +8,7 @@ namespace JobMatching.Domain.Entities.Candidate
     {
         public Guid CandidateId { get; private set; }
         public Guid CompetenceId { get; private set; }
-        public string CompetenceName { get; private set; }
+        public string CompetenceName { get; private set; } = null!;
         public CompetenceLevel CompetenceLevel { get; private set; }
 
         protected CandidateCompetence() { }

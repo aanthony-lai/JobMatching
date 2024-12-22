@@ -1,6 +1,6 @@
 ﻿using JobMatching.Domain.Enums;
 
-namespace JobMatching.Application.DTO.Candidate
+namespace JobMatching.Application.Candidates
 {
     public record JobApplicationDTO(
         Guid JobId,

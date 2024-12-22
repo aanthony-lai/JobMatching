@@ -1,12 +1,10 @@
 ﻿using JobMatching.Application.DTO.Candidate;
-using JobMatching.Application.Interfaces.Mappers;
-using JobMatching.Application.Interfaces.Services;
 using JobMatching.Common.Results;
 using JobMatching.Domain.Entities.Candidate;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
 
-namespace JobMatching.Application.Services
+namespace JobMatching.Application.Candidates
 {
     public class CandidateService : ICandidateService
     {
@@ -27,7 +25,7 @@ namespace JobMatching.Application.Services
 
             return candidates
                 .Select(candidate => _candidateMapper
-                .ToDto(candidate))
+                .ToCandidateDto(candidate))
                 .ToList();
         }
 
@@ -36,9 +34,9 @@ namespace JobMatching.Application.Services
             var candidate = await _candidateRepository.GetByIdAsync(candidateId);
 
             if (candidate is null)
-                return Result<CandidateDTO>.Failure(CandidateErrors.NotFound);
+                return Result<CandidateDTO>.Failure(CandidateErrors.NotFound(candidateId));
 
-            var candidateDto = _candidateMapper.ToDto(candidate);
+            var candidateDto = _candidateMapper.ToCandidateDto(candidate);
 
             return Result<CandidateDTO>.Success(candidateDto);
         }

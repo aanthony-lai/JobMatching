@@ -6,7 +6,7 @@ namespace JobMatching.Application.Utilities
 {
     public class EmployerMapper : IEmployerMapper
     {
-        public EmployerDTO ToDto(Employer employer)
+        public EmployerDTO ToEmployerDto(Employer employer)
         {
             return new EmployerDTO(
                 Name: employer.Name,

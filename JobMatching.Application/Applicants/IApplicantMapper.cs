@@ -1,18 +1,14 @@
-﻿using JobMatching.Domain.Entities.Candidate;
-using JobMatching.Domain.Entities.Job;
-using JobMatching.Domain.JobMatchService;
+﻿using JobMatching.Application.Applicants.GetApplicants;
+using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
+using JobMatching.Domain.Entities.Candidate;
 
 namespace JobMatching.Application.Applicants
 {
     public interface IApplicantMapper
     {
-        ApplicantsMatchSummaryDTO ToApplicantsMatchSummaryDto(
-            Job job,
-            List<ApplicantDTO> applicantsDto);
-
-        List<ApplicantDTO> ToApplicantsDto(
-            List<Candidate> applicants,
-            List<CriticalCompetenceMatch> matchedCriticalCompetences,
-            decimal matchGrade);
+        ApplicantMatchSummaryDTO ToApplicantMatchSummaryDto(
+            Candidate applicant,
+            IReadOnlyList<CriticalCompetenceMatch> matchingJobCriticalCompetences,
+            decimal overallMatchGrade);
     }
 }
