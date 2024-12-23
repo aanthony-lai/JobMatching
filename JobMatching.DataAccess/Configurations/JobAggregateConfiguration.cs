@@ -30,9 +30,9 @@ namespace JobMatching.Infrastructure.Configurations
                 job.OwnsOne(j => j.Salary, builder =>
                 {
                     builder.Property(s => s.MaxSalary)
-                        .HasColumnName("MaxSalary");
+                        .HasColumnName("MaxSalary").IsRequired(false);
                     builder.Property(s => s.MinSalary)
-                        .HasColumnName("MinSalary");
+                        .HasColumnName("MinSalary").IsRequired(false);
                 });
 
                 job.HasMany(j => j.JobCompetences);

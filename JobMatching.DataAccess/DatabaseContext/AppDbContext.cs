@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.DataAccess.Context
 {
-	public class AppDbContext : IdentityDbContext<User>
+	public sealed class AppDbContext : IdentityDbContext<User>
 	{
 		public AppDbContext(DbContextOptions<AppDbContext> options)
 			: base(options)
