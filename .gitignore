@@ -34,3 +34,4 @@ packages/
 
 appsettings*.json
 *Migrations
+AppSettingsReader.cs
