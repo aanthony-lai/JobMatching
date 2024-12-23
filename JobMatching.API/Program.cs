@@ -15,13 +15,7 @@ builder.Services.RegisterDomainServices();
 builder.Services.RegisterInfrastructureServices();
 builder.Services.RegisterMediatrRequestHandlers();
 builder.Services.RegisterDbContextService();
-
-builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
-builder.Services.AddAuthorization();
-
-builder.Services.AddIdentityCore<User>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddApiEndpoints();
+builder.RegisterAuthenticationConfigurations();
 
 var app = builder.Build();
 
@@ -35,8 +29,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapIdentityApi<User>();
 
 app.MapControllers();
 
