@@ -1,15 +1,15 @@
-using System.Security.Claims;
-using System.Text;
 using JobMatching.DataAccess.Utilities;
-using JobMatching.Infrastructure.DatabaseContext;
+using JobMatching.Domain.Authentication;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 
 namespace JobMatching.Infrastructure.Authentication;
 
-public sealed class TokenProvider: ITokenProvider
+public sealed class TokenProvider : ITokenProvider
 {
-    public string Create(User user)
+    public string Create(DomainUser user)
     {
         string secretKey = AppSettingsReader.GetValue("Jwt:Secret");
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -20,9 +20,7 @@ public sealed class TokenProvider: ITokenProvider
         {
             Subject = new ClaimsIdentity(
             [
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Name, user.Name),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
             ]),
             Expires = DateTime.UtcNow.AddMinutes(60),
             SigningCredentials = credentials,

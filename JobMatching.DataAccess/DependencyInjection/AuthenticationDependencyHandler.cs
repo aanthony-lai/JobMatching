@@ -1,9 +1,11 @@
-using System.Text;
+using JobMatching.DataAccess.Context;
 using JobMatching.DataAccess.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace JobMatching.Infrastructure.DependencyInjection;
 
@@ -12,6 +14,9 @@ public static class AuthenticationDependencyHandler
     public static WebApplicationBuilder RegisterAuthenticationConfigurations(
         this WebApplicationBuilder builder)
     {
+        builder.Services.AddIdentityCore<IdentityUser>()
+                .AddEntityFrameworkStores<AppDbContext>();
+
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(o =>
             {
@@ -26,7 +31,7 @@ public static class AuthenticationDependencyHandler
 
             });
         builder.Services.AddAuthorization();
-            
+
         return builder;
     }
 }

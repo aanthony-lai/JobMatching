@@ -1,9 +1,6 @@
 using JobMatching.API.Configurations;
 using JobMatching.Application.DependencyInjection;
-using JobMatching.DataAccess.Context;
-using JobMatching.Infrastructure.DatabaseContext;
 using JobMatching.Infrastructure.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

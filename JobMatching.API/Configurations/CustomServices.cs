@@ -6,6 +6,7 @@ using JobMatching.Application.Interfaces.Services;
 using JobMatching.Application.Services;
 using JobMatching.Application.Utilities;
 using JobMatching.DataAccess.Repositories;
+using JobMatching.Domain.Authentication;
 using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
 using JobMatching.Domain.DomainServices.OverallMatchGradeService;
 using JobMatching.Domain.Repositories;
@@ -47,6 +48,7 @@ namespace JobMatching.API.Configurations
             services.AddScoped<IJobRepository, JobRepository>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<ITokenProvider, TokenProvider>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }

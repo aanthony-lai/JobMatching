@@ -1,5 +1,7 @@
 ﻿using JobMatching.DataAccess.Context;
-using JobMatching.Infrastructure.DatabaseContext;
+using JobMatching.DataAccess.Utilities;
+using JobMatching.Infrastructure.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace JobMatching.Infrastructure.DependencyInjection
@@ -8,8 +10,10 @@ namespace JobMatching.Infrastructure.DependencyInjection
     {
         public static IServiceCollection RegisterDbContextService(this IServiceCollection services)
         {
-            services.AddIdentityCore<User>()
-                .AddEntityFrameworkStores<AppDbContext>();
+            services.AddDbContext<AppDbContext>(o =>
+            {
+                o.UseSqlServer(AppSettingsReader.GetValue("ConnectionStrings:AppDbContext"));
+            });
             
             return services;
         }
