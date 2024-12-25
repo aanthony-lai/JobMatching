@@ -1,6 +1,5 @@
 ﻿using JobMatching.DataAccess.Context;
 using JobMatching.DataAccess.Utilities;
-using JobMatching.Infrastructure.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +13,7 @@ namespace JobMatching.Infrastructure.DependencyInjection
             {
                 o.UseSqlServer(AppSettingsReader.GetValue("ConnectionStrings:AppDbContext"));
             });
-            
+
             return services;
         }
     }

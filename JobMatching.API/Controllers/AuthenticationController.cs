@@ -19,7 +19,17 @@ namespace JobMatching.API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] DomainUser domainUser)
         {
-            var loginResult = await _mediator.Send(new AuthenticationRequest(domainUser));
+            var loginResult = await _mediator.Send(new LoginRequest(domainUser));
+
+            return loginResult.Match<ActionResult>(
+                success => Ok(loginResult.Value),
+                failure => Unauthorized(loginResult.Error.ToString()));
+        }
+
+        [HttpPost("Register")]
+        public async Task<ActionResult<string>> Register([FromBody] DomainUser domainUser)
+        {
+            var loginResult = await _mediator.Send(new LoginRequest(domainUser));
 
             return loginResult.Match<ActionResult>(
                 success => Ok(loginResult.Value),
