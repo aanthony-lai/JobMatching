@@ -2,7 +2,7 @@
 using JobMatching.Domain.Authentication;
 using MediatR;
 
-namespace JobMatching.Application.Authentication
+namespace JobMatching.Application.Authentication.Login
 {
     public sealed class LoginHandler : IRequestHandler<LoginRequest, Result<string>>
     {
@@ -15,7 +15,7 @@ namespace JobMatching.Application.Authentication
 
         public async Task<Result<string>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
-            var authResult = await _authService.HandleAsync(request.User);
+            var authResult = await _authService.LoginAsync(request.UserModel);
 
             if (!authResult.IsSuccess)
                 return authResult;

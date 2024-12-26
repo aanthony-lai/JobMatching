@@ -22,6 +22,13 @@
 
         public static Result Success() => new();
         public static Result Failure(Error error) => new(error);
+        
+        public TResult Match<TResult>(
+            Func<TResult> success,
+            Func<Error, TResult> failure)
+        {
+            return IsSuccess ? success() : failure(Error);
+        }
     }
 
 

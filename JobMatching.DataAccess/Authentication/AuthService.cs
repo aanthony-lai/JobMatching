@@ -17,15 +17,29 @@ namespace JobMatching.Infrastructure.Authentication
             _tokenProvider = tokenProvider;
         }
 
-        public async Task<Result<string>> HandleAsync(DomainUser domainUser)
+        public async Task<Result<string>> LoginAsync(LoginUserModel loginUserModel)
         {
-            var user = await _userManager.FindByNameAsync(domainUser.Name);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, domainUser.Password))
+            var user = await _userManager.FindByNameAsync(loginUserModel.UserName);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginUserModel.Password))
             {
                 return Result<string>.Failure(new Error("Invalid credentials"));
             }
 
-            return _tokenProvider.Create(domainUser); 
+            return _tokenProvider.Create(loginUserModel); 
+        }
+        
+        public async Task<Result> RegisterAsync(RegisterUserModel registerUserModel)
+        {
+            var user = new IdentityUser()
+            {
+                UserName = registerUserModel.Name, 
+                Email = registerUserModel.Email
+            };
+            var result = await _userManager.CreateAsync(user, registerUserModel.Password);
+
+            return !result.Succeeded 
+                ? Result.Failure(new Error("An error ocurrecd, while trying to create the user.")) 
+                : Result.Success();
         }
     }
 }

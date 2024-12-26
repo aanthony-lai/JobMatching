@@ -4,6 +4,7 @@ namespace JobMatching.Domain.Authentication
 {
     public interface IAuthService
     {
-        Task<Result<string>> HandleAsync(DomainUser domainUser);
+        Task<Result<string>> LoginAsync(LoginUserModel loginUserModel);
+        Task<Result> RegisterAsync(RegisterUserModel registerUserModel);
     }
 }

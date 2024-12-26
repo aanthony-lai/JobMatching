@@ -9,7 +9,7 @@ namespace JobMatching.Infrastructure.Authentication;
 
 public sealed class TokenProvider : ITokenProvider
 {
-    public string Create(DomainUser user)
+    public string Create(LoginUserModel userModel)
     {
         string secretKey = AppSettingsReader.GetValue("Jwt:Secret");
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -20,7 +20,7 @@ public sealed class TokenProvider : ITokenProvider
         {
             Subject = new ClaimsIdentity(
             [
-                new Claim(JwtRegisteredClaimNames.Name, user.Name),
+                new Claim(JwtRegisteredClaimNames.Name, userModel.UserName),
             ]),
             Expires = DateTime.UtcNow.AddMinutes(60),
             SigningCredentials = credentials,

@@ -1,25 +1,19 @@
-﻿using JobMatching.Application.Authentication;
-using JobMatching.Domain.Authentication;
+﻿using JobMatching.Domain.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using LoginRequest = JobMatching.Application.Authentication.Login.LoginRequest;
+using RegisterRequest = JobMatching.Application.Authentication.Register.RegisterRequest;
 
 namespace JobMatching.API.Controllers
 {
     [Route("api/authentication")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public AuthenticationController(IMediator mediator) 
-        {
-            _mediator = mediator;
-        }
-
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login([FromBody] DomainUser domainUser)
+        public async Task<ActionResult<string>> Login([FromBody] LoginUserModel loginUserModel)
         {
-            var loginResult = await _mediator.Send(new LoginRequest(domainUser));
+            var loginResult = await mediator.Send(new LoginRequest(loginUserModel));
 
             return loginResult.Match<ActionResult>(
                 success => Ok(loginResult.Value),
@@ -27,13 +21,13 @@ namespace JobMatching.API.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<string>> Register([FromBody] DomainUser domainUser)
+        public async Task<ActionResult> Register([FromBody] RegisterUserModel registerUserModel)
         {
-            var loginResult = await _mediator.Send(new LoginRequest(domainUser));
+            var registerResult = await mediator.Send(new RegisterRequest(registerUserModel));
 
-            return loginResult.Match<ActionResult>(
-                success => Ok(loginResult.Value),
-                failure => Unauthorized(loginResult.Error.ToString()));
+            return registerResult.Match<ActionResult>(
+                Ok,
+                failure => Unauthorized(registerResult.Error.ToString()));
         }
     }
 }
