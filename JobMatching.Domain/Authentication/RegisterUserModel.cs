@@ -4,20 +4,24 @@ namespace JobMatching.Domain.Authentication;
 
 public class RegisterUserModel: IValidatableObject
 {
-    public string Name { get; set; } = string.Empty;
+    public string UserName { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LasName { get; set; } = string.Empty;
+    public string Password {  get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        if (string.IsNullOrWhiteSpace(Name))
-            yield return new ValidationResult("Name can't be empty.", new[] {nameof(Name)});
+        if (string.IsNullOrWhiteSpace(FirstName))
+            yield return new ValidationResult("Name can't be empty.", [nameof(FirstName)]);
         
-        if (string.IsNullOrWhiteSpace(Email) ||
-            !Email.Contains("@"))
-            yield return new ValidationResult("Invalid email.", new[] {nameof(Email)});
+        if (string.IsNullOrWhiteSpace(LasName))
+            yield return new ValidationResult("Invalid email.", [nameof(LasName)]);
         
         if (string.IsNullOrWhiteSpace(Password))
-            yield return new ValidationResult("Passoword can't be empt", new[] {nameof(Name)});
+            yield return new ValidationResult("Passoword can't be empt", [nameof(Password)]);
+         
+        if (string.IsNullOrWhiteSpace(Email))
+            yield return new ValidationResult("Passoword can't be empt", [nameof(Email)]);
     }
 }

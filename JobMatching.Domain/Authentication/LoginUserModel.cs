@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-using JobMatching.Domain.Entities.Candidate;
 
 namespace JobMatching.Domain.Authentication
 {
-    public sealed class LoginUserModel: IValidatableObject
+    public sealed class LoginUserModel : IValidatableObject
     {
         private const string ErrorMessage = "Invalid credentials";
 
@@ -13,7 +11,7 @@ namespace JobMatching.Domain.Authentication
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(Password))
+            if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(UserName))
                 yield return new ValidationResult(ErrorMessage);
         }
     }

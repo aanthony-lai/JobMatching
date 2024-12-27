@@ -1,8 +1,8 @@
 ﻿using JobMatching.Domain.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using LoginRequest = JobMatching.Application.Authentication.Login.LoginRequest;
-using RegisterRequest = JobMatching.Application.Authentication.Register.RegisterRequest;
+using JobMatching.Application.Authentication.Login;
+using JobMatching.Application.Authentication.Register;
 
 namespace JobMatching.API.Controllers
 {

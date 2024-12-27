@@ -5,7 +5,7 @@ using JobMatching.Application.Interfaces.Mappers;
 using JobMatching.Application.Interfaces.Services;
 using JobMatching.Application.Services;
 using JobMatching.Application.Utilities;
-using JobMatching.DataAccess.Repositories;
+using JobMatching.Infrastructure.Repositories;
 using JobMatching.Domain.Authentication;
 using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
 using JobMatching.Domain.DomainServices.OverallMatchGradeService;

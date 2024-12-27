@@ -2,6 +2,6 @@
 {
     public interface ITokenProvider
     {
-        string Create(LoginUserModel userModel);
+        string Create(User user);
     }
 }
