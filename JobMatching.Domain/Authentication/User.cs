@@ -6,5 +6,6 @@
         public string FirstName { get; set; } = string.Empty;
         public string LasName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public UserType UserType { get; set; }
     }
 }

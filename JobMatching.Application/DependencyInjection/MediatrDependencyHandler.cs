@@ -1,5 +1,4 @@
 ﻿using JobMatching.Application.Applicants.GetApplicants;
-using JobMatching.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace JobMatching.Application.DependencyInjection

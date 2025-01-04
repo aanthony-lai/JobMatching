@@ -9,6 +9,7 @@ namespace JobMatching.Infrastructure.Authentication
         public string FirstName { get; set; } = string.Empty;
         public string LasName { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
+        public UserType UserType { get; set; }
 
         protected ApplicationUser(): base() { }
         private ApplicationUser(RegisterUserModel registerUserModel)
@@ -18,6 +19,7 @@ namespace JobMatching.Infrastructure.Authentication
             LasName = registerUserModel.LasName;
             FullName = $"{FirstName} {LasName}";
             base.Email = registerUserModel.Email;
+            UserType = (UserType)registerUserModel.UserType;
         }
 
         public static Result<ApplicationUser> Create(RegisterUserModel registerUserModel)

@@ -9,6 +9,8 @@ public class RegisterUserModel: IValidatableObject
     public string LasName { get; set; } = string.Empty;
     public string Password {  get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public UserType UserType { get; set; }
+
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

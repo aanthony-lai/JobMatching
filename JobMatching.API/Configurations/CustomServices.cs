@@ -11,6 +11,8 @@ using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
 using JobMatching.Domain.DomainServices.OverallMatchGradeService;
 using JobMatching.Domain.Repositories;
 using JobMatching.Infrastructure.Authentication;
+using JobMatching.Domain.DomainServices.CreateCandidateService;
+using JobMatching.Domain.DomainServices.CreateEmployerService;
 
 namespace JobMatching.API.Configurations
 {
@@ -36,6 +38,8 @@ namespace JobMatching.API.Configurations
         {
             services.AddScoped<IOverallMatchGradeService, OverallMatchGradeService>();
             services.AddScoped<ICriticalCompetencesMatchService, CriticalCompetenceMatchService>();
+            services.AddScoped<ICreateCandidateService, CreateCandidateService>();
+            services.AddScoped<ICreateEmployerService, CreateEmployerService>();
 
             return services;
         }
