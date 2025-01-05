@@ -1,7 +1,7 @@
 ﻿using JobMatching.Application.DTO.Candidate;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Authentication;
 using JobMatching.Domain.Entities.Candidate;
+using JobMatching.Domain.Entities.User;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
 
@@ -36,8 +36,8 @@ namespace JobMatching.Application.Candidates
         public async Task<Result> CreateAsync(DomainUser domainUser)
         {
             var createCandidateResult = Candidate.Create(
-                domainUser.FirstName,
-                domainUser.LasName,
+                domainUser.Name.FirstName,
+                domainUser.Name.LastName,
                 Guid.Parse(domainUser.Id));
 
             if (!createCandidateResult.IsSuccess)

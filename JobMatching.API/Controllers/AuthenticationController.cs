@@ -22,7 +22,7 @@ namespace JobMatching.API.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult> Register([FromBody] RegisterUserModel registerUserModel)
+        public async Task<ActionResult> RegisterCandidate([FromBody] RegisterUserModel registerUserModel)
         {
             var registerResult = await mediator.Send(new RegisterRequest(registerUserModel));
 

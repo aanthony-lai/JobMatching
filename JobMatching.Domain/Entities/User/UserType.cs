@@ -1,6 +1,6 @@
 ﻿using JobMatching.Domain.Entities.Candidate;
 
-namespace JobMatching.Domain.Authentication
+namespace JobMatching.Domain.Entities.User
 {
     public enum UserType
     {

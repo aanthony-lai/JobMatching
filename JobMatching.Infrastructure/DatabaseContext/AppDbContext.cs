@@ -3,8 +3,8 @@ using JobMatching.Domain.Entities.Competence;
 using JobMatching.Domain.Entities.Employer;
 using JobMatching.Domain.Entities.Job;
 using JobMatching.Domain.Entities.Language;
-using JobMatching.Infrastructure.Authentication;
 using JobMatching.Infrastructure.Configurations;
+using JobMatching.Infrastructure.DatabaseContext;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +32,7 @@ namespace JobMatching.Infrastructure.Context
             modelBuilder.AddJobConfigurations();
             modelBuilder.AddLanguageConfigurations();
             modelBuilder.AddEmployerConfigurations();
+            modelBuilder.AddUserConfiguration();
         }
     }
 }

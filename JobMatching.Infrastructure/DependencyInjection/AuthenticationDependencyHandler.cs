@@ -1,9 +1,8 @@
 using JobMatching.Infrastructure.Context;
+using JobMatching.Infrastructure.DatabaseContext;
 using JobMatching.Infrastructure.Utilities;
-using JobMatching.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

@@ -1,4 +1,6 @@
-﻿namespace JobMatching.Domain.Authentication
+﻿using JobMatching.Domain.Entities.User;
+
+namespace JobMatching.Domain.Authentication
 {
     public interface ITokenProvider
     {

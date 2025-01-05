@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using JobMatching.Domain.Entities.User;
 
 namespace JobMatching.Infrastructure.Authentication;
 
@@ -21,8 +22,8 @@ public sealed class TokenProvider : ITokenProvider
             Subject = new ClaimsIdentity(
             [
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName ),
-                new Claim(JwtRegisteredClaimNames.FamilyName, user.LasName),
+                new Claim(JwtRegisteredClaimNames.GivenName, user.Name.FirstName),
+                new Claim(JwtRegisteredClaimNames.FamilyName, user.Name.LastName),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("accountType", user.UserType.ToString())
             ]),

@@ -1,6 +1,6 @@
 ﻿using JobMatching.Application.DTO.Employer;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Authentication;
+using JobMatching.Domain.Entities.User;
 
 namespace JobMatching.Application.Interfaces.Services;
 

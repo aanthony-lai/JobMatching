@@ -1,6 +1,8 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.Authentication;
 using JobMatching.Domain.Authentication.Login;
+using JobMatching.Domain.Entities.User;
+using JobMatching.Infrastructure.DatabaseContext;
 using Microsoft.AspNetCore.Identity;
 
 namespace JobMatching.Infrastructure.Authentication
@@ -19,13 +21,18 @@ namespace JobMatching.Infrastructure.Authentication
                 return Result<string>.Failure(new Error("Invalid credentials"));
             }
 
-            return tokenProvider.Create(new DomainUser
-            {
-                Id = applicationUser.Id!,
-                FirstName = applicationUser.FirstName,
-                LasName = applicationUser.LasName,
-                Email = applicationUser.Email ?? string.Empty
-            });
+            var domainUserResult = applicationUser.UserType == UserType.Candidate
+                ? DomainUser.CreateCandidate(
+                    applicationUser.Id,
+                    applicationUser.FirstName,
+                    applicationUser.LasName,
+                    applicationUser.Email!)
+                : DomainUser.CreateEmployer(
+                    applicationUser.Id, 
+                    applicationUser.EmployerName, 
+                    applicationUser.Email!);
+
+            return tokenProvider.Create(domainUserResult.Value);
         }
     }
 }

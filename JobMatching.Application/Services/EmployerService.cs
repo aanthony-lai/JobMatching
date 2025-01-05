@@ -2,8 +2,8 @@
 using JobMatching.Application.Interfaces.Mappers;
 using JobMatching.Application.Interfaces.Services;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Authentication;
 using JobMatching.Domain.Entities.Employer;
+using JobMatching.Domain.Entities.User;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
 
