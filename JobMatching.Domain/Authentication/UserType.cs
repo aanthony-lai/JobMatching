@@ -1,4 +1,6 @@
-﻿namespace JobMatching.Domain.Authentication
+﻿using JobMatching.Domain.Entities.Candidate;
+
+namespace JobMatching.Domain.Authentication
 {
     public enum UserType
     {

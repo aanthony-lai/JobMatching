@@ -15,6 +15,7 @@ namespace JobMatching.Infrastructure.Configurations
                 employer.HasMany(emp => emp.EmployerJobs);
 
                 employer.Property(emp => emp.Id).HasColumnName("Id").IsRequired();
+                employer.Property(emp => emp.UserId).HasColumnName("UserId").IsRequired();
                 employer.Property(emp => emp.Name).HasColumnName("Name").IsRequired();
                 employer.Property(c => c.Created).HasColumnName("Created");
                 employer.Property(c => c.CreatedBy).HasColumnName("CreatedBy");

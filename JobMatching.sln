@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobMatching.API", "JobMatching.API\JobMatching.API.csproj", "{A4B6C117-5BD6-4DB9-9650-A43D31BD6D1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobMatching.Infrastructure", "JobMatching.DataAccess\JobMatching.Infrastructure.csproj", "{7D4DA829-48BD-4940-A39D-48D468DD43E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobMatching.Infrastructure", "JobMatching.Infrastructure\JobMatching.Infrastructure.csproj", "{7D4DA829-48BD-4940-A39D-48D468DD43E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobMatching.Domain", "JobMatching.Domain\JobMatching.Domain.csproj", "{3B27DF9D-DEB5-4B53-AC56-EEBAC42451DD}"
 EndProject
@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobMatching.Common", "JobMatching.Common\JobMatching.Common.csproj", "{19DFC2EA-5AAB-434A-A5D2-E5309A7E93C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobMatching.Client", "JobMatching.Client\JobMatching.Client.csproj", "{F01D51A7-311B-45E2-8F17-FC94EB5EC1C9}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Jobmatching.Client", "JobMatching.Client\Jobmatching.Client.esproj", "{CCFF2611-5B9A-4909-A0A0-C7B8B6F2848B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +46,12 @@ Global
 		{19DFC2EA-5AAB-434A-A5D2-E5309A7E93C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19DFC2EA-5AAB-434A-A5D2-E5309A7E93C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19DFC2EA-5AAB-434A-A5D2-E5309A7E93C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F01D51A7-311B-45E2-8F17-FC94EB5EC1C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F01D51A7-311B-45E2-8F17-FC94EB5EC1C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F01D51A7-311B-45E2-8F17-FC94EB5EC1C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F01D51A7-311B-45E2-8F17-FC94EB5EC1C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCFF2611-5B9A-4909-A0A0-C7B8B6F2848B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCFF2611-5B9A-4909-A0A0-C7B8B6F2848B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCFF2611-5B9A-4909-A0A0-C7B8B6F2848B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CCFF2611-5B9A-4909-A0A0-C7B8B6F2848B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCFF2611-5B9A-4909-A0A0-C7B8B6F2848B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCFF2611-5B9A-4909-A0A0-C7B8B6F2848B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

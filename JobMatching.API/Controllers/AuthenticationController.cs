@@ -1,8 +1,9 @@
-﻿using JobMatching.Domain.Authentication;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using JobMatching.Application.Authentication.Login;
 using JobMatching.Application.Authentication.Register;
+using JobMatching.Domain.Authentication.Login;
+using JobMatching.Domain.Authentication.Registration;
 
 namespace JobMatching.API.Controllers
 {

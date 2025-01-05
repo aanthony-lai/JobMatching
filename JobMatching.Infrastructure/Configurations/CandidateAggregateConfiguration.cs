@@ -12,8 +12,8 @@ namespace JobMatching.Infrastructure.Configurations
                 candidate.ToTable("Candidates")
                     .HasKey(c => c.Id);
 
-                candidate.Property(c => c.Id)
-                    .HasColumnName("Id");
+                candidate.Property(c => c.Id).HasColumnName("Id");
+                candidate.Property(c => c.UserId).HasColumnName("UserId");
 
                 candidate.OwnsOne(c => c.Name, builder =>
                 {

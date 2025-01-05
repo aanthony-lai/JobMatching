@@ -1,18 +1,19 @@
 ﻿using JobMatching.Application.Applicants;
 using JobMatching.Application.Applicants.GetApplicants;
+using JobMatching.Application.Authentication.Register;
 using JobMatching.Application.Candidates;
 using JobMatching.Application.Interfaces.Mappers;
 using JobMatching.Application.Interfaces.Services;
 using JobMatching.Application.Services;
 using JobMatching.Application.Utilities;
-using JobMatching.Infrastructure.Repositories;
 using JobMatching.Domain.Authentication;
+using JobMatching.Domain.Authentication.Login;
+using JobMatching.Domain.Authentication.Registration;
 using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
 using JobMatching.Domain.DomainServices.OverallMatchGradeService;
 using JobMatching.Domain.Repositories;
 using JobMatching.Infrastructure.Authentication;
-using JobMatching.Domain.DomainServices.CreateCandidateService;
-using JobMatching.Domain.DomainServices.CreateEmployerService;
+using JobMatching.Infrastructure.Repositories;
 
 namespace JobMatching.API.Configurations
 {
@@ -25,6 +26,7 @@ namespace JobMatching.API.Configurations
             services.AddScoped<ICompetenceService, CompetenceService>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IApplicantMatchSummaryService, ApplicantMatchSummaryService>();
+            services.AddScoped<IUserProfileCreator, UserProfileCreator>();
 
             services.AddScoped<ICandidateMapper, CandidateMapper>();
             services.AddScoped<IEmployerMapper, EmployerMapper>();
@@ -38,8 +40,6 @@ namespace JobMatching.API.Configurations
         {
             services.AddScoped<IOverallMatchGradeService, OverallMatchGradeService>();
             services.AddScoped<ICriticalCompetencesMatchService, CriticalCompetenceMatchService>();
-            services.AddScoped<ICreateCandidateService, CreateCandidateService>();
-            services.AddScoped<ICreateEmployerService, CreateEmployerService>();
 
             return services;
         }
@@ -52,7 +52,8 @@ namespace JobMatching.API.Configurations
             services.AddScoped<IJobRepository, JobRepository>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<ITokenProvider, TokenProvider>();
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IRegistrationService, RegistrationService>();
 
             return services;
         }

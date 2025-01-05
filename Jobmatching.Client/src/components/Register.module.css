@@ -1,0 +1,34 @@
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registrationForm {
+    width: 50vw;
+}
+
+.registrationForm__group {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+    display: flex;
+}
+    .registrationForm__group label {
+        width: 20%;
+    }
+    .registrationForm__group input {
+        padding-left: 0.5rem;
+    }
+
+.registrationForm__input {
+    border: solid 1px;
+    border-radius: 10px;
+}
+
+.registrationForm__dropDown {
+    border: solid 1px;
+    border-radius: 10px;
+}

@@ -7,6 +7,6 @@ public interface ICandidateRepository
     Task<List<Candidate>> GetAsync(bool withTracking = false);
     Task<Candidate?> GetByIdAsync(Guid candidateId, bool withTracking = false);
     Task<IEnumerable<Candidate>> GetByIdsAsync(IEnumerable<Guid> ids, bool withTracking = false);
-    Task SaveAsync(Candidate candidate);
-    Task UpdateAsync(Candidate candidate);
+    Task SaveAsync();
+    Task AddAsync(Candidate candidate);
 }

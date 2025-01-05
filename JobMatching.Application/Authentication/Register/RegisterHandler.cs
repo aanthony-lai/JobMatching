@@ -1,21 +1,15 @@
 using JobMatching.Common.Results;
-using JobMatching.Domain.Authentication;
+using JobMatching.Domain.Authentication.Registration;
 using MediatR;
 
 namespace JobMatching.Application.Authentication.Register;
 
-public class RegisterHandler: IRequestHandler<RegisterRequest, Result>
+public class RegisterHandler(
+    IRegistrationService registerService) : IRequestHandler<RegisterRequest, Result>
 {
-    private readonly IAuthService _authService;
-
-    public RegisterHandler(IAuthService authService)
-    {
-        _authService = authService;
-    }    
-    
     public async Task<Result> Handle(RegisterRequest request, CancellationToken cancellationToken)
     {
-        var registerResult = await _authService.RegisterAsync(request.RegisterUserModel);
+        var registerResult = await registerService.RegisterAsync(request.RegisterUserModel);
 
         return registerResult.IsSuccess
             ? Result.Success()

@@ -7,7 +7,7 @@ namespace JobMatching.Infrastructure.Utilities
 		//This class needs to be fixed.
 		public static string GetValue(string key)
 		{
-			var basePath = "C:\\Users\\Antho\\Desktop\\Julius_projekt\\JobMatching\\JobMatching.DataAccess";
+			var basePath = "C:\\Users\\Antho\\Desktop\\Julius_projekt\\JobMatching\\JobMatching.Infrastructure";
 			
 			var configuration = new ConfigurationBuilder()
 				.SetBasePath(basePath)

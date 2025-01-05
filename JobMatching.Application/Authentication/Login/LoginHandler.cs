@@ -1,14 +1,14 @@
 ﻿using JobMatching.Common.Results;
-using JobMatching.Domain.Authentication;
+using JobMatching.Domain.Authentication.Login;
 using MediatR;
 
 namespace JobMatching.Application.Authentication.Login
 {
     public sealed class LoginHandler : IRequestHandler<LoginRequest, Result<string>>
     {
-        private readonly IAuthService _authService;
+        private readonly ILoginService _authService;
 
-        public LoginHandler(IAuthService authService)
+        public LoginHandler(ILoginService authService)
         {
             _authService = authService;
         }

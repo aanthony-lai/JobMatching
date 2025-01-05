@@ -40,7 +40,12 @@ namespace JobMatching.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task SaveAsync(Employer employer)
+        public async Task SaveAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task AddAsync(Employer employer)
         {
             await _appDbContext.Employers.AddAsync(employer);
             await _appDbContext.SaveChangesAsync();

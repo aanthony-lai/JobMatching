@@ -1,8 +1,5 @@
 ﻿using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Interfaces.Services;
-using JobMatching.Application.Utilities;
-using JobMatching.Common.Results;
-using JobMatching.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -41,19 +38,6 @@ namespace JobMatching.API.Controllers
 
             return result.Match<ActionResult>(
                 success => Ok(result.Value),
-                failure => BadRequest(result.Error.ToString()));
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AddAsync([FromBody]CreateEmployerDTO createEmployerDto)
-        {
-            var result = await _employerService.AddAsync(createEmployerDto);
-
-            return result.Match<ActionResult>(
-                success => CreatedAtAction(
-                    nameof(GetByIdAsync),
-                    new { employerId = result.Value.Id },
-                    new { result.Value }),
                 failure => BadRequest(result.Error.ToString()));
         }
     }

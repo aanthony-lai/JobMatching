@@ -15,7 +15,7 @@ public static class AuthenticationDependencyHandler
     public static WebApplicationBuilder RegisterAuthenticationConfigurations(
         this WebApplicationBuilder builder)
     {
-        builder.Services.AddIdentityCore<ApplicationUser>()
+        builder.Services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

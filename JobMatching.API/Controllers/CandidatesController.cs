@@ -2,7 +2,6 @@ using JobMatching.Application.Candidates;
 using JobMatching.Application.Candidates.GetJobApplications;
 using JobMatching.Application.DTO.Candidate;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers
@@ -46,19 +45,6 @@ namespace JobMatching.API.Controllers
             return jobApplicationsResult.Match<ActionResult>(
                 succuess => Ok(jobApplicationsResult.Value),
                 failure => BadRequest(jobApplicationsResult.Error.ToString()));
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AddAsync(CreateCandidateDTO createCandidateDto)
-        {
-            var result = await _candidateService.AddAsync(createCandidateDto);
-
-            return result.Match<ActionResult>(
-                success => CreatedAtAction(
-                    nameof(GetByIdAsync),
-                    new { candidateId = result.Value.Id },
-                    new { result.Value }),
-                failure => BadRequest(result.Error.ToString()));
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using JobMatching.Common.Results;
-using JobMatching.Domain.Authentication;
+using JobMatching.Domain.Authentication.Login;
 using MediatR;
 
 namespace JobMatching.Application.Authentication.Login
