@@ -10,30 +10,31 @@ namespace JobMatching.Infrastructure.Authentication
     //Needs re-factoring
     public sealed class RegistrationService(
         UserManager<User> userManager,
-        IUserProfileCreator createUserProfileService) : IRegistrationService
+        IUserProfileCreator userProfileCreator) : IRegistrationService
     {
-        public async Task<Result> RegisterAsync(RegisterUserModel registerCandidateModel)
+        public async Task<Result> RegisterAsync(RegisterUserModel registerUserModel)
         {
-            if (!await ValidateEmailNotAlreadyExistAsync(registerCandidateModel.Email))
+            if (!await ValidateEmailNotAlreadyExistAsync(registerUserModel.Email))
                 return Result.Failure(new Error("Email is already in use."));
 
-            var createUserResult = User.CreateCandidateType(registerCandidateModel);
+            var createUserResult = registerUserModel.UserType == UserType.Candidate
+                ? User.CreateCandidate(registerUserModel)
+                : User.CreateEmployer(registerUserModel);
 
             if (!createUserResult.IsSuccess)
                 return Result.Failure(createUserResult.Error);
 
             var registerUserResult = await userManager.CreateAsync(
-                createUserResult.Value, registerCandidateModel.Password);
+                createUserResult.Value, registerUserModel.Password);
 
-            if (registerUserResult.Succeeded)
-            {
-                var result = await CreateUserProfile(createUserResult.Value);
-                return result.IsSuccess
-                    ? Result.Success()
-                    : Result.Failure(result.Error);
-            }
+            if (!registerUserResult.Succeeded)
+                return Result.Failure(new Error("An error occurred, while trying to create the user."));
+            
+            var result = await CreateUserProfile(createUserResult.Value);
 
-            return Result.Failure(new Error("An error occurred, while trying to create the user."));
+            return result.IsSuccess
+                ? Result.Success()
+                : Result.Failure(result.Error);
         }
 
         private async Task<bool> ValidateEmailNotAlreadyExistAsync(string email) =>
@@ -44,7 +45,7 @@ namespace JobMatching.Infrastructure.Authentication
 
         private async Task<Result> CreateUserProfile(User user)
         {
-            Result<DomainUser> domainUser = user.UserType == UserType.Candidate 
+            var domainUserResult = user.UserType == UserType.Candidate 
                 ? DomainUser.CreateCandidate(
                     user.Id,
                     user.FirstName!,
@@ -55,19 +56,17 @@ namespace JobMatching.Infrastructure.Authentication
                     user.EmployerName,
                     user.Email!);
 
-            if (!domainUser.IsSuccess)
-                return Result.Failure(domainUser.Error);
+            if (!domainUserResult.IsSuccess)
+                return Result.Failure(domainUserResult.Error);
 
-            var createUserProfileResult = await createUserProfileService
-                .CreateProfileAsync(domainUser.Value);
+            var createUserProfileResult = await userProfileCreator
+                .CreateAsync(domainUserResult.Value);
 
-            if (!createUserProfileResult.IsSuccess)
-            {
-                await RollBackUserCreation(user);
-                return Result.Failure(createUserProfileResult.Error);
-            }
-
-            return Result.Success();
+            if (createUserProfileResult.IsSuccess) return Result.Success();
+           
+            await RollBackUserCreation(user);
+            
+            return Result.Failure(createUserProfileResult.Error);
         } 
     }
 }

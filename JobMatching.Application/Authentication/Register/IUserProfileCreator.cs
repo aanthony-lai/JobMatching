@@ -5,6 +5,6 @@ namespace JobMatching.Application.Authentication.Register
 {
     public interface IUserProfileCreator
     {
-        Task<Result> CreateProfileAsync(DomainUser domainUser);
+        Task<Result> CreateAsync(DomainUser domainUser);
     }
 }

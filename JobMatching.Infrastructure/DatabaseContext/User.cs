@@ -36,7 +36,7 @@ namespace JobMatching.Infrastructure.DatabaseContext
             UserType = UserType.Employer;
         }
 
-        public static Result<User> CreateCandidateType(RegisterUserModel registerUserModel)
+        public static Result<User> CreateCandidate(RegisterUserModel registerUserModel)
         {
             if (string.IsNullOrWhiteSpace(registerUserModel.FirstName) ||
                 string.IsNullOrWhiteSpace(registerUserModel.LastName))
@@ -54,7 +54,7 @@ namespace JobMatching.Infrastructure.DatabaseContext
             return Result<User>.Success(user);
         }
 
-        public static Result<User> CreateEmployerType(RegisterUserModel registerUserModel)
+        public static Result<User> CreateEmployer(RegisterUserModel registerUserModel)
         {
             if (string.IsNullOrWhiteSpace(registerUserModel.EmployerName))
                 Result<User>.Failure(new Error("Employer can't be empty."));

@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+node_modules/
+.env
+build/
+coverage/
+*.lock (e.g., yarn.lock, package-lock.json if not used)
+.cache/
