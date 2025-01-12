@@ -1,5 +1,5 @@
 ﻿using JobMatching.Application.DTO.Employer;
-using JobMatching.Application.Interfaces.Services;
+using JobMatching.Application.EmployerServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobMatching.API.Controllers

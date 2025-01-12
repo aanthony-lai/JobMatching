@@ -28,6 +28,14 @@ namespace JobMatching.Infrastructure.Configurations
                 user.Property(u => u.SecurityStamp).HasColumnName("SecurityStamp");
                 user.Property(u => u.ConcurrencyStamp).HasColumnName("ConcurrencyStamp");
                 user.Property(u => u.ConcurrencyStamp).HasColumnName("ConcurrencyStamp");
+
+                user.Ignore(u => u.EmailConfirmed);
+                user.Ignore(u => u.PhoneNumber);
+                user.Ignore(u => u.PhoneNumberConfirmed);
+                user.Ignore(u => u.TwoFactorEnabled);
+                user.Ignore(u => u.LockoutEnd);
+                user.Ignore(u => u.LockoutEnabled);
+                user.Ignore(u => u.AccessFailedCount);
             });
 
             return modelBuilder;

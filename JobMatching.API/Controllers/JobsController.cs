@@ -1,6 +1,6 @@
 ﻿using JobMatching.Application.Applicants.GetApplicants;
 using JobMatching.Application.DTO.Job;
-using JobMatching.Application.Interfaces.Services;
+using JobMatching.Application.JobServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

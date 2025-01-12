@@ -1,0 +1,44 @@
+﻿
+<EditForm Model="registerEmployerModel">
+    <DataAnnotationsValidator />
+    <h1 class="h3 mb-3 fw-normal">Please register</h1>
+
+    <div class="input-group-lg">
+        <label for="firstName">Employer name</label>
+        <InputText @bind-Value="registerEmployerModel.EmployerName"
+                   id="firstName"
+                   class="form-control" />
+    </div>
+    <div class="input-group-lg">
+        <label for="email">Email</label>
+        <InputText @bind-Value="registerEmployerModel.Email"
+                   id="email"
+                   class="form-control" />
+    </div>
+    <div class="input-group-lg">
+        <label for="password">Password</label>
+        <InputText @bind-Value="registerEmployerModel.Password"
+                   id="password"
+                   class="form-control" />
+    </div>
+    <div class="input-group-lg">
+        <label for="confirmPassword">Confirm password</label>
+        <InputText @bind-Value="registerEmployerModel.ConfirmPassword"
+                   id="confirmPassword"
+                   class="form-control" />
+    </div>
+    <button class="btn btn-primary w-100 py-2 mt-4" type="submit">Register</button>
+    <button 
+        @onclick="async () => await OnToggleEventCallback.InvokeAsync()"
+        class="btn btn-dark w-100 py-2 mt-2" 
+        type="submit">Register candidate
+    </button>
+
+</EditForm>
+
+@code {
+    private RegisterEmployerModel registerEmployerModel = new();
+
+    [Parameter]
+    public EventCallback OnToggleEventCallback { get; set; }
+}

@@ -1,4 +1,4 @@
-﻿using JobMatching.Application.Authentication.Register;
+﻿using JobMatching.Application.Authentication.ProfileCreation;
 using JobMatching.Common.Results;
 using JobMatching.Domain.Authentication.Registration;
 using JobMatching.Domain.Entities.User;
@@ -53,7 +53,7 @@ namespace JobMatching.Infrastructure.Authentication
                     user.Email!)
                 : DomainUser.CreateEmployer(
                     user.Id,
-                    user.EmployerName,
+                    user.EmployerName!,
                     user.Email!);
 
             if (!domainUserResult.IsSuccess)

@@ -17,11 +17,12 @@ namespace JobMatching.Infrastructure.Configurations
                 employer.Property(emp => emp.Id).HasColumnName("Id").IsRequired();
                 employer.Property(emp => emp.UserId).HasColumnName("UserId").IsRequired();
                 employer.Property(emp => emp.Name).HasColumnName("Name").IsRequired();
+
                 employer.Property(c => c.Created).HasColumnName("Created");
                 employer.Property(c => c.CreatedBy).HasColumnName("CreatedBy");
                 employer.Property(c => c.LastModified).HasColumnName("LastModified");
                 employer.Property(c => c.ModifiedBy).HasColumnName("ModifiedBy");
-                employer.Property(c => c.LastModified).HasColumnName("IsDeleted");
+                employer.Property(c => c.IsDeleted).HasColumnName("IsDeleted");
             });
 
             modelBuilder.Entity<EmployerJob>(job =>

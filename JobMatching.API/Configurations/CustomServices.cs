@@ -1,10 +1,10 @@
 ﻿using JobMatching.Application.Applicants;
 using JobMatching.Application.Applicants.GetApplicants;
-using JobMatching.Application.Authentication.Register;
-using JobMatching.Application.Candidates;
-using JobMatching.Application.Interfaces.Mappers;
-using JobMatching.Application.Interfaces.Services;
-using JobMatching.Application.Services;
+using JobMatching.Application.Authentication.ProfileCreation;
+using JobMatching.Application.CandidateServices;
+using JobMatching.Application.CompetenceServices;
+using JobMatching.Application.EmployerServices;
+using JobMatching.Application.JobServices;
 using JobMatching.Application.Utilities;
 using JobMatching.Domain.Authentication;
 using JobMatching.Domain.Authentication.Login;

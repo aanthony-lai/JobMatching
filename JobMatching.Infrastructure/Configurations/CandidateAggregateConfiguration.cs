@@ -33,7 +33,7 @@ namespace JobMatching.Infrastructure.Configurations
                 candidate.Property(c => c.CreatedBy).HasColumnName("CreatedBy");
                 candidate.Property(c => c.LastModified).HasColumnName("LastModified");
                 candidate.Property(c => c.ModifiedBy).HasColumnName("ModifiedBy");
-                candidate.Property(c => c.LastModified).HasColumnName("IsDeleted");
+                candidate.Property(c => c.IsDeleted).HasColumnName("IsDeleted");
             });
 
             modelBuilder.Entity<JobApplication>(jobApplication =>

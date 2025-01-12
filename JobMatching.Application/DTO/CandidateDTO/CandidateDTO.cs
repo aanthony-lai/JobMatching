@@ -1,4 +1,4 @@
-﻿using JobMatching.Application.Candidates;
+﻿using JobMatching.Application.CandidateServices;
 
 namespace JobMatching.Application.DTO.Candidate
 {

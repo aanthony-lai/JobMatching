@@ -30,7 +30,7 @@ namespace JobMatching.Domain.Entities.User
             string email, 
             UserType userType = UserType.Employer)
         {
-            Id = Id;
+            Id = id;
             EmployerName = employerName;
             Email = email;
             UserType = userType;

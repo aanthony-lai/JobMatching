@@ -1,4 +1,4 @@
-﻿using JobMatching.Application.Interfaces.Services;
+﻿using JobMatching.Application.CompetenceServices;
 using JobMatching.Domain.Entities.Competence;
 using Microsoft.AspNetCore.Mvc;
 

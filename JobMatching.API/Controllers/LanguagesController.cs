@@ -1,4 +1,4 @@
-﻿using JobMatching.Application.Interfaces.Services;
+﻿using JobMatching.Application.LanguageServices;
 using JobMatching.Domain.Entities.Language;
 using Microsoft.AspNetCore.Mvc;
 

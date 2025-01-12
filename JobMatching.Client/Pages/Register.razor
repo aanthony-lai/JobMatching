@@ -1,0 +1,22 @@
+﻿@page "/register"
+
+<div class="container">
+    @if (isCandidate)
+    {
+        <CandidateForm OnToggleEventCallback="OnToggleHandler" />
+    }
+    else
+    {
+        <EmployerForm OnToggleEventCallback="OnToggleHandler" />
+    }
+</div>
+
+@code {
+    bool isCandidate { get; set; } = true;
+
+    private void OnToggleHandler()
+    {
+        isCandidate = !isCandidate;
+        StateHasChanged();
+    }
+}

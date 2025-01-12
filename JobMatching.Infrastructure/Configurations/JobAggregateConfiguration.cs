@@ -43,7 +43,7 @@ namespace JobMatching.Infrastructure.Configurations
                 job.Property(j => j.CreatedBy).HasColumnName("CreatedBy");
                 job.Property(j => j.LastModified).HasColumnName("LastModified");
                 job.Property(j => j.ModifiedBy).HasColumnName("ModifiedBy");
-                job.Property(j => j.LastModified).HasColumnName("IsDeleted");
+                job.Property(j => j.IsDeleted).HasColumnName("IsDeleted");
             });
 
             modelBuilder.Entity<JobCompetence>(jobCompetence =>
