@@ -1,4 +1,4 @@
-﻿using JobMatching.Infrastructure.Context;
+﻿using JobMatching.Infrastructure.DataAccess;
 using JobMatching.Infrastructure.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

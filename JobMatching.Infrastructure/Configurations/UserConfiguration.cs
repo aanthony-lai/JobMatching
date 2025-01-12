@@ -1,5 +1,5 @@
 ﻿using JobMatching.Domain.Entities.User;
-using JobMatching.Infrastructure.DatabaseContext;
+using JobMatching.Infrastructure.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.Infrastructure.Configurations
@@ -8,7 +8,7 @@ namespace JobMatching.Infrastructure.Configurations
     {
         public static ModelBuilder AddUserConfiguration(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(user =>
+            modelBuilder.Entity<UserEntity>(user =>
             {
                 user.ToTable("Users").HasKey(u => u.Id);
                 user.Property(u => u.FirstName).HasColumnName("FirstName").IsRequired(false);

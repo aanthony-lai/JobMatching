@@ -3,20 +3,20 @@ using JobMatching.Domain.Authentication.Registration;
 using JobMatching.Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
 
-namespace JobMatching.Infrastructure.DatabaseContext
+namespace JobMatching.Infrastructure.DataAccess.Entities
 {
-    public class User : IdentityUser
+    public class UserEntity : IdentityUser
     {
         public string? FirstName { get; set; } = string.Empty;
         public string? LasName { get; set; } = string.Empty;
         public string? EmployerName { get; set; } = string.Empty;
         public UserType UserType { get; set; }
 
-        protected User() : base() { }
+        protected UserEntity() : base() { }
 
-        private User(
-            string email, 
-            string firstName, 
+        private UserEntity(
+            string email,
+            string firstName,
             string lastName)
         {
             base.Email = email;
@@ -26,8 +26,8 @@ namespace JobMatching.Infrastructure.DatabaseContext
             UserType = UserType.Candidate;
         }
 
-        private User(
-            string email, 
+        private UserEntity(
+            string email,
             string employerName)
         {
             base.Email = email;
@@ -36,36 +36,36 @@ namespace JobMatching.Infrastructure.DatabaseContext
             UserType = UserType.Employer;
         }
 
-        public static Result<User> CreateCandidate(RegisterUserModel registerUserModel)
+        public static Result<UserEntity> CreateCandidate(RegisterUserModel registerUserModel)
         {
             if (string.IsNullOrWhiteSpace(registerUserModel.FirstName) ||
                 string.IsNullOrWhiteSpace(registerUserModel.LastName))
-                return Result<User>.Failure(new Error("First and last name can't be empty."));
+                return Result<UserEntity>.Failure(new Error("First and last name can't be empty."));
 
             if (string.IsNullOrWhiteSpace(registerUserModel.Email) ||
                 !registerUserModel.Email.Contains("@"))
-                return Result<User>.Failure(new Error("Invalid email address."));
+                return Result<UserEntity>.Failure(new Error("Invalid email address."));
 
-            var user = new User(
-                registerUserModel.Email, 
-                registerUserModel.FirstName, 
+            var user = new UserEntity(
+                registerUserModel.Email,
+                registerUserModel.FirstName,
                 registerUserModel.LastName);
 
-            return Result<User>.Success(user);
+            return Result<UserEntity>.Success(user);
         }
 
-        public static Result<User> CreateEmployer(RegisterUserModel registerUserModel)
+        public static Result<UserEntity> CreateEmployer(RegisterUserModel registerUserModel)
         {
             if (string.IsNullOrWhiteSpace(registerUserModel.EmployerName))
-                Result<User>.Failure(new Error("Employer can't be empty."));
+                Result<UserEntity>.Failure(new Error("Employer can't be empty."));
 
             if (string.IsNullOrWhiteSpace(registerUserModel.Email) ||
                 !registerUserModel.Email.Contains("@"))
-                return Result<User>.Failure(new Error("Invalid email address."));
+                return Result<UserEntity>.Failure(new Error("Invalid email address."));
 
-            var user = new User(registerUserModel.Email, registerUserModel.EmployerName);
+            var user = new UserEntity(registerUserModel.Email, registerUserModel.EmployerName);
 
-            return Result<User>.Success(user);
+            return Result<UserEntity>.Success(user);
         }
     }
 }

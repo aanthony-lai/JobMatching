@@ -1,4 +1,4 @@
-using JobMatching.Infrastructure.Context;
+using JobMatching.Infrastructure.DataAccess;
 using JobMatching.Infrastructure.QueryExtensions;
 using JobMatching.Domain.Entities.Candidate;
 using JobMatching.Domain.Repositories;

@@ -2,14 +2,14 @@
 using JobMatching.Common.Results;
 using JobMatching.Domain.Authentication.Registration;
 using JobMatching.Domain.Entities.User;
-using JobMatching.Infrastructure.DatabaseContext;
+using JobMatching.Infrastructure.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace JobMatching.Infrastructure.Authentication
 {
     //Needs re-factoring
     public sealed class RegistrationService(
-        UserManager<User> userManager,
+        UserManager<UserEntity> userManager,
         IUserProfileCreator userProfileCreator) : IRegistrationService
     {
         public async Task<Result> RegisterAsync(RegisterUserModel registerUserModel)
@@ -18,8 +18,8 @@ namespace JobMatching.Infrastructure.Authentication
                 return Result.Failure(new Error("Email is already in use."));
 
             var createUserResult = registerUserModel.UserType == UserType.Candidate
-                ? User.CreateCandidate(registerUserModel)
-                : User.CreateEmployer(registerUserModel);
+                ? UserEntity.CreateCandidate(registerUserModel)
+                : UserEntity.CreateEmployer(registerUserModel);
 
             if (!createUserResult.IsSuccess)
                 return Result.Failure(createUserResult.Error);
@@ -40,10 +40,10 @@ namespace JobMatching.Infrastructure.Authentication
         private async Task<bool> ValidateEmailNotAlreadyExistAsync(string email) =>
             await userManager.FindByEmailAsync(email) == null;
 
-        private async Task RollBackUserCreation(User user) =>
+        private async Task RollBackUserCreation(UserEntity user) =>
             await userManager.DeleteAsync(user);
 
-        private async Task<Result> CreateUserProfile(User user)
+        private async Task<Result> CreateUserProfile(UserEntity user)
         {
             var domainUserResult = user.UserType == UserType.Candidate 
                 ? DomainUser.CreateCandidate(

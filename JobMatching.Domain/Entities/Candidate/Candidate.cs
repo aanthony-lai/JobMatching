@@ -28,15 +28,15 @@ namespace JobMatching.Domain.Entities.Candidate
             string lastName,
             Guid userId)
         {
-            var nameResult = Name.Create(firstName, lastName);
+            var name = Name.Create(firstName, lastName);
             
-            if (!nameResult.IsSuccess)
-                return Result<Candidate>.Failure(nameResult.Error);
+            if (!name.IsSuccess)
+                return Result<Candidate>.Failure(name.Error);
 
             if (userId == Guid.Empty)
                 return Result<Candidate>.Failure(new Error("You have provided an invalid user ID"));
 
-            return Result<Candidate>.Success(new Candidate(nameResult.Value, userId));
+            return Result<Candidate>.Success(new Candidate(name.Value, userId));
         }
     }
 }

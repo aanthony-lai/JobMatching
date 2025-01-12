@@ -1,6 +1,6 @@
 ﻿using JobMatching.Domain.Entities.Job;
 using JobMatching.Domain.Repositories;
-using JobMatching.Infrastructure.Context;
+using JobMatching.Infrastructure.DataAccess;
 using JobMatching.Infrastructure.QueryExtensions;
 using Microsoft.EntityFrameworkCore;
 

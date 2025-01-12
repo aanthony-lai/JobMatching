@@ -1,5 +1,5 @@
-using JobMatching.Infrastructure.Context;
-using JobMatching.Infrastructure.DatabaseContext;
+using JobMatching.Infrastructure.DataAccess;
+using JobMatching.Infrastructure.DataAccess.Entities;
 using JobMatching.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +14,7 @@ public static class AuthenticationDependencyHandler
     public static WebApplicationBuilder RegisterAuthenticationConfigurations(
         this WebApplicationBuilder builder)
     {
-        builder.Services.AddIdentityCore<User>()
+        builder.Services.AddIdentityCore<UserEntity>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

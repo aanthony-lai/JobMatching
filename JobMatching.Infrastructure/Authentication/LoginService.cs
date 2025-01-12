@@ -2,13 +2,13 @@
 using JobMatching.Domain.Authentication;
 using JobMatching.Domain.Authentication.Login;
 using JobMatching.Domain.Entities.User;
-using JobMatching.Infrastructure.DatabaseContext;
+using JobMatching.Infrastructure.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace JobMatching.Infrastructure.Authentication
 {
     public sealed class LoginService(
-        UserManager<User> userManager,
+        UserManager<UserEntity> userManager,
         ITokenProvider tokenProvider) : ILoginService
     {
         public async Task<Result<string>> LoginAsync(LoginUserModel loginUserModel)
