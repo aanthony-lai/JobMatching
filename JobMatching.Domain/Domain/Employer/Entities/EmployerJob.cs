@@ -1,16 +1,16 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.Entities.Employer
+namespace JobMatching.Domain.Domain.Employer.Entities
 {
-    public class EmployerJob: IEquatable<EmployerJob>
+    public class EmployerJob : IEquatable<EmployerJob>
     {
         public Guid EmployerId { get; private set; }
         public Guid JobId { get; private set; }
 
         protected EmployerJob() { }
         private EmployerJob(
-            Guid employerId, 
+            Guid employerId,
             Guid jobId)
         {
             EmployerId = employerId;
@@ -18,7 +18,7 @@ namespace JobMatching.Domain.Entities.Employer
         }
 
         public static Result<EmployerJob> Create(
-            Guid employerId, 
+            Guid employerId,
             Guid jobId)
         {
             if (jobId == Guid.Empty)
@@ -27,8 +27,8 @@ namespace JobMatching.Domain.Entities.Employer
             return Result<EmployerJob>.Success(new EmployerJob(employerId, jobId));
         }
 
-        public bool Equals(EmployerJob other) => 
-            this.EmployerId == other.EmployerId &&
-            this.JobId == other.JobId;
+        public bool Equals(EmployerJob other) =>
+            EmployerId == other.EmployerId &&
+            JobId == other.JobId;
     }
 }

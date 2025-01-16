@@ -8,7 +8,7 @@
         public int MinSalary { get; set; }
         public Guid EmployerId { get; set; }
         public EmployerEntity Employer { get; set; } = null!;
-        public ICollection<JobCompetence> Competences { get; set; } = new List<JobCompetence>();
         public ICollection<JobApplicationEntity> Applications { get; set; } = new List<JobApplicationEntity>();
+        public ICollection<JobCompetence> Competences { get; set; } = new List<JobCompetence>();
     }
 }

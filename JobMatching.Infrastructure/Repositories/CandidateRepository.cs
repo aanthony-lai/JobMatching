@@ -1,60 +1,65 @@
-using JobMatching.Infrastructure.DataAccess;
-using JobMatching.Infrastructure.QueryExtensions;
-using JobMatching.Domain.Entities.Candidate;
+using JobMatching.Domain.Domain.Candidate.Entities;
 using JobMatching.Domain.Repositories;
+using JobMatching.Infrastructure.DataAccess;
+using JobMatching.Infrastructure.DataAccess.Entities;
+using JobMatching.Infrastructure.QueryExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.Infrastructure.Repositories;
 
-public class CandidateRepository : ICandidateRepository
+public class CandidateRepository(AppDbContext appDbContext) : ICandidateRepository
 {
-    private readonly AppDbContext _appDbContext;
-
-    public CandidateRepository(AppDbContext appDbContext)
+    public async Task<ICollection<Candidate>> GetAsync(bool withTracking = false)
     {
-        _appDbContext = appDbContext;
-    }
-
-    public async Task<List<Candidate>> GetAsync(bool withTracking = false)
-    {
-        return await _appDbContext.Candidates
+        return await appDbContext.Candidates
             .AddTracking(withTracking)
-            .Include(c => c.JobApplications)
-            .Include(c => c.CandidateLanguages)
-            .Include(c => c.CandidateCompetences)
+                .Include(c => c.JobApplications)
+                .Include(c => c.Languages)
+                .Include(c => c.Competences)
+            .Select(c => ToDomain(c))
             .ToListAsync();
     }
 
     public async Task<Candidate?> GetByIdAsync(Guid candidateId, bool withTracking = false)
     {
-        return await _appDbContext.Candidates
+        return await appDbContext.Candidates
             .AddTracking(withTracking)
-            .Where(c => c.Id == candidateId)
-            .Include(c => c.JobApplications)
-            .Include(c => c.CandidateLanguages)
-            .Include(c => c.CandidateCompetences)
-            .FirstOrDefaultAsync();
+                .Include(c => c.JobApplications)
+                .Include(c => c.Languages)
+                .Include(c => c.Competences)
+            .Select(c => ToDomain(c))
+            .FirstOrDefaultAsync(c => c.Id == candidateId);
     }
 
-    public async Task<IEnumerable<Candidate>> GetByIdsAsync(IEnumerable<Guid> ids, bool withTracking = false)
+    public async Task SaveAsync(Candidate domainCandidate)
     {
-        return await _appDbContext.Candidates
-            .AddTracking(withTracking)
-            .Where(c => ids.Contains(c.Id))
-            .Include(c => c.JobApplications)
-            .Include(c => c.CandidateLanguages)
-            .Include(c => c.CandidateCompetences)
-            .ToListAsync();
+        var candidate = ToPersistence(domainCandidate);
+        appDbContext.Update(candidate);
+        await SaveAsync();
     }
 
-    public async Task SaveAsync()
+    public async Task SaveAsync() => await appDbContext.SaveChangesAsync();
+
+    private Candidate ToDomain(CandidateEntity candidate)
     {
-        await _appDbContext.SaveChangesAsync();
+        return Candidate.Load(
+                candidate.Id,
+                candidate.FirstName,
+                candidate.LastName,
+                candidate.UserId,
+                candidate.JobApplications.Select(c => c.Id).ToList(),
+                candidate.Languages.Select(l => l.LanguageId).ToList(),
+                candidate.Competences.Select(c => c.CompetenceId).ToList());
     }
 
-    public async Task AddAsync(Candidate candidate)
+    private CandidateEntity ToPersistence(Candidate domainCandidate)
     {
-        await _appDbContext.Candidates.AddAsync(candidate);
-        await _appDbContext.SaveChangesAsync();
+        return new CandidateEntity()
+        {
+            Id = domainCandidate.Id,
+            FirstName = domainCandidate.Name.FirstName,
+            LastName = domainCandidate.Name.LastName,
+            UserId = domainCandidate.UserId
+        };
     }
 }

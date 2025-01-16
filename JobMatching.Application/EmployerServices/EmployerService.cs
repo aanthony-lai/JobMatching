@@ -1,7 +1,7 @@
 ﻿using JobMatching.Application.DTO.Employer;
 using JobMatching.Application.Utilities;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Entities.Employer;
+using JobMatching.Domain.Domain.Employer.Entities;
 using JobMatching.Domain.Entities.User;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
@@ -48,7 +48,7 @@ namespace JobMatching.Application.EmployerServices
             return Result<List<EmployerDTO>>.Success(employersDto);
         }
 
-        public async Task<Result> CreateAsync(DomainUser domainUser)
+        public async Task<Result> CreateAsync(User domainUser)
         {
             var createEmployerResult = Employer.Create(
                 domainUser.EmployerName,

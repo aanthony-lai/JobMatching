@@ -3,7 +3,7 @@ using JobMatching.Domain.Errors;
 
 namespace JobMatching.Domain.Entities.Language
 {
-    public class Language: EntityBase
+    public class Language: DomainEntityBase
     {
         public string Name { get; } = null!;
 

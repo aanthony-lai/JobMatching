@@ -10,7 +10,7 @@ namespace JobMatching.Infrastructure.Authentication;
 
 public sealed class TokenProvider : ITokenProvider
 {
-    public string Create(DomainUser user)
+    public string Create(User user)
     {
         string secretKey = AppSettingsReader.GetValue("Jwt:Secret");
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));

@@ -1,6 +1,6 @@
 ﻿using JobMatching.Application.Applicants.GetApplicants;
+using JobMatching.Domain.Domain.Candidate.Entities;
 using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
-using JobMatching.Domain.Entities.Candidate;
 
 namespace JobMatching.Application.Applicants
 {

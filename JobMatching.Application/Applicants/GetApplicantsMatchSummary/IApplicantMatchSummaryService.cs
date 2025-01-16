@@ -1,5 +1,5 @@
-﻿using JobMatching.Domain.Entities.Candidate;
-using JobMatching.Domain.Entities.Job;
+﻿using JobMatching.Domain.Domain.Candidate.Entities;
+using JobMatching.Domain.Domain.Job.Entities;
 
 namespace JobMatching.Application.Applicants.GetApplicants
 {

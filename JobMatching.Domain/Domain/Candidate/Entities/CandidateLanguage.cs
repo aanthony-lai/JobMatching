@@ -2,29 +2,29 @@
 using JobMatching.Domain.Enums;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.Entities.Candidate
+namespace JobMatching.Domain.Domain.Candidate.Entities
 {
-    public class CandidateLanguage: IEquatable<CandidateLanguage>
+    public class CandidateLanguage
     {
-        public Guid CandidateId { get; private set; }
-        public Guid LanguageId { get; private set; }
+        public Guid LanguageId { get; }
+        public string Name { get; }
         public LanguageProficiencyLevel ProficiencyLevel { get; private set; }
 
         protected CandidateLanguage() { }
         private CandidateLanguage(
-            Guid candidateId, 
-            Guid languageId, 
+            Guid languageId,
+            string name,
             LanguageProficiencyLevel proficiencyLevel)
         {
-            CandidateId = candidateId;
             LanguageId = languageId;
+            Name = name;
             ProficiencyLevel = proficiencyLevel;
         }
 
         public static Result<CandidateLanguage> Create(
-            Guid candidateId,
             Guid languageId,
-            LanguageProficiencyLevel proficiencyLevel = 
+            string name,
+            LanguageProficiencyLevel proficiencyLevel =
             LanguageProficiencyLevel.NotSpecified)
         {
             if (languageId == Guid.Empty)
@@ -32,14 +32,9 @@ namespace JobMatching.Domain.Entities.Candidate
 
             return Result<CandidateLanguage>.Success(
                 new CandidateLanguage(
-                    candidateId,
                     languageId,
+                    name,
                     proficiencyLevel));
-        }
-
-        public bool Equals(CandidateLanguage? other)
-        {
-            return this.CandidateId == other.CandidateId && this.LanguageId == other.LanguageId;
         }
     }
 }

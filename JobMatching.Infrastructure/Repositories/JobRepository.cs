@@ -1,62 +1,81 @@
-﻿using JobMatching.Domain.Entities.Job;
+﻿using JobMatching.Domain.Domain.Job.Entities;
 using JobMatching.Domain.Repositories;
 using JobMatching.Infrastructure.DataAccess;
+using JobMatching.Infrastructure.DataAccess.Entities;
 using JobMatching.Infrastructure.QueryExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.Infrastructure.Repositories
 {
-    public class JobRepository : IJobRepository
+    public class JobRepository(AppDbContext appDbContext) : IJobRepository
     {
-        private readonly AppDbContext _appDbContext;
-
-        public JobRepository(AppDbContext appDbContext)
-        {
-            _appDbContext = appDbContext;
-        }
-
         public async Task<List<Job>> GetAsync(bool withTracking = false)
         {
-            return await _appDbContext.Jobs
+            return await appDbContext.Jobs
                 .AddTracking(withTracking)
-                .Include(j => j.JobCompetences)
-                .Include(j => j.Applicants)
-                .Include(j => j.JobCompetences)
+                .Include(j => j.Employer)
+                .Include(j => j.Applications)
+                .Include(j => j.Competences)
+                .Select(j => ToDomain(j))
                 .ToListAsync();
         }
 
         public async Task<Job?> GetByIdAsync(Guid jobId, bool withTracking = false)
         {
-            return await _appDbContext.Jobs
-                .AddTracking(withTracking)
-                .Where(j => j.Id == jobId)
-                .Include(j => j.JobCompetences)
-                .Include(j => j.Applicants)
-                .Include(j => j.JobCompetences)
-                .FirstOrDefaultAsync();
+            var job = await appDbContext.Jobs
+                .Include(j => j.Employer)
+                .Include(j => j.Applications)
+                .Include(j => j.Competences)
+                .FirstOrDefaultAsync(j => j.Id == jobId);
+            
+            return job is not null ? ToDomain(job) : null;
         }
 
         public async Task<List<Job>> GetByNameAsync(string title, bool withTracking = false)
         {
-            return await _appDbContext.Jobs
-                .AddTracking(withTracking)
-                .Where(j => j.JobTitle.Title.Contains(title))
-                .Include(j => j.JobCompetences)
-                .Include(j => j.Applicants)
-                .Include(j => j.JobCompetences)
+            return await appDbContext.Jobs
+                .Include(j => j.Employer)
+                .Include(j => j.Applications)
+                .Include(j => j.Competences)
+                .Where(j => j.Title.Contains(title))
+                .Select(j => ToDomain(j))
                 .ToListAsync();
         }
 
-        public async Task SaveAsync(Job job)
+        public Task SaveAsync(Job job)
         {
-            await _appDbContext.Jobs.AddAsync(job);
-            await _appDbContext.SaveChangesAsync();
+            
         }
 
-        public async Task UpdateAsync(Job job)
+        public async Task SaveAsync() => await appDbContext.SaveChangesAsync();
+
+        private Job ToDomain(JobEntity job)
         {
-            _appDbContext.Jobs.Update(job);
-            await _appDbContext.SaveChangesAsync();
+            return Job.Load(
+                job.Id,
+                job.Title,
+                job.Description,
+                job.MaxSalary,
+                job.MinSalary,
+                job.EmployerId,
+                job.Applications
+                    .Select(a => a.Id)
+                    .ToList(),
+                job.Competences.Select(c => Domain.Domain.Job.Entities.JobCompetence
+                    .Load(c.CompetenceId, c.Competence.Name, c.IsCritical))
+                    .ToList());
+        }
+
+        private JobEntity ToPersistence(Job domainJob)
+        {
+            return new JobEntity()
+            {
+                Id = domainJob.Id,
+                Title = domainJob.JobTitle.Title,
+                MaxSalary = domainJob.Salary.MaxSalary,
+                MinSalary = domainJob.Salary.MinSalary,
+                EmployerId = domainJob.EmployerId,
+            };
         }
     }
 }

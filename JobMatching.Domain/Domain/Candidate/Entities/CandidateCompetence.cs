@@ -2,48 +2,35 @@
 using JobMatching.Domain.Enums;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.Entities.Candidate
+namespace JobMatching.Domain.Domain.Candidate.Entities
 {
-    public class CandidateCompetence: IEquatable<CandidateCompetence>
+    public class CandidateCompetence
     {
-        public Guid CandidateId { get; private set; }
         public Guid CompetenceId { get; private set; }
         public string CompetenceName { get; private set; } = null!;
         public CompetenceLevel CompetenceLevel { get; private set; }
 
         protected CandidateCompetence() { }
         private CandidateCompetence(
-            Guid candidateId, 
             Guid competenceId,
             string CompetenceName,
             CompetenceLevel competenceLevel)
         {
-            CandidateId = candidateId;
             CompetenceId = competenceId;
             CompetenceLevel = competenceLevel;
         }
 
         public static Result<CandidateCompetence> Create(
-            Guid candidateId, 
-            Guid competenceId, 
+            Guid competenceId,
             string competenceName,
-            CompetenceLevel competenceLevel = 
+            CompetenceLevel competenceLevel =
             CompetenceLevel.NotSpecified)
         {
-            if (candidateId == Guid.Empty)
-                return Result<CandidateCompetence>.Failure(CandidateErrors.InvalidCompetence);
-
             return Result<CandidateCompetence>.Success(
                 new CandidateCompetence(
-                    candidateId, 
                     competenceId,
                     competenceName,
                     competenceLevel));
-        }
-
-        public bool Equals(CandidateCompetence other)
-        {
-            return this.CandidateId == other.CandidateId && this.CompetenceId == other.CompetenceId;
         }
     }
 }

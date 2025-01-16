@@ -46,12 +46,12 @@ namespace JobMatching.Infrastructure.Authentication
         private async Task<Result> CreateUserProfile(UserEntity user)
         {
             var domainUserResult = user.UserType == UserType.Candidate 
-                ? DomainUser.CreateCandidate(
+                ? User.CreateCandidate(
                     user.Id,
                     user.FirstName!,
                     user.LasName!,
                     user.Email!)
-                : DomainUser.CreateEmployer(
+                : User.CreateEmployer(
                     user.Id,
                     user.EmployerName!,
                     user.Email!);

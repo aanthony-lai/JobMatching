@@ -1,9 +1,10 @@
 ﻿using JobMatching.Common.Results;
+using JobMatching.Domain.Entities;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.Entities.Employer
+namespace JobMatching.Domain.Domain.Employer.Entities
 {
-    public class Employer: AuditableEntityBase
+    public class Employer : DomainEntityBase
     {
         private readonly List<EmployerJob> _employerJobs = new();
 
@@ -12,7 +13,7 @@ namespace JobMatching.Domain.Entities.Employer
         public IReadOnlyList<EmployerJob> EmployerJobs => _employerJobs.AsReadOnly();
 
         protected Employer() { }
-        private Employer(string name, Guid userId) : base() 
+        private Employer(string name, Guid userId) : base()
         {
             base.Id = Guid.NewGuid();
             UserId = userId;

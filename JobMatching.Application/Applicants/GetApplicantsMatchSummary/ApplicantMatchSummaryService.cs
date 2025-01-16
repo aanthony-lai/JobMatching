@@ -1,7 +1,7 @@
-﻿using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
+﻿using JobMatching.Domain.Domain.Candidate.Entities;
+using JobMatching.Domain.Domain.Job.Entities;
+using JobMatching.Domain.DomainServices.CriticalCompetencesMatchService;
 using JobMatching.Domain.DomainServices.OverallMatchGradeService;
-using JobMatching.Domain.Entities.Candidate;
-using JobMatching.Domain.Entities.Job;
 
 namespace JobMatching.Application.Applicants.GetApplicants
 {

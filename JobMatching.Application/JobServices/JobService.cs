@@ -1,7 +1,7 @@
 ﻿using JobMatching.Application.DTO.Job;
 using JobMatching.Application.Utilities;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Entities.Job;
+using JobMatching.Domain.Domain.Job.Entities;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
 

@@ -1,6 +1,6 @@
 ﻿using JobMatching.Application.DTO.Candidate;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Entities.Candidate;
+using JobMatching.Domain.Domain.Candidate.Entities;
 using JobMatching.Domain.Entities.User;
 using JobMatching.Domain.Errors;
 using JobMatching.Domain.Repositories;
@@ -33,7 +33,7 @@ namespace JobMatching.Application.CandidateServices
             return Result<CandidateDTO>.Success(candidateDto);
         }
 
-        public async Task<Result> CreateAsync(DomainUser domainUser)
+        public async Task<Result> CreateAsync(User domainUser)
         {
             var createCandidateResult = Candidate.Create(
                 domainUser.Name.FirstName,

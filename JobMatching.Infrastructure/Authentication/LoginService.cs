@@ -22,12 +22,12 @@ namespace JobMatching.Infrastructure.Authentication
             }
 
             var domainUserResult = applicationUser.UserType == UserType.Candidate
-                ? DomainUser.CreateCandidate(
+                ? User.CreateCandidate(
                     applicationUser.Id,
                     applicationUser.FirstName,
                     applicationUser.LasName,
                     applicationUser.Email!)
-                : DomainUser.CreateEmployer(
+                : User.CreateEmployer(
                     applicationUser.Id, 
                     applicationUser.EmployerName, 
                     applicationUser.Email!);

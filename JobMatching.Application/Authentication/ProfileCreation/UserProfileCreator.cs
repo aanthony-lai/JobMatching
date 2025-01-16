@@ -9,7 +9,7 @@ namespace JobMatching.Application.Authentication.ProfileCreation
         ICandidateService candidateService,
         IEmployerService employerService) : IUserProfileCreator
     {
-        public async Task<Result> CreateAsync(DomainUser domainUser)
+        public async Task<Result> CreateAsync(User domainUser)
         {
             return domainUser.UserType == UserType.Candidate
                 ? await candidateService.CreateAsync(domainUser)

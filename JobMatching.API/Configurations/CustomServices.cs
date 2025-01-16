@@ -54,6 +54,7 @@ namespace JobMatching.API.Configurations
             services.AddScoped<ITokenProvider, TokenProvider>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
 
             return services;
         }

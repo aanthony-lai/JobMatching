@@ -8,5 +8,5 @@ public interface ICandidateService
 {
     Task<List<CandidateDTO>> GetAsync();
     Task<Result<CandidateDTO>> GetByIdAsync(Guid candidateId);
-    Task<Result> CreateAsync(DomainUser domainUser);
+    Task<Result> CreateAsync(User domainUser);
 }

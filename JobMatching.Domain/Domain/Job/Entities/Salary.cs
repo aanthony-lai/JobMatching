@@ -1,12 +1,12 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.Entities.Job
+namespace JobMatching.Domain.Domain.Job.Entities
 {
     public record Salary
     {
-        public int? MaxSalary { get; }
-        public int? MinSalary { get; }
+        public int MaxSalary { get; }
+        public int MinSalary { get; }
 
         private Salary(int maxSalary, int minSalary)
         {
@@ -14,13 +14,7 @@ namespace JobMatching.Domain.Entities.Job
             MinSalary = minSalary;
         }
 
-        private Salary()
-        {
-            MaxSalary = null;
-            MinSalary = null;
-        }
-
-        public static Result<Salary> SetSalary(int maxSalary, int minSalary)
+        public static Result<Salary> Create(int maxSalary, int minSalary)
         {
             if (maxSalary < 0 || minSalary < 0)
                 return Result<Salary>.Failure(JobErrors.SalaryNegativeValue);
@@ -30,6 +24,9 @@ namespace JobMatching.Domain.Entities.Job
 
             return Result<Salary>.Success(new Salary(maxSalary, minSalary));
         }
+
+        public static Salary Load(int maxSalary, int minSalary) => 
+            new Salary(maxSalary, minSalary);
 
         public static Result<Salary> NotSpecified() =>
             Result<Salary>.Success(new Salary());

@@ -1,7 +1,7 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.Entities.Job
+namespace JobMatching.Domain.Domain.Job.Entities
 {
     public record JobDescription
     {
@@ -13,9 +13,9 @@ namespace JobMatching.Domain.Entities.Job
             Description = description;
         }
 
-        public static implicit operator string (JobDescription jobDescription) => jobDescription.Description;
+        public static implicit operator string(JobDescription jobDescription) => jobDescription.Description;
 
-        public static Result<JobDescription> SetDescription(string? description)
+        public static Result<JobDescription> Set(string? description)
         {
             if (string.IsNullOrWhiteSpace(description))
                 return Result<JobDescription>.Success(new JobDescription());
@@ -25,5 +25,7 @@ namespace JobMatching.Domain.Entities.Job
 
             return Result<JobDescription>.Success(new JobDescription(description));
         }
+
+        public static JobDescription Load(string description) => new JobDescription(description);
     }
 }

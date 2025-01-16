@@ -2,22 +2,36 @@
 using JobMatching.Domain.Enums;
 using JobMatching.Domain.Errors;
 
-namespace JobMatching.Domain.Entities.Candidate
+namespace JobMatching.Domain.Entities.JobApplication
 {
-    public class JobApplication : AuditableEntityBase, IEquatable<JobApplication>
+    public class JobApplication : DomainEntityBase
     {
         public Guid CandidateId { get; private set; }
         public Guid JobId { get; private set; }
         public ApplicationStatus Status { get; private set; }
         public DateTime ApplicationDate { get; private set; }
 
-        private JobApplication(Guid candidateId, Guid jobId) : base()
+        private JobApplication(Guid candidateId, Guid jobId)
         {
             Id = Guid.NewGuid();
             CandidateId = candidateId;
             JobId = jobId;
             Status = ApplicationStatus.Pending;
             ApplicationDate = DateTime.UtcNow;
+        }
+
+        private JobApplication(
+            Guid Id, 
+            Guid candidateId, 
+            Guid jobId, 
+            ApplicationStatus status,
+            DateTime applicationDate) 
+        {
+            base.Id = Id;
+            CandidateId= candidateId;
+            JobId= jobId;
+            Status = status;
+            ApplicationDate = applicationDate;
         }
 
         public static Result<JobApplication> Create(Guid candidateId, Guid jobId)
@@ -31,8 +45,14 @@ namespace JobMatching.Domain.Entities.Candidate
             return Result<JobApplication>.Success(new JobApplication(candidateId, jobId));
         }
 
-        public bool Equals(JobApplication other) =>
-            this.CandidateId == other.CandidateId &&
-            this.JobId == other.JobId;
+        public static JobApplication Load(
+            Guid Id,
+            Guid candidateId,
+            Guid jobId,
+            ApplicationStatus status,
+            DateTime applicationDate)
+        {
+            return new JobApplication(Id, candidateId, jobId, status, applicationDate);
+        }
     }
 }

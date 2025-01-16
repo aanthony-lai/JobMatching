@@ -1,6 +1,6 @@
 ﻿using JobMatching.Application.DTO.Job;
 using JobMatching.Common.Results;
-using JobMatching.Domain.Entities.Job;
+using JobMatching.Domain.Domain.Job.Entities;
 
 namespace JobMatching.Application.JobServices;
 

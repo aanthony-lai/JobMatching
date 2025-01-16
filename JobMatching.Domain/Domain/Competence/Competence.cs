@@ -3,7 +3,7 @@ using JobMatching.Domain.Errors;
 
 namespace JobMatching.Domain.Entities.Competence
 {
-    public class Competence: EntityBase, IEquatable<Competence>
+    public class Competence: DomainEntityBase, IEquatable<Competence>
     {
         public string Name { get; } = null!;
 

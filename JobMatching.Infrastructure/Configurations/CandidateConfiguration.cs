@@ -92,13 +92,17 @@ namespace JobMatching.Infrastructure.Configurations
 
             modelBuilder.Entity<CandidateLanguage>(candidateLanguage =>
             {
-                candidateLanguage.ToTable("CandidateLanguages").HasKey(cl => new { cl.CandidateId, cl.LanguageId });
+                candidateLanguage.ToTable("CandidateLanguages")
+                    .HasKey(cl => new { cl.CandidateId, cl.LanguageId });
 
                 candidateLanguage.Property(cl => cl.CandidateId)
                     .HasColumnName("CandidateId");
 
                 candidateLanguage.Property(cl => cl.LanguageId)
                     .HasColumnName("LanguageId");
+
+                candidateLanguage.Property(cl => cl.ProficiencyLevel)
+                    .HasColumnName("ProficiencyLevel");
 
                 candidateLanguage.HasOne(cl => cl.Candidate)
                     .WithMany(c => c.Languages)

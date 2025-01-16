@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobMatching.Domain.Entities
 {
-    public abstract class EntityBase : IEquatable<EntityBase>
+    public abstract class DomainEntityBase : IEquatable<DomainEntityBase>
     {
         public Guid Id { get; set; }
 
@@ -21,7 +21,7 @@ namespace JobMatching.Domain.Entities
         public void ClearDomainEvents() =>
             _domainEvents.Clear();
 
-        public bool Equals(EntityBase other)
+        public bool Equals(DomainEntityBase other)
         {
             return Id == other.Id;
         }
