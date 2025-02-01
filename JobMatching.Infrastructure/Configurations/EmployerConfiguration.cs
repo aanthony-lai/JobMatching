@@ -1,5 +1,4 @@
-﻿using JobMatching.Domain.Entities.Employer;
-using JobMatching.Infrastructure.DataAccess.Entities;
+﻿using JobMatching.Infrastructure.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.Infrastructure.Configurations

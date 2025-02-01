@@ -14,7 +14,7 @@ namespace JobMatching.Application.Applicants
             return new ApplicantMatchSummaryDTO(
                 applicant.Id,
                 applicant.Name.FullName,
-                applicant.CandidateCompetences
+                applicant.Competences
                     .Select(c => c.CompetenceName)
                     .ToList(),
                 matchingJobCriticalCompetences,

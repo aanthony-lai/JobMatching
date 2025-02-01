@@ -2,71 +2,74 @@
 using JobMatching.Common.Results;
 using JobMatching.Domain.Authentication.Registration;
 using JobMatching.Domain.Entities.User;
+using JobMatching.Domain.Enums;
 using JobMatching.Infrastructure.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace JobMatching.Infrastructure.Authentication
 {
-    //Needs re-factoring
-    public sealed class RegistrationService(
-        UserManager<UserEntity> userManager,
-        IUserProfileCreator userProfileCreator) : IRegistrationService
+    public sealed class RegistrationService(UserManager<UserEntity> userManager, IUserProfileCreator userProfileCreator) : IRegistrationService
     {
-        public async Task<Result> RegisterAsync(RegisterUserModel registerUserModel)
+        public async Task<Result> RegisterAsync(RegisterUserModel registerModel)
         {
-            if (!await ValidateEmailNotAlreadyExistAsync(registerUserModel.Email))
+            if (await userManager.FindByEmailAsync(registerModel.Email) != null)
                 return Result.Failure(new Error("Email is already in use."));
 
-            var createUserResult = registerUserModel.UserType == UserType.Candidate
-                ? UserEntity.CreateCandidate(registerUserModel)
-                : UserEntity.CreateEmployer(registerUserModel);
+            var user = CreateUserEntity(registerModel);
 
-            if (!createUserResult.IsSuccess)
-                return Result.Failure(createUserResult.Error);
+            var result = await userManager.CreateAsync(user, registerModel.Password);
 
-            var registerUserResult = await userManager.CreateAsync(
-                createUserResult.Value, registerUserModel.Password);
-
-            if (!registerUserResult.Succeeded)
+            if (!result.Succeeded)
                 return Result.Failure(new Error("An error occurred, while trying to create the user."));
-            
-            var result = await CreateUserProfile(createUserResult.Value);
 
-            return result.IsSuccess
+            var userProfile = await CreateUserProfile(user);
+
+            return userProfile.IsSuccess
                 ? Result.Success()
-                : Result.Failure(result.Error);
+                : Result.Failure(userProfile.Error);
         }
 
-        private async Task<bool> ValidateEmailNotAlreadyExistAsync(string email) =>
-            await userManager.FindByEmailAsync(email) == null;
+        private async Task RollBackUserCreation(UserEntity user) => await userManager.DeleteAsync(user);
 
-        private async Task RollBackUserCreation(UserEntity user) =>
-            await userManager.DeleteAsync(user);
+        private UserEntity CreateUserEntity(RegisterUserModel registerModel)
+        {
+            return registerModel.UserType == UserType.Candidate
+                ? new UserEntity {
+                    FirstName = registerModel.FirstName,
+                    LasName = registerModel.LastName,
+                    UserType = registerModel.UserType
+                }
+                : new UserEntity {
+                    EmployerName = registerModel.EmployerName,
+                    UserType = registerModel.UserType
+                };
+        }
 
         private async Task<Result> CreateUserProfile(UserEntity user)
         {
-            var domainUserResult = user.UserType == UserType.Candidate 
+            var domainUser = user.UserType == UserType.Candidate
                 ? User.CreateCandidate(
                     user.Id,
-                    user.FirstName!,
-                    user.LasName!,
+                    $"{user.FirstName} {user.LasName}",
                     user.Email!)
                 : User.CreateEmployer(
                     user.Id,
-                    user.EmployerName!,
+                    user.EmployerName,
                     user.Email!);
 
-            if (!domainUserResult.IsSuccess)
-                return Result.Failure(domainUserResult.Error);
+            if (!domainUser.IsSuccess)
+                return Result.Failure(domainUser.Error);
 
-            var createUserProfileResult = await userProfileCreator
-                .CreateAsync(domainUserResult.Value);
+            var userProfile = await userProfileCreator
+                .CreateAsync(domainUser.Value);
 
-            if (createUserProfileResult.IsSuccess) return Result.Success();
-           
-            await RollBackUserCreation(user);
+            if (!userProfile.IsSuccess)
+            {
+                await RollBackUserCreation(user);
+                return Result.Failure(userProfile.Error);
+            } 
             
-            return Result.Failure(createUserProfileResult.Error);
-        } 
+            return Result.Success();
+        }
     }
 }

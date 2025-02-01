@@ -4,5 +4,5 @@ namespace JobMatching.Application.CompetenceServices;
 
 public interface ICompetenceService
 {
-    Task<List<Competence>> GetAsync();
+    Task<IEnumerable<Competence>> GetAsync();
 }

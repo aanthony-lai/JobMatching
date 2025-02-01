@@ -4,7 +4,7 @@ namespace JobMatching.Domain.Repositories;
 
 public interface ICompetenceRepository
 {
-    Task<List<Competence>> GetAsync(bool withTracking = false);
-    Task<Competence?> GetByIdAsync(Guid competenceId, bool withTracking = false);
+    Task<IEnumerable<Competence>> GetAsync(bool withTracking = false);
     Task SaveAsync(Competence competence);
+    Task SaveAsync();
 }

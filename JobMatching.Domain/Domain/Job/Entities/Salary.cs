@@ -27,8 +27,5 @@ namespace JobMatching.Domain.Domain.Job.Entities
 
         public static Salary Load(int maxSalary, int minSalary) => 
             new Salary(maxSalary, minSalary);
-
-        public static Result<Salary> NotSpecified() =>
-            Result<Salary>.Success(new Salary());
     }
 }

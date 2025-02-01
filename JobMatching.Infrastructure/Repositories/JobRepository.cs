@@ -9,12 +9,13 @@ namespace JobMatching.Infrastructure.Repositories
 {
     public class JobRepository(AppDbContext appDbContext) : IJobRepository
     {
-        public async Task<List<Job>> GetAsync(bool withTracking = false)
+        public async Task<IEnumerable<Job>> GetAsync(bool withTracking = false)
         {
             return await appDbContext.Jobs
                 .AddTracking(withTracking)
                 .Include(j => j.Employer)
                 .Include(j => j.Applications)
+                    .ThenInclude(a => a.Candidate)
                 .Include(j => j.Competences)
                 .Select(j => ToDomain(j))
                 .ToListAsync();
@@ -28,10 +29,10 @@ namespace JobMatching.Infrastructure.Repositories
                 .Include(j => j.Competences)
                 .FirstOrDefaultAsync(j => j.Id == jobId);
             
-            return job is not null ? ToDomain(job) : null;
+            return job != null ? ToDomain(job) : null;
         }
 
-        public async Task<List<Job>> GetByNameAsync(string title, bool withTracking = false)
+        public async Task<IEnumerable<Job>> GetByNameAsync(string title, bool withTracking = false)
         {
             return await appDbContext.Jobs
                 .Include(j => j.Employer)
@@ -42,9 +43,11 @@ namespace JobMatching.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public Task SaveAsync(Job job)
+        public async Task SaveAsync(Job domainJob)
         {
-            
+            var job = ToPersistence(domainJob);
+            appDbContext.Jobs.Update(job);
+            await SaveAsync();
         }
 
         public async Task SaveAsync() => await appDbContext.SaveChangesAsync();
@@ -59,7 +62,8 @@ namespace JobMatching.Infrastructure.Repositories
                 job.MinSalary,
                 job.EmployerId,
                 job.Applications
-                    .Select(a => a.Id)
+                    .Select(application => application.Candidate)
+                    .Select(candidate => candidate.Id)
                     .ToList(),
                 job.Competences.Select(c => Domain.Domain.Job.Entities.JobCompetence
                     .Load(c.CompetenceId, c.Competence.Name, c.IsCritical))

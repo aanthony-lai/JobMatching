@@ -3,24 +3,30 @@ using JobMatching.Domain.Errors;
 
 namespace JobMatching.Domain.Entities.Competence
 {
-    public class Competence: DomainEntityBase, IEquatable<Competence>
+    public class Competence: DomainEntityBase
     {
-        public string Name { get; } = null!;
+        public string Name { get; }
 
-        protected Competence() { }
-        private Competence(string name) => Name = name;
+        private Competence(string name)
+        {
+            base.Id = Guid.NewGuid();
+            Name = name;
+        }
+
+        private Competence(Guid id, string name)
+        {
+            base.Id = id;
+            Name = name;
+        }
         
         public static Result<Competence> Create(string name)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                return Result<Competence>.Failure(CompetenceErrors.InvalidName);
-
-            return Result<Competence>.Success(new Competence(name));
+            return string.IsNullOrWhiteSpace(name) 
+                ? Result<Competence>.Failure(CompetenceErrors.InvalidName)
+                : Result<Competence>.Success(new Competence(name));
         }
 
-        public bool Equals(Competence? other)
-        {
-            return base.Id == other!.Id;
-        }
+        public static Competence Load(Guid id, string name) => 
+            new Competence(id, name);
     }
 }

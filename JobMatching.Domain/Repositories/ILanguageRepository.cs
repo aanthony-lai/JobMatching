@@ -4,7 +4,8 @@ namespace JobMatching.Domain.Repositories
 {
     public interface ILanguageRepository
     {
-        Task<List<Language>> GetAsync(bool withTracking = false);
-        Task SaveAsync(Language language);
+        Task<IEnumerable<Language>> GetAsync(bool withTracking = false);
+        Task SaveAsync(Language domainLanguage);
+        Task SaveAsync();
     }
 }

@@ -5,20 +5,28 @@ namespace JobMatching.Domain.Entities.Language
 {
     public class Language: DomainEntityBase
     {
-        public string Name { get; } = null!;
-
-        protected Language() { }
+        public string Name { get; }
+        
         private Language(string name) 
         {
+            base.Id = Guid.NewGuid();
+            Name = name;
+        }
+
+        private Language(Guid id, string name) 
+        {
+            Id = id;
             Name = name;
         }
 
         public static Result<Language> Create(string name) 
         {
-            if (string.IsNullOrWhiteSpace(name))
-                return Result<Language>.Failure(LanguageErrors.InvalidName);
-
-            return Result<Language>.Success(new Language(name));
+            return string.IsNullOrWhiteSpace(name)
+                ? Result<Language>.Failure(LanguageErrors.InvalidName)
+                : Result<Language>.Success(new Language(name)); ;
         }
+
+        public static Language Load(Guid id, string name) => 
+            new Language(id, name);
     }
 }

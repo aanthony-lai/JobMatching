@@ -9,7 +9,7 @@ namespace JobMatching.Application.Utilities
         {
             return new EmployerDTO(
                 Name: employer.Name,
-                Jobs: employer.EmployerJobs.Select(j => j.JobId).ToList());
+                Jobs: employer.JobIds.Select(id => id).ToList());
         }
     }
 }

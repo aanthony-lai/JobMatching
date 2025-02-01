@@ -1,30 +1,39 @@
 ﻿using JobMatching.Domain.Entities.Competence;
 using JobMatching.Domain.Repositories;
 using JobMatching.Infrastructure.DataAccess;
+using JobMatching.Infrastructure.DataAccess.Entities;
 using JobMatching.Infrastructure.QueryExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobMatching.Infrastructure.Repositories
 {
-    public class CompetenceRepository : ICompetenceRepository
+    public class CompetenceRepository(AppDbContext appDbContext) : ICompetenceRepository
     {
-        private readonly AppDbContext _appDbContext;
-
-        public CompetenceRepository(AppDbContext appDbContext)
+        public async Task<IEnumerable<Competence>> GetAsync(bool withTracking = false)
         {
-            _appDbContext = appDbContext;
-        }
-
-        public async Task<List<Competence>> GetAsync(bool withTracking = false)
-        {
-            return await _appDbContext.Competences
+            return await appDbContext.Competences
                 .AddTracking(withTracking)
+                .Select(c => ToDomain(c))
                 .ToListAsync();
         }
 
-        public async Task<Competence?> GetByIdAsync(Guid competenceId, bool withTracking = false)
+        public async Task SaveAsync(Competence domainCompetence)
         {
-            return await _appDbContext.Competences.FirstOrDefaultAsync(comp => comp.Id == competenceId);
+            var competence = ToPersistence(domainCompetence);
+            appDbContext.Competences.Update(competence);
+            await SaveAsync();
+        }
+
+        public async Task SaveAsync() => await appDbContext.SaveChangesAsync();
+        private Competence ToDomain(CompetenceEntity competence) => Competence.Load(competence.Id, competence.Name);
+
+        private CompetenceEntity ToPersistence(Competence domainCompetence)
+        {
+            return new CompetenceEntity()
+            {
+                Id = domainCompetence.Id,
+                Name = domainCompetence.Name,
+            };
         }
     }
 }

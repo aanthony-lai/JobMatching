@@ -4,6 +4,6 @@ namespace JobMatching.Application.LanguageServices
 {
     public interface ILanguageService
     {
-        Task<List<Language>> GetAsync();
+        Task<IEnumerable<Language>> GetAsync();
     }
 }

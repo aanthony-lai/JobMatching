@@ -6,19 +6,26 @@ namespace JobMatching.Domain.Domain.Employer.Entities
 {
     public class Employer : DomainEntityBase
     {
-        private readonly List<EmployerJob> _employerJobs = new();
+        private HashSet<Guid> _jobIds = new();
 
         public string Name { get; private set; } = null!;
         public Guid UserId { get; }
-        public IReadOnlyList<EmployerJob> EmployerJobs => _employerJobs.AsReadOnly();
+        public IReadOnlyCollection<Guid> JobIds => _jobIds;
 
-        protected Employer() { }
-        private Employer(string name, Guid userId) : base()
+        private Employer(string name, Guid userId)
         {
             base.Id = Guid.NewGuid();
-            UserId = userId;
             Name = name;
+            UserId = userId;
         }
+
+        private Employer(Guid id, string name, Guid userId)
+        {
+            base.Id = id;
+            Name = name;
+            UserId = userId;
+        } 
+
         public static Result<Employer> Create(string name, Guid userId)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -28,6 +35,11 @@ namespace JobMatching.Domain.Domain.Employer.Entities
                 return Result<Employer>.Failure(new Error("You have provided an invalid user ID."));
 
             return Result<Employer>.Success(new Employer(name, userId));
+        }
+
+        public static Employer Load(Guid id, string name, Guid userId)
+        {
+            return new Employer(id, name, userId);
         }
     }
 }

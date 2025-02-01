@@ -50,16 +50,16 @@ namespace JobMatching.Application.EmployerServices
 
         public async Task<Result> CreateAsync(User domainUser)
         {
-            var createEmployerResult = Employer.Create(
+            var domainEmployer = Employer.Create(
                 domainUser.EmployerName,
-                Guid.Parse(domainUser.Id));
+                domainUser.Id);
 
-            if (!createEmployerResult.IsSuccess)
-                return Result.Failure(createEmployerResult.Error);
+            if (!domainEmployer.IsSuccess)
+                return Result.Failure(domainEmployer.Error);
 
             try
             {
-                await employerRepository.AddAsync(createEmployerResult.Value);
+                await employerRepository.SaveAsync(domainEmployer.Value);
                 return Result.Success();
             }
             catch (Exception)

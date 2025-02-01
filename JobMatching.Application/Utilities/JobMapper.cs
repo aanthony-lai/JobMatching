@@ -5,18 +5,16 @@ namespace JobMatching.Application.Utilities
 {
     public class JobMapper : IJobMapper
     {
-        public JobDTO MapToJobDto(Job job)
-        {
-            return new JobDTO(
-                JobId: job.Id,
-                Title: job.JobTitle,
-                JobDescription: job.Description,
-                MaxSalary: job.Salary.MaxSalary,
-                MinSalary: job.Salary.MinSalary,
-                PreferredCompetences: job.JobCompetences.Where(c => !c.IsCritical).Select(c => c.CompetenceId).ToList(),
-                CriticalCompetences: job.JobCompetences.Where(c => c.IsCritical).Select(c => c.CompetenceId).ToList(),
-                Applicants: job.Applicants.Select(a => a.CandidateId).ToList(),
-                EmployerId: job.EmployerId);
-        }
+        public JobDTO MapToJobDto(Job domainJob) => 
+            new JobDTO(
+                JobId: domainJob.Id,
+                Title: domainJob.JobTitle,
+                JobDescription: domainJob.Description,
+                MaxSalary: domainJob.Salary.MaxSalary,
+                MinSalary: domainJob.Salary.MinSalary,
+                PreferredCompetences: domainJob.JobCompetences.Where(c => !c.IsCritical).Select(c => c.CompetenceId).ToList(),
+                CriticalCompetences: domainJob.JobCompetences.Where(c => c.IsCritical).Select(c => c.CompetenceId).ToList(),
+                Applicants: domainJob.ApplicantIds.Select(id => id).ToList(),
+                EmployerId: domainJob.EmployerId);
     }
 }

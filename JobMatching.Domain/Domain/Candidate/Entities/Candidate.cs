@@ -5,67 +5,68 @@ namespace JobMatching.Domain.Domain.Candidate.Entities
 {
     public class Candidate : DomainEntityBase
     {
+        private readonly List<CandidateApplication> _applications = new();
+        private readonly List<Guid> _languageIds = new();
+        private readonly List<CandidateCompetence> _competences = new();
+
         public Name Name { get; private set; } = null!;
         public Guid UserId { get; }
-        public ICollection<Guid> JobApplicationIds { get; private set; }
-        public ICollection<Guid> LanguageIds { get; private set; }
-        public ICollection<Guid> CompetenceIds { get; private set; }
+        public IReadOnlyCollection<CandidateApplication> Applications => _applications;
+        public IReadOnlyCollection<Guid> LanguageIds => _languageIds;
+        public IReadOnlyCollection<CandidateCompetence> Competences => _competences;
 
-        //For creating a candidate
-        private Candidate(Guid id, Name name, Guid userId)
+        //Create candidate
+        private Candidate(Name name, Guid userId)
         {
-            base.Id = id;
+            base.Id = Guid.NewGuid();
             Name = name;
             UserId = userId;
-            JobApplicationIds = new List<Guid>();
-            LanguageIds = new List<Guid>();
-            CompetenceIds = new List<Guid>();
         }
 
-        //For loading a candidate from db
+        //Load candidate
         private Candidate(
-            Guid id,
-            Name name,
+            Guid id, 
+            Name name, 
             Guid userId,
-            ICollection<Guid> jobApplicationIds,
-            ICollection<Guid> languageIds,
-            ICollection<Guid> competenceIds)
+            List<CandidateApplication> applications,
+            List<Guid> languageIds,
+            List<CandidateCompetence> competences)
         {
             Id = id;
             Name = name;
             UserId = userId;
-            JobApplicationIds = jobApplicationIds;
-            LanguageIds = languageIds;
-            CompetenceIds = competenceIds;
+            _applications = applications;
+            _languageIds = languageIds;
+            _competences = competences;
         }
 
-        public static Result<Candidate> Create(Guid id, string firstName, 
-            string lastName, Guid userId)
+        public static Result<Candidate> Create(string firstName, string lastName, Guid userId)
         {
-            if (id == Guid.Empty) return Result<Candidate>.Failure(new Error("Invalid candidate ID."));
+            var name = Name.Create(firstName, lastName);
 
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName)) 
+            if (!name.IsSuccess)
                 return Result<Candidate>.Failure(new Error("First name and last name can't be empty."));
 
             if (userId == Guid.Empty)
                 return Result<Candidate>.Failure(new Error("Invalid user ID"));
 
             return Result<Candidate>.Success(
-                new Candidate(id, new Name(firstName, lastName), userId));
+                new Candidate(name.Value, userId));
         }
 
         public static Candidate Load(
-            Guid id,
-            string firstName,
-            string lastName,
+            Guid id, 
+            string firstName, 
+            string lastName, 
             Guid userId,
-            ICollection<Guid> jobApplicationIds,
-            ICollection<Guid> languageIds,
-            ICollection<Guid> competenceIds)
+            List<CandidateApplication> applications,
+            List<Guid> languageIds,
+            List<CandidateCompetence> competences)
         {
-            var name = new Name(firstName, lastName);   
-            return new Candidate(id, name, userId, jobApplicationIds, 
-                languageIds, competenceIds);
+            var name = Name.Load(firstName, lastName);   
+
+            return new Candidate(id, name, userId, applications, 
+                languageIds, competences);
         }
     }
 }

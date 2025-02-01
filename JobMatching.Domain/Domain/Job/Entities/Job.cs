@@ -6,15 +6,17 @@ namespace JobMatching.Domain.Domain.Job.Entities
 {
     public class Job : DomainEntityBase
     {
+        private readonly List<Guid> _applicantIds = new();
+        private readonly List<JobCompetence> _jobCompetences = new();
+
         public JobTitle JobTitle { get; private set; } = null!;
         public JobDescription? Description { get; private set; } = null;
         public Salary Salary { get; private set; } = null!;
         public Guid EmployerId { get; private set; }
+        public IReadOnlyCollection<Guid> ApplicantIds => _applicantIds;
+        public IReadOnlyCollection<JobCompetence> JobCompetences => _jobCompetences;
 
-        public ICollection<Guid> ApplicantIds { get; }
-        public ICollection<JobCompetence> JobCompetences { get; }
-
-        //For creating a job
+        //Create job
         private Job(JobTitle title, Salary salary, JobDescription? description, 
             Guid employerId) : base()
         {
@@ -23,11 +25,9 @@ namespace JobMatching.Domain.Domain.Job.Entities
             Description = description;
             Salary = salary;
             EmployerId = employerId;
-            ApplicantIds = new List<Guid>();
-            JobCompetences = new List<JobCompetence>();
         }
 
-        //For loading a job
+        //Load job
         private Job(
             Guid id,
             string title,
@@ -35,16 +35,16 @@ namespace JobMatching.Domain.Domain.Job.Entities
             int maxSalary,
             int minSalary,
             Guid employerId,
-            ICollection<Guid> applicantIds,
-            ICollection<JobCompetence> jobCompetences)
+            List<Guid> applicantIds,
+            List<JobCompetence> jobCompetences)
         {
             base.Id = id;
             JobTitle = JobTitle.Load(title);
             Description = JobDescription.Load(jobDescription);
             Salary = Salary.Load(maxSalary, minSalary);
             EmployerId = employerId;
-            ApplicantIds = applicantIds;
-            JobCompetences = jobCompetences;
+            _applicantIds = applicantIds;
+            _jobCompetences = jobCompetences;
         }
 
         public static Result<Job> Create(string title, int maxSalary, int minSalary,
@@ -75,9 +75,9 @@ namespace JobMatching.Domain.Domain.Job.Entities
             string jobDescription,
             int maxSalary, 
             int minSalary, 
-            Guid employerId, 
-            ICollection<Guid> applicantIds,
-            ICollection<JobCompetence> jobCompetences)
+            Guid employerId,
+            List<Guid> applicantIds,
+            List<JobCompetence> jobCompetences)
         {
             return new Job(id, title, jobDescription, maxSalary, minSalary, employerId,
                 applicantIds, jobCompetences);

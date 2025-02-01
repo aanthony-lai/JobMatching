@@ -2,6 +2,7 @@
 using JobMatching.Application.EmployerServices;
 using JobMatching.Common.Results;
 using JobMatching.Domain.Entities.User;
+using JobMatching.Domain.Enums;
 
 namespace JobMatching.Application.Authentication.ProfileCreation
 {

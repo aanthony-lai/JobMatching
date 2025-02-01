@@ -7,7 +7,7 @@ namespace JobMatching.Application.Authentication.Login
     public sealed class LoginHandler : IRequestHandler<LoginRequest, Result<string>>
     {
         private readonly ILoginService _authService;
-
+        
         public LoginHandler(ILoginService authService)
         {
             _authService = authService;

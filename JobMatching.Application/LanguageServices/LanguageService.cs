@@ -3,18 +3,8 @@ using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.LanguageServices
 {
-    public class LanguageService : ILanguageService
+    public class LanguageService(ILanguageRepository languageRepository) : ILanguageService
     {
-        private readonly ILanguageRepository _languageRepository;
-
-        public LanguageService(ILanguageRepository languageRepository)
-        {
-            _languageRepository = languageRepository;
-        }
-
-        public async Task<List<Language>> GetAsync()
-        {
-            return await _languageRepository.GetAsync();
-        }
+        public async Task<IEnumerable<Language>> GetAsync() => await languageRepository.GetAsync();
     }
 }

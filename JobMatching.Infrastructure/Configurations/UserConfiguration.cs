@@ -1,4 +1,4 @@
-﻿using JobMatching.Domain.Entities.User;
+﻿using JobMatching.Domain.Enums;
 using JobMatching.Infrastructure.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 

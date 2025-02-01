@@ -9,13 +9,15 @@ namespace JobMatching.Infrastructure.Repositories;
 
 public class CandidateRepository(AppDbContext appDbContext) : ICandidateRepository
 {
-    public async Task<ICollection<Candidate>> GetAsync(bool withTracking = false)
+    public async Task<IEnumerable<Candidate>> GetAsync(bool withTracking = false)
     {
         return await appDbContext.Candidates
             .AddTracking(withTracking)
-                .Include(c => c.JobApplications)
-                .Include(c => c.Languages)
-                .Include(c => c.Competences)
+            .Include(c => c.JobApplications)
+                .ThenInclude(ja => ja.Job)
+            .Include(c => c.Languages)
+            .Include(c => c.Competences)
+                .ThenInclude(comp => comp.Competence)
             .Select(c => ToDomain(c))
             .ToListAsync();
     }
@@ -24,9 +26,11 @@ public class CandidateRepository(AppDbContext appDbContext) : ICandidateReposito
     {
         return await appDbContext.Candidates
             .AddTracking(withTracking)
-                .Include(c => c.JobApplications)
-                .Include(c => c.Languages)
-                .Include(c => c.Competences)
+            .Include(c => c.JobApplications)
+                .ThenInclude(ja => ja.Job)
+            .Include(c => c.Languages)
+            .Include(c => c.Competences)
+                .ThenInclude(comp => comp.Competence)
             .Select(c => ToDomain(c))
             .FirstOrDefaultAsync(c => c.Id == candidateId);
     }
@@ -42,14 +46,16 @@ public class CandidateRepository(AppDbContext appDbContext) : ICandidateReposito
 
     private Candidate ToDomain(CandidateEntity candidate)
     {
-        return Candidate.Load(
-                candidate.Id,
+        return Candidate.Load(candidate.Id,
                 candidate.FirstName,
                 candidate.LastName,
                 candidate.UserId,
-                candidate.JobApplications.Select(c => c.Id).ToList(),
+                candidate.JobApplications.Select(ja => CandidateApplication.Load(
+                    ja.Id, ja.JobId, ja.Job.Title, ja.Status, ja.Created)).ToList(),
                 candidate.Languages.Select(l => l.LanguageId).ToList(),
-                candidate.Competences.Select(c => c.CompetenceId).ToList());
+                candidate.Competences.Select(c => c.Competence)
+                    .Select(comp => Domain.Domain.Candidate.Entities.CandidateCompetence
+                    .Load(comp.Id, comp.Name, comp.CompetenceLevel)).ToList());
     }
 
     private CandidateEntity ToPersistence(Candidate domainCandidate)

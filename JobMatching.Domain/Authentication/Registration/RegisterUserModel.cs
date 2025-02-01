@@ -1,4 +1,4 @@
-using JobMatching.Domain.Entities.User;
+using JobMatching.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace JobMatching.Domain.Authentication.Registration;

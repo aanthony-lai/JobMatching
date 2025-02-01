@@ -5,21 +5,12 @@ namespace JobMatching.Application.CandidateServices
 {
     public class CandidateMapper : ICandidateMapper
     {
-        public CandidateDTO ToCandidateDto(Candidate candidate)
-        {
-            return new CandidateDTO(
-                Id: candidate.Id,
-                FullName: candidate.Name.ToString(),
-                JobApplication: candidate.JobApplications.Select(a => new JobApplicationDTO(
-                    JobId: a.JobId,
-                    Status: a.Status,
-                    ApplicationDate: a.ApplicationDate)).ToList(),
-                LanguageSkills: candidate.CandidateLanguages.Select(lang => new CandidateLanguageDTO(
-                    LanguageId: lang.LanguageId,
-                    ProficiencyLevel: lang.ProficiencyLevel)).ToList(),
-                Competences: candidate.CandidateCompetences.Select(comp => new CandidateCompetenceDTO(
-                    CompetenceId: comp.CompetenceId,
-                    CompetenceLevel: comp.CompetenceLevel)).ToList());
-        }
+        public CandidateDTO ToCandidateDto(Candidate domainCandidate) =>
+            new CandidateDTO(
+                Id: domainCandidate.Id,
+                FullName: domainCandidate.Name.ToString(),
+                JobApplicationIds: domainCandidate.Applications.Select(j => j.JobApplicationId),
+                LanguageIds: domainCandidate.LanguageIds.Select(l => l),
+                CompetenceIds: domainCandidate.Competences.Select(c => c.CompetenceId));
     }
 }

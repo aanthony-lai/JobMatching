@@ -5,37 +5,26 @@ using JobMatching.Domain.DomainServices.OverallMatchGradeService;
 
 namespace JobMatching.Application.Applicants.GetApplicants
 {
-    public sealed class ApplicantMatchSummaryService: IApplicantMatchSummaryService
+    public sealed class ApplicantMatchSummaryService(
+        IOverallMatchGradeService overallMatchGradeService,
+        ICriticalCompetencesMatchService criticalCompetencesMatchService,
+        IApplicantMapper applicantMapper): IApplicantMatchSummaryService
     {
-        private readonly IOverallMatchGradeService _overallMatchGradeService;
-        private readonly ICriticalCompetencesMatchService _criticalCompetenceMatchService;
-        private readonly IApplicantMapper _applicantMapper;
-
-        public ApplicantMatchSummaryService(
-            IOverallMatchGradeService overallMatchGradeService,
-            ICriticalCompetencesMatchService criticalCompetencesMatchService,
-            IApplicantMapper applicantMapper)
-        {
-            _overallMatchGradeService = overallMatchGradeService;
-            _criticalCompetenceMatchService = criticalCompetencesMatchService;
-            _applicantMapper = applicantMapper;
-        }
-
         public IEnumerable<ApplicantMatchSummaryDTO> CreateApplicantsMatchSummary(
             IEnumerable<Candidate> applicants,
             Job job)
         {
             return applicants.Select(applicant =>
             {
-                var matchingJobCriticalCompetences = _criticalCompetenceMatchService.GetCriticalCompetencesMatch(
+                var matchingJobCriticalCompetences = criticalCompetencesMatchService.GetCriticalCompetencesMatch(
                     job.JobCompetences.Where(jc => jc.IsCritical),
-                    applicant.CandidateCompetences);
+                    applicant.Competences);
 
-                var overallMatchGrade = _overallMatchGradeService.CalculateOverallMatchGrade(
+                var overallMatchGrade = overallMatchGradeService.CalculateOverallMatchGrade(
                     job.JobCompetences,
-                    applicant.CandidateCompetences);
+                    applicant.Competences);
 
-                return _applicantMapper.ToApplicantMatchSummaryDto(
+                return applicantMapper.ToApplicantMatchSummaryDto(
                     applicant, 
                     matchingJobCriticalCompetences, 
                     overallMatchGrade);

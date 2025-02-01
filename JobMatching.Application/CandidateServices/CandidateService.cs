@@ -15,10 +15,8 @@ namespace JobMatching.Application.CandidateServices
         {
             var candidates = await candidateRepository.GetAsync();
 
-            return candidates
-                .Select(candidate => candidateMapper
-                .ToCandidateDto(candidate))
-                .ToList();
+            return candidates.Select(candidate => 
+                candidateMapper.ToCandidateDto(candidate)).ToList();
         }
 
         public async Task<Result<CandidateDTO>> GetByIdAsync(Guid candidateId)
@@ -35,23 +33,16 @@ namespace JobMatching.Application.CandidateServices
 
         public async Task<Result> CreateAsync(User domainUser)
         {
-            var createCandidateResult = Candidate.Create(
-                domainUser.Name.FirstName,
-                domainUser.Name.LastName,
-                Guid.Parse(domainUser.Id));
+            var candidateUser = Candidate.Create(
+                domainUser.CandidateName.FirstName,
+                domainUser.CandidateName.LastName,
+                domainUser.Id);
 
-            if (!createCandidateResult.IsSuccess)
-                return Result.Failure(createCandidateResult.Error);
+            if (!candidateUser.IsSuccess)
+                return Result.Failure(candidateUser.Error);
 
-            try
-            {
-                await candidateRepository.AddAsync(createCandidateResult.Value);
-                return Result.Success();
-            }
-            catch (Exception)
-            {
-                return Result.Failure(new Error("An error occurred, while trying to create the profile."));
-            }
+            await candidateRepository.SaveAsync(candidateUser.Value);
+            return Result.Success();
         }
     }
 }

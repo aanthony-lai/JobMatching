@@ -22,8 +22,8 @@ public sealed class TokenProvider : ITokenProvider
             Subject = new ClaimsIdentity(
             [
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.Name.FirstName),
-                new Claim(JwtRegisteredClaimNames.FamilyName, user.Name.LastName),
+                new Claim(JwtRegisteredClaimNames.Name, user.Name.FirstName),
+                new Claim(JwtRegisteredClaimNames.FamilyName, user.CandidateName.LastName),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("accountType", user.UserType.ToString())
             ]),

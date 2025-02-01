@@ -1,30 +1,28 @@
 ﻿using JobMatching.Common.Results;
 using JobMatching.Domain.Enums;
-using JobMatching.Domain.Errors;
 
 namespace JobMatching.Domain.Domain.Candidate.Entities
 {
     public class CandidateCompetence
     {
-        public Guid CompetenceId { get; private set; }
-        public string CompetenceName { get; private set; } = null!;
-        public CompetenceLevel CompetenceLevel { get; private set; }
+        public Guid CompetenceId { get; }
+        public string CompetenceName { get; }
+        public CompetenceLevel CompetenceLevel { get; }
 
-        protected CandidateCompetence() { }
         private CandidateCompetence(
             Guid competenceId,
-            string CompetenceName,
+            string competenceName,
             CompetenceLevel competenceLevel)
         {
             CompetenceId = competenceId;
+            CompetenceName = competenceName;
             CompetenceLevel = competenceLevel;
         }
 
         public static Result<CandidateCompetence> Create(
             Guid competenceId,
             string competenceName,
-            CompetenceLevel competenceLevel =
-            CompetenceLevel.NotSpecified)
+            CompetenceLevel competenceLevel = CompetenceLevel.NotSpecified)
         {
             return Result<CandidateCompetence>.Success(
                 new CandidateCompetence(
@@ -32,5 +30,16 @@ namespace JobMatching.Domain.Domain.Candidate.Entities
                     competenceName,
                     competenceLevel));
         }
+
+        public static CandidateCompetence Load(
+            Guid competenceId,
+            string competenceName,
+            CompetenceLevel competenceLevel) 
+        {
+            return new CandidateCompetence(
+                competenceId, 
+                competenceName, 
+                competenceLevel);
+        } 
     }
 }

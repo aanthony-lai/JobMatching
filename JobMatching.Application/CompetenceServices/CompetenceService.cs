@@ -3,18 +3,8 @@ using JobMatching.Domain.Repositories;
 
 namespace JobMatching.Application.CompetenceServices
 {
-    public class CompetenceService : ICompetenceService
+    public class CompetenceService(ICompetenceRepository competenceRepository) : ICompetenceService
     {
-        private readonly ICompetenceRepository _competenceRepository;
-
-        public CompetenceService(ICompetenceRepository competenceRepository)
-        {
-            _competenceRepository = competenceRepository;
-        }
-
-        public async Task<List<Competence>> GetAsync()
-        {
-            return await _competenceRepository.GetAsync();
-        }
+        public async Task<IEnumerable<Competence>> GetAsync() => await competenceRepository.GetAsync();
     }
 }
